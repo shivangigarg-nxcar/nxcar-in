@@ -34,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('nxcar_theme');if(t==='dark'){document.documentElement.classList.replace('light','dark')}else{document.documentElement.classList.remove('dark');document.documentElement.classList.add('light')}}catch(e){}})()` }} />
         <link rel="preconnect" href="https://api.nxcar.in" />
         <link rel="dns-prefetch" href="https://api.nxcar.in" />
         <link rel="preconnect" href="https://prod-nxcar-listing.s3.ap-south-1.amazonaws.com" />
