@@ -199,23 +199,29 @@ export function Navbar() {
                     )}
                   </div>
                 </div>
-                <Link
-                  href="/profile-edit"
-                  onClick={() => setIsOpen(false)}
-                  className="text-xs font-semibold text-primary flex items-center gap-1"
-                  data-testid="link-mobile-edit-profile"
-                >
-                  <UserCog className="h-3.5 w-3.5" /> Edit Details
-                </Link>
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <Link
+                    href="/profile-edit"
+                    onClick={() => setIsOpen(false)}
+                    className="text-xs font-semibold text-primary flex items-center gap-1"
+                    data-testid="link-mobile-edit-profile"
+                  >
+                    <UserCog className="h-3.5 w-3.5" /> Edit
+                  </Link>
+                </div>
               </div>
             ) : (
-              <Button
-                className="w-full bg-primary font-semibold text-sm"
-                onClick={() => { setIsOpen(false); openLoginModal(); }}
-                data-testid="button-mobile-login"
-              >
-                Login / Register
-              </Button>
+              <div className="flex items-center gap-3">
+                <Button
+                  className="flex-1 bg-primary font-semibold text-sm"
+                  onClick={() => { setIsOpen(false); openLoginModal(); }}
+                  data-testid="button-mobile-login"
+                >
+                  Login / Register
+                </Button>
+                <ThemeToggle />
+              </div>
             )}
           </div>
 
@@ -283,12 +289,6 @@ export function Navbar() {
               <span className="text-sm font-medium text-foreground">Help & Support</span>
               <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </a>
-          </div>
-
-          {/* Theme Toggle */}
-          <div className="flex items-center justify-between px-5 py-3 border-t border-slate-100 dark:border-white/10">
-            <span className="text-xs text-muted-foreground font-medium">Change Theme</span>
-            <ThemeToggle />
           </div>
 
           {/* Logout for authenticated users */}
