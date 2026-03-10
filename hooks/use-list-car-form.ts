@@ -131,6 +131,10 @@ export function useListCarForm() {
     if (!data.makeId || !data.brand) return "brand";
     if (!data.modelId || !data.model) return "model";
     if (!data.fuelType || !data.year) return "fuel-year";
+    if (!data.variantId || !data.variant) return "variant";
+    if (data.kilometers <= 0 || !data.transmission) return "km-transmission";
+    if (!data.location) return "location";
+    if (data.expectedPrice <= 0) return "price";
     return "fuel-year";
   };
 
