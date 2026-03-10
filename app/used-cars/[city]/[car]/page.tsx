@@ -320,6 +320,8 @@ export default function BuyCarDetail() {
                 year={car.year}
                 make={car.make}
                 model={car.model}
+                variant={car.variant}
+                city={car.city}
               />
             )}
 

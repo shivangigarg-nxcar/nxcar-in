@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader } from "@components/ui/card";
 import {
   ClipboardCheck,
@@ -8,6 +8,7 @@ import {
   Ruler,
   Wrench,
   Activity,
+  ChevronDown,
 } from "lucide-react";
 
 interface DetailedSpec {
@@ -17,6 +18,8 @@ interface DetailedSpec {
 }
 
 export const CarSummary = React.memo(function CarSummary({ detailedSpecs }: { detailedSpecs: DetailedSpec[] }) {
+  const [expanded, setExpanded] = useState(false);
+
   const grouped: Record<string, { name: string; value: string }[]> = {};
   for (const s of detailedSpecs) {
     if (!s.value || s.value === '' || s.value === 'not available' || s.value === 'N/A') continue;
@@ -41,40 +44,51 @@ export const CarSummary = React.memo(function CarSummary({ detailedSpecs }: { de
 
   return (
     <Card data-testid="car-summary-card">
-      <CardHeader className="pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center">
-            <ClipboardCheck className="w-4 h-4 text-primary" />
+      <CardHeader
+        className="pb-3 cursor-pointer select-none"
+        onClick={() => setExpanded(!expanded)}
+        data-testid="button-toggle-car-summary"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center">
+              <ClipboardCheck className="w-4 h-4 text-primary" />
+            </div>
+            <h2 className="font-semibold">Car Summary</h2>
           </div>
-          <h2 className="font-semibold">Car Summary</h2>
+          <ChevronDown
+            className={`w-5 h-5 text-muted-foreground transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+          />
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          {Object.entries(grouped).map(([category, items]) => {
-            const IconComp = categoryIcons[category] || Wrench;
-            const colorClass = categoryColors[category] || 'text-muted-foreground bg-muted';
-            return (
-              <div key={category}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`w-6 h-6 rounded-md flex items-center justify-center ${colorClass}`}>
-                    <IconComp className="w-3.5 h-3.5" />
-                  </div>
-                  <h3 className="text-sm font-semibold text-foreground">{category}</h3>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-x-6 gap-y-1">
-                  {items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between py-2 border-b border-border/50 last:border-0">
-                      <span className="text-sm text-muted-foreground">{item.name}</span>
-                      <span className="text-sm font-medium capitalize">{item.value}</span>
+      {expanded && (
+        <CardContent>
+          <div className="space-y-6">
+            {Object.entries(grouped).map(([category, items]) => {
+              const IconComp = categoryIcons[category] || Wrench;
+              const colorClass = categoryColors[category] || 'text-muted-foreground bg-muted';
+              return (
+                <div key={category}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className={`w-6 h-6 rounded-md flex items-center justify-center ${colorClass}`}>
+                      <IconComp className="w-3.5 h-3.5" />
                     </div>
-                  ))}
+                    <h3 className="text-sm font-semibold text-foreground">{category}</h3>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-x-6 gap-y-1">
+                    {items.map((item, idx) => (
+                      <div key={idx} className="flex justify-between py-2 border-b border-border/50 last:border-0">
+                        <span className="text-sm text-muted-foreground">{item.name}</span>
+                        <span className="text-sm font-medium capitalize">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </CardContent>
+              );
+            })}
+          </div>
+        </CardContent>
+      )}
     </Card>
   );
 });
