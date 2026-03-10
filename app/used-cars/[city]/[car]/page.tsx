@@ -32,7 +32,6 @@ import { ImageGallery } from "@components/car-detail/image-gallery";
 import { MakeOfferModal } from "@components/car-detail/make-offer-modal";
 import { CarSpecsGrid } from "@components/car-detail/car-specs-grid";
 import { SellerActionSidebar } from "@components/car-detail/seller-action-sidebar";
-import { MobileActionBar } from "@components/car-detail/mobile-action-bar";
 import { DocumentUploadSection } from "@components/car-detail/document-upload-section";
 import { AddOnServices } from "@components/car-detail/add-on-services";
 import { QuickSpecs } from "@components/car-detail/quick-specs";
@@ -279,7 +278,7 @@ export default function BuyCarDetail() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="max-w-screen-xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pb-24 lg:pb-6 overflow-hidden">
+      <main className="max-w-screen-xl mx-auto px-3 sm:px-4 py-4 sm:py-6 overflow-hidden">
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
             <ImageGallery
@@ -290,6 +289,18 @@ export default function BuyCarDetail() {
               onSelectImage={setCurrentImage}
               altText={`${car.make} ${car.model}`}
             />
+
+            <div className="lg:hidden">
+              <SellerActionSidebar
+                car={car}
+                formatPriceNoSymbol={formatPriceNoSymbol}
+                formatKilometers={formatKilometers}
+                formatEmi={formatEmi}
+                onMakeOfferClick={handleMakeOfferClick}
+                onRequestCallback={handleRequestCallback}
+                callbackLoading={callbackLoading}
+              />
+            </div>
 
             <QuickSpecs
               year={car.year}
@@ -334,7 +345,7 @@ export default function BuyCarDetail() {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="hidden lg:block space-y-6">
             <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <SellerActionSidebar
                 car={car}
@@ -369,15 +380,6 @@ export default function BuyCarDetail() {
       {fromSell && (
         <DocumentUploadSection vehicleId={vehicleId} car={car} />
       )}
-
-      <MobileActionBar
-        price={car.price}
-        emi={car.emi}
-        sellerPhone={car.sellerPhone}
-        formatPriceNoSymbol={formatPriceNoSymbol}
-        formatEmi={formatEmi}
-        onMakeOfferClick={handleMakeOfferClick}
-      />
 
       <MakeOfferModal
         open={offerModalOpen}
