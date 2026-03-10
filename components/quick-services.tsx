@@ -9,7 +9,7 @@ const QUICK_SERVICES = [
   { image: "/images/icon-3d-sell.png", label: "Sell car", href: "/sell-used-car" },
   { image: "/images/icon-3d-loan.png", label: "Get car loan", href: "/used-car-loan" },
   { image: "/images/icon-3d-val.png", label: "Car valuation", href: "/valuation" },
-  { image: "/images/icon-3d-pdi.png", label: "PDI", href: "https://pdi.nxcar.in/pdi", isNew: true, external: true },
+  { image: "/images/icon-3d-pdi.png", label: "PDI", href: "https://nxcar.in/pdi", isNew: true, external: true },
   { image: "/images/icon-3d-ins.png", label: "Insurance", href: "/insurance-check" },
   { image: "/images/icon-3d-rto.png", label: "RTO Services", href: "/rc-check" },
   { image: "/images/icon-3d-more.png", label: "More...", href: "/car-services" },

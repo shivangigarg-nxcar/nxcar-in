@@ -91,12 +91,12 @@ export default function RCCheck() {
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
       <Navbar />
       <main className="pt-20">
-        <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
+        <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
           </div>
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -106,13 +106,13 @@ export default function RCCheck() {
                 <span className="inline-block px-4 py-1.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-sm font-medium mb-6" data-testid="badge-rc-check">
                   RC Verification
                 </span>
-                <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
                   Check{" "}
                   <span className="bg-gradient-to-r from-teal-500 to-cyan-400 bg-clip-text text-transparent">
                     RC Details
                   </span>
                 </h1>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
+                <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
                   Verify Registration Certificate, insurance status, ownership details, and more. Make informed decisions before buying any used car.
                 </p>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
@@ -136,7 +136,7 @@ export default function RCCheck() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-rc-check">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-rc-check">
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Check RC Details</h3>
                   <div className="space-y-4">
                     <div>
@@ -189,14 +189,14 @@ export default function RCCheck() {
 
         {searched && (
           <section className="py-12 bg-white dark:bg-[#0A0E14]" data-testid="rc-results-section">
-            <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 {!vehicleData?.all ? (
-                  <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 text-center">
+                  <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 text-center">
                     <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No RC Details Found</h3>
                     <p className="text-slate-600 dark:text-slate-400">We couldn't find any registration details for this vehicle number. Please check the number and try again.</p>
@@ -304,7 +304,7 @@ export default function RCCheck() {
         )}
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -346,7 +346,7 @@ export default function RCCheck() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -354,7 +354,7 @@ export default function RCCheck() {
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto"
             >
-              <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
                     <Info className="w-6 h-6 text-teal-500" />
@@ -395,7 +395,7 @@ export default function RCCheck() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -437,7 +437,7 @@ export default function RCCheck() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -481,7 +481,7 @@ export default function RCCheck() {
         </section>
 
         <section className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 text-center">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

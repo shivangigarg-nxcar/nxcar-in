@@ -127,7 +127,7 @@ export function PDISection() {
             
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-end">
               <a 
-                href="https://pdi.nxcar.in/pdi" 
+                href="https://nxcar.in/pdi" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 data-testid="link-book-pdi"

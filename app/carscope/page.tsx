@@ -104,12 +104,12 @@ export default function CarScope() {
       <Navbar />
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
+        <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
           </div>
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -120,13 +120,13 @@ export default function CarScope() {
                   <ShieldCheck className="w-4 h-4" />
                   Vehicle Inspection
                 </span>
-                <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
                   <span className="bg-gradient-to-r from-teal-500 to-cyan-400 bg-clip-text text-transparent">
                     DriveAway
                   </span>{" "}
                   by Nxcar
                 </h1>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
+                <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
                   Complete vehicle inspection before you buy. Know the real condition of any used car.
                 </p>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
@@ -150,7 +150,7 @@ export default function CarScope() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-carscope">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-carscope">
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Get Inspection Report</h3>
                   <div className="space-y-4">
                     <div>
@@ -194,7 +194,7 @@ export default function CarScope() {
         {/* Vehicle Report Section */}
         {(loading || vehicleData) && (
           <section className="py-20 bg-white dark:bg-[#0A0E14]">
-            <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-16" data-testid="loading-state">
                   <Loader2 className="w-12 h-12 text-teal-500 animate-spin mb-4" />
@@ -206,7 +206,7 @@ export default function CarScope() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 mb-8" data-testid="vehicle-info">
+                  <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 mb-8" data-testid="vehicle-info">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6" data-testid="text-vehicle-info-title">Vehicle Information</h2>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {vehicleData.make && (
@@ -242,7 +242,7 @@ export default function CarScope() {
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10" data-testid="inspection-checklist">
+                  <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10" data-testid="inspection-checklist">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6" data-testid="text-checklist-title">Inspection Checklist</h2>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {inspectionChecklist.map((item, index) => (
@@ -281,7 +281,7 @@ export default function CarScope() {
 
         {/* How It Works */}
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -324,7 +324,7 @@ export default function CarScope() {
 
         {/* Pricing Section */}
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -351,7 +351,7 @@ export default function CarScope() {
                 <motion.div
                   key={plan.name}
                   variants={fadeInUp}
-                  className={`relative bg-white dark:bg-slate-800/50 rounded-2xl p-8 border transition-all ${
+                  className={`relative bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border transition-all ${
                     plan.popular
                       ? "border-teal-500 shadow-xl shadow-teal-500/10 scale-105"
                       : "border-slate-200 dark:border-white/10 hover:border-teal-500/30"
@@ -398,7 +398,7 @@ export default function CarScope() {
 
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 text-center">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

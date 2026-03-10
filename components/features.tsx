@@ -28,7 +28,7 @@ const SERVICES = [
       "Engine & transmission health check"
     ],
     new: true,
-    link: "https://pdi.nxcar.in/pdi"
+    link: "https://nxcar.in/pdi"
   },
   {
     id: "rc",

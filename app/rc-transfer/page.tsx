@@ -88,12 +88,12 @@ export default function RCTransfer() {
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
       <Navbar />
       <main className="pt-20">
-        <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
+        <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
           </div>
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,13 +103,13 @@ export default function RCTransfer() {
               <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6" data-testid="badge-rc-transfer">
                 RC Transfer Service
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
                 Hassle-Free{" "}
                 <span className="bg-gradient-to-r from-blue-500 to-indigo-400 bg-clip-text text-transparent">
                   RC Transfer
                 </span>
               </h1>
-              <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
+              <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
                 Complete ownership transfer with doorstep document pickup, RTO liaison, and online tracking — all handled by our expert team.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -140,7 +140,7 @@ export default function RCTransfer() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -182,7 +182,7 @@ export default function RCTransfer() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -228,7 +228,7 @@ export default function RCTransfer() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -242,7 +242,7 @@ export default function RCTransfer() {
               <motion.p variants={fadeInUp} className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-center mb-12">
                 Keep these documents ready for a smooth transfer process
               </motion.p>
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <div className="grid sm:grid-cols-2 gap-4">
                   {documents.map((doc, index) => (
                     <div key={doc} className="flex items-center gap-3" data-testid={`text-document-${index}`}>
@@ -257,7 +257,7 @@ export default function RCTransfer() {
         </section>
 
         <section id="rc-transfer-form" className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -271,7 +271,7 @@ export default function RCTransfer() {
               <p className="text-slate-600 dark:text-slate-400 text-center mb-8">
                 Fill in your details and our team will assist you
               </p>
-              <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 space-y-4">
+              <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-900 dark:text-white">Your Name</label>
                   <Input
@@ -318,7 +318,7 @@ export default function RCTransfer() {
         </section>
 
         <section className="py-12 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 text-center" data-testid="text-other-services">
               Other Services
             </h3>

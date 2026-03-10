@@ -206,12 +206,12 @@ export default function ChallanCheck() {
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
       <Navbar />
       <main className="pt-20">
-        <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
+        <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px]" />
           </div>
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -221,13 +221,13 @@ export default function ChallanCheck() {
                 <span className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm font-medium mb-6" data-testid="badge-challan">
                   Traffic Challan
                 </span>
-                <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
                   Check{" "}
                   <span className="bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent">
                     Challan
                   </span>
                 </h1>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
+                <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-8" data-testid="text-hero-subtitle">
                   Instantly check all pending challans and traffic fines associated with your vehicle. Stay informed and avoid surprises at toll plazas or during vehicle transfers.
                 </p>
               </motion.div>
@@ -237,7 +237,7 @@ export default function ChallanCheck() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-challan">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-challan">
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Check Vehicle Challan</h3>
                   <div className="space-y-4">
                     <div>
@@ -329,14 +329,14 @@ export default function ChallanCheck() {
 
         {searched && (
           <section className="py-16 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]" data-testid="challan-results-section">
-            <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 {challans.length === 0 ? (
-                  <div className="max-w-lg mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-green-500/30 shadow-xl text-center">
+                  <div className="max-w-lg mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-green-500/30 shadow-xl text-center">
                     <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
@@ -411,7 +411,7 @@ export default function ChallanCheck() {
         )}
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -432,7 +432,7 @@ export default function ChallanCheck() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-8"
+              className="grid md:grid-cols-3 gap-4 sm:gap-8"
             >
               {howToSteps.map((step, index) => (
                 <motion.div
@@ -459,7 +459,7 @@ export default function ChallanCheck() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -467,7 +467,7 @@ export default function ChallanCheck() {
               transition={{ duration: 0.6 }}
               className="max-w-3xl mx-auto"
             >
-              <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <div className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center flex-shrink-0">
                     <Info className="w-6 h-6 text-amber-500" />
@@ -493,7 +493,7 @@ export default function ChallanCheck() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -535,7 +535,7 @@ export default function ChallanCheck() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"

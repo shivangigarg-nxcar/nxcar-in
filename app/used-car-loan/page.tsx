@@ -315,13 +315,13 @@ export default function UsedCarLoan() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-8"
+              className="grid md:grid-cols-3 gap-4 sm:gap-8"
             >
               {loanTypes.map((loan, index) => (
                 <motion.div
                   key={loan.title}
                   variants={fadeInUp}
-                  className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 hover:border-teal-500/30 transition-all group"
+                  className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 hover:border-teal-500/30 transition-all group"
                   data-testid={`card-loan-type-${index}`}
                 >
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${loan.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
@@ -430,7 +430,7 @@ export default function UsedCarLoan() {
               viewport={{ once: true }}
               className="space-y-12 max-w-4xl mx-auto"
             >
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-testid="text-why-loan">
                   Why you should go for a used car loan?
                 </h3>
@@ -442,7 +442,7 @@ export default function UsedCarLoan() {
                 </p>
               </motion.div>
 
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-testid="text-when-refinance">
                   When should you Refinance?
                 </h3>
@@ -454,7 +454,7 @@ export default function UsedCarLoan() {
                 </p>
               </motion.div>
 
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10">
+              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-testid="text-when-balance-transfer">
                   When should you opt for Balance Transfer & Top Up?
                 </h3>

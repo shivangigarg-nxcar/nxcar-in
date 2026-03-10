@@ -92,12 +92,12 @@ export default function CarServices() {
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
       <Navbar />
       <main className="pt-20">
-        <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
+        <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
           </div>
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -107,13 +107,13 @@ export default function CarServices() {
               <span className="inline-block px-4 py-1.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-sm font-medium mb-6" data-testid="badge-hero">
                 No More Platform-Hopping
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight" data-testid="text-hero-title">
                 All Your Used Car Needs{" "}
                 <span className="bg-gradient-to-r from-teal-500 to-cyan-400 bg-clip-text text-transparent">
                   in One Place
                 </span>
               </h1>
-              <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
+              <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
                 From buying and selling to insurance, RC transfer, and challan checks — Nxcar brings everything together so you don't have to juggle multiple platforms.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -144,7 +144,7 @@ export default function CarServices() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -170,13 +170,13 @@ export default function CarServices() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-8"
+              className="grid md:grid-cols-3 gap-4 sm:gap-8"
             >
               {steps.map((step, index) => (
                 <motion.div
                   key={step.title}
                   variants={fadeInUp}
-                  className="relative bg-white dark:bg-slate-800/50 rounded-2xl p-8 border border-slate-200 dark:border-white/10 hover:border-teal-500/30 transition-all group"
+                  className="relative bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 hover:border-teal-500/30 transition-all group"
                   data-testid={`card-step-${index + 1}`}
                 >
                   <span className="absolute top-4 right-4 text-6xl font-black text-slate-100 dark:text-white/5 select-none">
@@ -194,7 +194,7 @@ export default function CarServices() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -208,7 +208,7 @@ export default function CarServices() {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6" data-testid="text-we-believe">
                 We Believe
               </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+              <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
                 Used car ownership should be as seamless and joyful as buying a new one. At Nxcar, we're building an ecosystem where every aspect of your used car journey — from discovery to ownership — is handled with care, transparency, and technology.
               </p>
               <p className="text-slate-500 dark:text-slate-500 leading-relaxed">
@@ -219,7 +219,7 @@ export default function CarServices() {
         </section>
 
         <section className="py-20 bg-white dark:bg-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -244,7 +244,7 @@ export default function CarServices() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-8"
+              className="grid md:grid-cols-3 gap-4 sm:gap-8"
             >
               {services.map((service) => (
                 <motion.div key={service.title} variants={fadeInUp}>
@@ -269,7 +269,7 @@ export default function CarServices() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14]">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -295,7 +295,7 @@ export default function CarServices() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-8"
+              className="grid md:grid-cols-3 gap-4 sm:gap-8"
             >
               {processSteps.map((step, index) => (
                 <motion.div
@@ -319,7 +319,7 @@ export default function CarServices() {
         </section>
 
         <section className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8 text-center">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
