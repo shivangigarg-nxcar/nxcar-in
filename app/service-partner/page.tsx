@@ -91,7 +91,7 @@ export default function ServicePartner() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] font-sans" data-testid="service-partner-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="service-partner-page">
       <Navbar />
       <main className="pt-24 pb-16">
         <section className="container px-4 max-w-5xl mx-auto text-center mb-16">
@@ -106,7 +106,7 @@ export default function ServicePartner() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
             data-testid="heading-hero"
           >
             Become a <span className="text-[#0EA9B2]">Service Partner</span>
@@ -115,7 +115,7 @@ export default function ServicePartner() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-slate-400 max-w-2xl mx-auto"
+            className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
             data-testid="text-hero-subtitle"
           >
             Join Nxcar's network of trusted service centers and workshops
@@ -127,12 +127,12 @@ export default function ServicePartner() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-why-partner"
           >
             Why Partner with <span className="text-[#0EA9B2]">Nxcar?</span>
           </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {benefits.map((b, i) => (
               <motion.div
                 key={b.title}
@@ -140,14 +140,14 @@ export default function ServicePartner() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`benefit-${i + 1}`}
               >
                 <div className="w-12 h-12 rounded-full bg-[#0EA9B2]/20 flex items-center justify-center mx-auto mb-4">
                   <b.icon className="h-6 w-6 text-[#0EA9B2]" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">{b.title}</h3>
-                <p className="text-slate-400 text-sm">{b.desc}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-2">{b.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{b.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -158,12 +158,12 @@ export default function ServicePartner() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-who-can-apply"
           >
             Who Can Apply?
           </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {whoCanApply.map((item, i) => (
               <motion.div
                 key={item.title}
@@ -171,14 +171,14 @@ export default function ServicePartner() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`apply-type-${i + 1}`}
               >
                 <div className="w-12 h-12 rounded-full bg-[#0EA9B2]/20 flex items-center justify-center mx-auto mb-4">
                   <item.icon className="h-6 w-6 text-[#0EA9B2]" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">{item.title}</h3>
-                <p className="text-slate-400 text-sm">{item.desc}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-2">{item.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -189,9 +189,9 @@ export default function ServicePartner() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-slate-900/50 rounded-xl p-8 border border-slate-800"
+            className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800"
           >
-            <h2 className="text-2xl font-bold text-white mb-6 text-center" data-testid="heading-application-form">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center" data-testid="heading-application-form">
               Apply Now
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -202,7 +202,7 @@ export default function ServicePartner() {
                 onChange={(e) => setForm({ ...form, workshopName: e.target.value })}
                 required
                 data-testid="input-workshop-name"
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
               />
               <input
                 type="text"
@@ -211,7 +211,7 @@ export default function ServicePartner() {
                 onChange={(e) => setForm({ ...form, ownerName: e.target.value })}
                 required
                 data-testid="input-owner-name"
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input
@@ -221,7 +221,7 @@ export default function ServicePartner() {
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   required
                   data-testid="input-phone"
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                  className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
                 />
                 <input
                   type="email"
@@ -230,7 +230,7 @@ export default function ServicePartner() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                   data-testid="input-email"
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                  className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -241,7 +241,7 @@ export default function ServicePartner() {
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
                   required
                   data-testid="input-city"
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                  className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
                 />
                 <input
                   type="number"
@@ -250,23 +250,23 @@ export default function ServicePartner() {
                   onChange={(e) => setForm({ ...form, yearsInBusiness: e.target.value })}
                   required
                   data-testid="input-years"
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                  className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
                 />
               </div>
               <div>
-                <p className="text-white font-semibold mb-3">Type of Services</p>
+                <p className="text-slate-900 dark:text-white font-semibold mb-3">Type of Services</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {serviceTypes.map((service) => (
                     <label
                       key={service}
-                      className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors"
+                      className="flex items-center gap-2 text-slate-700 dark:text-slate-300 text-sm cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors"
                       data-testid={`checkbox-${service.toLowerCase().replace(/\s+/g, "-")}`}
                     >
                       <input
                         type="checkbox"
                         checked={form.services.includes(service)}
                         onChange={() => handleCheckbox(service)}
-                        className="rounded border-slate-700 bg-slate-800 text-[#0EA9B2] focus:ring-[#0EA9B2]"
+                        className="rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0EA9B2] focus:ring-[#0EA9B2]"
                       />
                       {service}
                     </label>

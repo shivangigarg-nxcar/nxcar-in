@@ -74,27 +74,27 @@ export default function Login() {
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-[#0A0E14] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0A0E14] flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] flex flex-col" data-testid="login-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] flex flex-col" data-testid="login-page">
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3" data-testid="text-welcome">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3" data-testid="text-welcome">
             Welcome to Nxcar
           </h1>
-          <p className="text-slate-400 text-base sm:text-lg mb-8 sm:mb-10" data-testid="text-subtitle">
+          <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg mb-8 sm:mb-10" data-testid="text-subtitle">
             Sign in with your phone number
           </p>
 
           <div className="mb-4">
-            <div className="flex items-center bg-white/5 border border-white/10 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
-              <span className="text-white font-medium px-4 py-3 bg-white/5 border-r border-white/10 select-none" data-testid="text-country-code">
+            <div className="flex items-center bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+              <span className="text-slate-900 dark:text-white font-medium px-4 py-3 bg-slate-200 dark:bg-white/5 border-r border-slate-300 dark:border-white/10 select-none" data-testid="text-country-code">
                 +91
               </span>
               <input
@@ -106,11 +106,11 @@ export default function Login() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSendOtp();
                 }}
-                className="flex-1 bg-transparent text-white text-lg px-4 py-3 outline-none placeholder:text-slate-500"
+                className="flex-1 bg-transparent text-slate-900 dark:text-white text-lg px-4 py-3 outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 maxLength={10}
                 data-testid="input-phone"
               />
-              <Phone className="w-5 h-5 text-slate-400 mr-4" />
+              <Phone className="w-5 h-5 text-slate-600 dark:text-slate-400 mr-4" />
             </div>
           </div>
 
@@ -140,11 +140,11 @@ export default function Login() {
             {benefits.map((b) => (
               <div
                 key={b.text}
-                className="flex items-center gap-3 text-left bg-white/5 rounded-lg p-4"
+                className="flex items-center gap-3 text-left bg-slate-100 dark:bg-white/5 rounded-lg p-4"
                 data-testid={`benefit-${b.text.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 <b.icon className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-slate-300 text-sm">{b.text}</span>
+                <span className="text-slate-600 dark:text-slate-300 text-sm">{b.text}</span>
               </div>
             ))}
           </div>

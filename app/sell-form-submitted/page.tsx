@@ -15,7 +15,7 @@ const steps = [
 
 export default function SellFormSubmitted() {
   return (
-    <div className="min-h-screen bg-[#0A0E14] font-sans" data-testid="sell-form-submitted-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="sell-form-submitted-page">
       <Navbar />
       <main className="pt-24 pb-16">
         <div className="container px-4 max-w-3xl mx-auto text-center">
@@ -31,7 +31,7 @@ export default function SellFormSubmitted() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
             data-testid="heading-sell-submitted"
           >
             Your Car Has Been Listed!
@@ -41,7 +41,7 @@ export default function SellFormSubmitted() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-slate-400 mb-12"
+            className="text-lg text-slate-600 dark:text-slate-400 mb-12"
             data-testid="text-subtitle"
           >
             Our team will review your listing and get back to you within 24 hours.
@@ -51,7 +51,7 @@ export default function SellFormSubmitted() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-slate-900/50 rounded-xl p-8 border border-slate-800 mb-10 text-left"
+            className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800 mb-10 text-left"
           >
             <h2 className="text-2xl font-bold text-[#0EA9B2] mb-6 text-center" data-testid="heading-what-next">
               What happens next?
@@ -70,8 +70,8 @@ export default function SellFormSubmitted() {
                     <step.icon className="h-5 w-5 text-[#0EA9B2]" />
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold">{step.title}</h3>
-                    <p className="text-slate-400 text-sm">{step.desc}</p>
+                    <h3 className="text-slate-900 dark:text-white font-semibold">{step.title}</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm">{step.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -94,7 +94,7 @@ export default function SellFormSubmitted() {
             <Link
               href="/"
               data-testid="button-go-home"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-700 text-white font-semibold hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-semibold hover:bg-white dark:bg-slate-800 transition-colors"
             >
               Go to Home
             </Link>
@@ -104,7 +104,7 @@ export default function SellFormSubmitted() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="flex items-center justify-center gap-2 text-slate-400"
+            className="flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400"
             data-testid="text-need-help"
           >
             <Phone className="h-4 w-4" />

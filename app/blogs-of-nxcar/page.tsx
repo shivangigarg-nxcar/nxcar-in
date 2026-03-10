@@ -48,7 +48,7 @@ function ArticleCard({ article }: { article: BlogArticle }) {
       className="block group"
       data-testid={`article-card-${article.id}`}
     >
-      <Card className="overflow-hidden h-full bg-[#161B22] border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+      <Card className="overflow-hidden h-full bg-white dark:bg-[#161B22] border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
         <div className="aspect-video w-full overflow-hidden relative">
           <img
             src={article.imageUrl}
@@ -57,15 +57,15 @@ function ArticleCard({ article }: { article: BlogArticle }) {
             data-testid={`article-image-${article.id}`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          <Badge className={`absolute top-3 left-3 ${badgeColor} text-white text-[10px] font-semibold px-2.5 py-0.5 uppercase tracking-wider`} data-testid={`article-category-${article.id}`}>
+          <Badge className={`absolute top-3 left-3 ${badgeColor} text-slate-900 dark:text-white text-[10px] font-semibold px-2.5 py-0.5 uppercase tracking-wider`} data-testid={`article-category-${article.id}`}>
             {article.category}
           </Badge>
         </div>
         <div className="p-4">
-          <h3 className="font-bold text-white text-base line-clamp-2 group-hover:text-primary transition-colors mb-2" data-testid={`article-title-${article.id}`}>
+          <h3 className="font-bold text-slate-900 dark:text-white text-base line-clamp-2 group-hover:text-primary transition-colors mb-2" data-testid={`article-title-${article.id}`}>
             {article.title}
           </h3>
-          <p className="text-slate-400 text-sm line-clamp-2 mb-3" data-testid={`article-excerpt-${article.id}`}>
+          <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-3" data-testid={`article-excerpt-${article.id}`}>
             {article.excerpt}
           </p>
           <div className="flex items-center justify-between text-xs text-slate-500">
@@ -94,7 +94,7 @@ export default function Blogs() {
     : articles.filter((a) => a.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-[#0A0E14]" data-testid="blogs-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14]" data-testid="blogs-page">
       <Navbar />
 
       <section className="relative py-20 md:py-28 overflow-hidden">
@@ -110,7 +110,7 @@ export default function Blogs() {
             <div className="p-2.5 bg-primary/20 rounded-lg">
               <BookOpen className="h-6 w-6 text-primary" />
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-white" data-testid="blogs-heading">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-slate-900 dark:text-white" data-testid="blogs-heading">
               Nxcar Loves Cars
             </h1>
           </motion.div>
@@ -118,7 +118,7 @@ export default function Blogs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-slate-400 text-lg max-w-xl mx-auto"
+            className="text-slate-600 dark:text-slate-400 text-lg max-w-xl mx-auto"
             data-testid="blogs-subtitle"
           >
             Automotive news, expert insights, and unfiltered opinions
@@ -144,7 +144,7 @@ export default function Blogs() {
                 className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? "bg-primary text-white shadow-lg shadow-primary/25"
-                    : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white"
+                    : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
                 }`}
                 data-testid={`category-tab-${cat.key}`}
               >
@@ -158,12 +158,12 @@ export default function Blogs() {
         {isLoading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-[#161B22] rounded-xl animate-pulse">
-                <div className="aspect-video bg-slate-700/50 rounded-t-xl" />
+              <div key={i} className="bg-slate-100 dark:bg-[#161B22] rounded-xl animate-pulse">
+                <div className="aspect-video bg-slate-200 dark:bg-slate-700/50 rounded-t-xl" />
                 <div className="p-4 space-y-3">
-                  <div className="h-4 bg-slate-700/50 rounded w-3/4" />
-                  <div className="h-3 bg-slate-700/50 rounded w-full" />
-                  <div className="h-3 bg-slate-700/50 rounded w-1/2" />
+                  <div className="h-4 bg-slate-200 dark:bg-slate-700/50 rounded w-3/4" />
+                  <div className="h-3 bg-slate-200 dark:bg-slate-700/50 rounded w-full" />
+                  <div className="h-3 bg-slate-200 dark:bg-slate-700/50 rounded w-1/2" />
                 </div>
               </div>
             ))}
@@ -175,7 +175,7 @@ export default function Blogs() {
             className="text-center py-20"
           >
             <Search className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-400 text-lg" data-testid="no-articles-message">No articles found in this category.</p>
+            <p className="text-slate-600 dark:text-slate-400 text-lg" data-testid="no-articles-message">No articles found in this category.</p>
           </motion.div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="articles-grid">

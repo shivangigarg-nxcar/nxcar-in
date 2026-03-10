@@ -37,7 +37,7 @@ export default function ReferToFriend() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] font-sans" data-testid="refer-to-friend-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="refer-to-friend-page">
       <Navbar />
       <main className="pt-24 pb-16">
         <section className="container px-4 max-w-4xl mx-auto text-center mb-16">
@@ -52,7 +52,7 @@ export default function ReferToFriend() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
             data-testid="heading-hero"
           >
             Refer & Earn with <span className="text-[#0EA9B2]">Nxcar</span>
@@ -61,7 +61,7 @@ export default function ReferToFriend() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-slate-400 max-w-2xl mx-auto"
+            className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
             data-testid="text-hero-subtitle"
           >
             Invite your friends and earn rewards when they buy or sell a car
@@ -73,7 +73,7 @@ export default function ReferToFriend() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-how-it-works"
           >
             How It Works
@@ -86,14 +86,14 @@ export default function ReferToFriend() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`how-step-${i + 1}`}
               >
                 <div className="w-12 h-12 rounded-full bg-[#0EA9B2]/20 flex items-center justify-center mx-auto mb-4">
                   <s.icon className="h-6 w-6 text-[#0EA9B2]" />
                 </div>
-                <h3 className="text-white font-semibold mb-1">{s.title}</h3>
-                <p className="text-slate-400 text-sm">{s.desc}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-1">{s.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{s.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -104,9 +104,9 @@ export default function ReferToFriend() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-slate-900/50 rounded-xl p-8 border border-slate-800"
+            className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800"
           >
-            <h2 className="text-2xl font-bold text-white mb-6 text-center" data-testid="heading-referral-form">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center" data-testid="heading-referral-form">
               Get Your Referral Link
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -117,7 +117,7 @@ export default function ReferToFriend() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 data-testid="input-name"
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
               />
               <input
                 type="tel"
@@ -126,7 +126,7 @@ export default function ReferToFriend() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
                 data-testid="input-phone"
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
+                className="w-full px-4 py-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#0EA9B2]"
               />
               <button
                 type="submit"
@@ -141,9 +141,9 @@ export default function ReferToFriend() {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
-                className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700"
+                className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-300 dark:border-slate-700"
               >
-                <p className="text-slate-400 text-sm mb-2">Your Referral Link:</p>
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">Your Referral Link:</p>
                 <div className="flex items-center gap-2">
                   <code className="flex-1 text-[#0EA9B2] text-sm break-all" data-testid="text-referral-link">
                     {referralLink}
@@ -166,7 +166,7 @@ export default function ReferToFriend() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-what-you-earn"
           >
             What You Earn
@@ -176,23 +176,23 @@ export default function ReferToFriend() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-slate-900/50 rounded-xl p-8 border border-slate-800 text-center"
+              className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800 text-center"
               data-testid="earn-sell"
             >
               <div className="text-4xl font-bold text-[#0EA9B2] mb-2">₹500</div>
-              <p className="text-white font-semibold mb-1">For Each Friend Who Sells</p>
-              <p className="text-slate-400 text-sm">Earn ₹500 when your referred friend successfully sells a car on Nxcar</p>
+              <p className="text-slate-900 dark:text-white font-semibold mb-1">For Each Friend Who Sells</p>
+              <p className="text-slate-600 dark:text-slate-400 text-sm">Earn ₹500 when your referred friend successfully sells a car on Nxcar</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-slate-900/50 rounded-xl p-8 border border-slate-800 text-center"
+              className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800 text-center"
               data-testid="earn-buy"
             >
               <div className="text-4xl font-bold text-[#0EA9B2] mb-2">₹1,000</div>
-              <p className="text-white font-semibold mb-1">For Each Friend Who Buys</p>
-              <p className="text-slate-400 text-sm">Earn ₹1,000 when your referred friend successfully buys a car on Nxcar</p>
+              <p className="text-slate-900 dark:text-white font-semibold mb-1">For Each Friend Who Buys</p>
+              <p className="text-slate-600 dark:text-slate-400 text-sm">Earn ₹1,000 when your referred friend successfully buys a car on Nxcar</p>
             </motion.div>
           </div>
         </section>
@@ -202,7 +202,7 @@ export default function ReferToFriend() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-faq"
           >
             Frequently Asked Questions
@@ -215,11 +215,11 @@ export default function ReferToFriend() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800"
                 data-testid={`faq-${i + 1}`}
               >
-                <h3 className="text-white font-semibold mb-2">{faq.q}</h3>
-                <p className="text-slate-400 text-sm">{faq.a}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-2">{faq.q}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{faq.a}</p>
               </motion.div>
             ))}
           </div>

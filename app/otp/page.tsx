@@ -111,23 +111,23 @@ export default function OTP() {
 
   if (!phone) {
     return (
-      <div className="min-h-screen bg-[#0A0E14] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0A0E14] flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] flex flex-col" data-testid="otp-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] flex flex-col" data-testid="otp-page">
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full text-center">
-          <h1 className="text-4xl font-bold text-white mb-3" data-testid="text-verify-heading">
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-3" data-testid="text-verify-heading">
             Verify OTP
           </h1>
-          <p className="text-slate-400 text-lg mb-10" data-testid="text-verify-subtitle">
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-10" data-testid="text-verify-subtitle">
             Enter the 4-digit code sent to{" "}
-            <span className="text-white font-medium">+91 {phone}</span>
+            <span className="text-slate-900 dark:text-white font-medium">+91 {phone}</span>
           </p>
 
           <div className="flex justify-center gap-3 mb-6">
@@ -141,7 +141,7 @@ export default function OTP() {
                 value={digit}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-14 h-14 text-center text-2xl font-bold bg-white/5 border border-white/10 rounded-lg text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                className="w-14 h-14 text-center text-2xl font-bold bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                 data-testid={`input-otp-${index}`}
               />
             ))}
@@ -190,7 +190,7 @@ export default function OTP() {
                 sessionStorage.removeItem("otp_phone");
                 router.push("/login");
               }}
-              className="text-slate-400 hover:text-white font-medium transition-colors"
+              className="text-slate-600 dark:text-slate-400 hover:text-white font-medium transition-colors"
               data-testid="link-change-number"
             >
               Change Number

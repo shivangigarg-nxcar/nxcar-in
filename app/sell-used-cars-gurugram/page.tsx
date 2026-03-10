@@ -28,14 +28,14 @@ const steps = [
 
 export default function SellUsedCarsGurugram() {
   return (
-    <div className="min-h-screen bg-[#0A0E14] font-sans" data-testid="sell-used-cars-gurugram-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="sell-used-cars-gurugram-page">
       <Navbar />
       <main className="pt-24 pb-16">
         <section className="container px-4 max-w-5xl mx-auto text-center mb-20">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
             data-testid="heading-hero"
           >
             Sell Your Car in <span className="text-[#0EA9B2]">Gurugram</span>
@@ -44,7 +44,7 @@ export default function SellUsedCarsGurugram() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-slate-400 mb-8 max-w-2xl mx-auto"
+            className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto"
             data-testid="text-hero-subtitle"
           >
             Get the best price for your car from verified Gurugram dealers
@@ -65,7 +65,7 @@ export default function SellUsedCarsGurugram() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-why-sell"
           >
             Why Sell in <span className="text-[#0EA9B2]">Gurugram?</span>
@@ -78,14 +78,14 @@ export default function SellUsedCarsGurugram() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`benefit-${i + 1}`}
               >
                 <div className="w-12 h-12 rounded-full bg-[#0EA9B2]/20 flex items-center justify-center mx-auto mb-4">
                   <b.icon className="h-6 w-6 text-[#0EA9B2]" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">{b.title}</h3>
-                <p className="text-slate-400 text-sm">{b.desc}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-2">{b.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{b.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function SellUsedCarsGurugram() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-stats"
           >
             Gurugram in Numbers
@@ -109,11 +109,11 @@ export default function SellUsedCarsGurugram() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`stat-${i + 1}`}
               >
                 <div className="text-3xl font-bold text-[#0EA9B2] mb-1">{s.value}</div>
-                <div className="text-slate-400 text-sm">{s.label}</div>
+                <div className="text-slate-600 dark:text-slate-400 text-sm">{s.label}</div>
               </motion.div>
             ))}
           </div>
@@ -124,7 +124,7 @@ export default function SellUsedCarsGurugram() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-10 text-center"
+            className="text-3xl font-bold text-slate-900 dark:text-white mb-10 text-center"
             data-testid="heading-how-it-works"
           >
             How It Works
@@ -137,12 +137,12 @@ export default function SellUsedCarsGurugram() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center"
+                className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800 text-center"
                 data-testid={`how-step-${i + 1}`}
               >
                 <div className="text-4xl font-bold text-[#0EA9B2]/30 mb-3">{step.num}</div>
-                <h3 className="text-white font-semibold mb-2 text-lg">{step.title}</h3>
-                <p className="text-slate-400 text-sm">{step.desc}</p>
+                <h3 className="text-slate-900 dark:text-white font-semibold mb-2 text-lg">{step.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{step.desc}</p>
               </motion.div>
             ))}
           </div>

@@ -111,14 +111,14 @@ export default function DealerLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] flex flex-col" data-testid="dealer-login-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] flex flex-col" data-testid="dealer-login-page">
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full text-center">
-          <h1 className="text-4xl font-bold text-white mb-3" data-testid="text-dealer-welcome">
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-3" data-testid="text-dealer-welcome">
             Dealer Login
           </h1>
-          <p className="text-slate-400 text-lg mb-10" data-testid="text-dealer-subtitle">
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-10" data-testid="text-dealer-subtitle">
             {step === "phone"
               ? "Sign in with your registered dealer mobile number"
               : "Enter the OTP sent to your phone"}
@@ -127,8 +127,8 @@ export default function DealerLogin() {
           {step === "phone" ? (
             <>
               <div className="mb-4">
-                <div className="flex items-center bg-white/5 border border-white/10 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
-                  <span className="text-white font-medium px-4 py-3 bg-white/5 border-r border-white/10 select-none" data-testid="text-dealer-country-code">
+                <div className="flex items-center bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+                  <span className="text-slate-900 dark:text-white font-medium px-4 py-3 bg-slate-100 dark:bg-white/5 border-r border-slate-200 dark:border-white/10 select-none" data-testid="text-dealer-country-code">
                     +91
                   </span>
                   <input
@@ -140,11 +140,11 @@ export default function DealerLogin() {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") handleSendOtp();
                     }}
-                    className="flex-1 bg-transparent text-white text-lg px-4 py-3 outline-none placeholder:text-slate-500"
+                    className="flex-1 bg-transparent text-slate-900 dark:text-white text-lg px-4 py-3 outline-none placeholder:text-slate-500"
                     maxLength={10}
                     data-testid="input-dealer-phone"
                   />
-                  <Phone className="w-5 h-5 text-slate-400 mr-4" />
+                  <Phone className="w-5 h-5 text-slate-600 dark:text-slate-400 mr-4" />
                 </div>
               </div>
 
@@ -167,7 +167,7 @@ export default function DealerLogin() {
           ) : (
             <>
               <div className="mb-2 text-left">
-                <p className="text-slate-400 text-sm mb-2">
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
                   OTP sent to +91 {phone}{" "}
                   <button
                     onClick={() => {
@@ -193,7 +193,7 @@ export default function DealerLogin() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleVerifyOtp();
                   }}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg text-white text-lg px-4 py-3 outline-none placeholder:text-slate-500 focus:border-primary focus:ring-1 focus:ring-primary text-center tracking-[0.5em]"
+                  className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white text-lg px-4 py-3 outline-none placeholder:text-slate-500 focus:border-primary focus:ring-1 focus:ring-primary text-center tracking-[0.5em]"
                   maxLength={6}
                   autoFocus
                   data-testid="input-dealer-otp"
@@ -243,11 +243,11 @@ export default function DealerLogin() {
             {benefits.map((b) => (
               <div
                 key={b.text}
-                className="flex items-center gap-3 text-left bg-white/5 rounded-lg p-4"
+                className="flex items-center gap-3 text-left bg-slate-100 dark:bg-white/5 rounded-lg p-4"
                 data-testid={`dealer-benefit-${b.text.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 <b.icon className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-slate-300 text-sm">{b.text}</span>
+                <span className="text-slate-600 dark:text-slate-300 text-sm">{b.text}</span>
               </div>
             ))}
           </div>

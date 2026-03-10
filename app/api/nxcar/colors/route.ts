@@ -8,7 +8,7 @@ export async function GET() {
       const response = await fetchWithTimeout(`${BASE_URL}/color`, {}, 8000);
       if (!response.ok) throw new Error("Failed to fetch colors");
       const data = await response.json();
-      return (data.owner || []).map((c: any) => ({
+      return (data.color || []).map((c: any) => ({
         id: c.color_id,
         name: c.color_name,
         code: c.color_code,

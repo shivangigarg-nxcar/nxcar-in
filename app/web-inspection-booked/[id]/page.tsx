@@ -18,7 +18,7 @@ export default function WebInspectionBooked() {
   const bookingId = params?.id || "N/A";
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] font-sans" data-testid="web-inspection-booked-page">
+    <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="web-inspection-booked-page">
       <Navbar />
       <main className="pt-24 pb-16">
         <div className="container px-4 max-w-3xl mx-auto text-center">
@@ -34,7 +34,7 @@ export default function WebInspectionBooked() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
             data-testid="heading-booked"
           >
             Inspection Booked!
@@ -44,7 +44,7 @@ export default function WebInspectionBooked() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-slate-400 mb-10"
+            className="text-lg text-slate-600 dark:text-slate-400 mb-10"
             data-testid="text-subtitle"
           >
             Your DriveAway inspection has been scheduled.
@@ -54,21 +54,21 @@ export default function WebInspectionBooked() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-slate-900/50 rounded-xl p-8 border border-slate-800 mb-10 text-left"
+            className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800 mb-10 text-left"
           >
             <h2 className="text-2xl font-bold text-[#0EA9B2] mb-6 text-center" data-testid="heading-booking-details">
               Booking Details
             </h2>
             <div className="space-y-4">
-              <div className="flex justify-between items-center py-3 border-b border-slate-800">
-                <span className="text-slate-400">Booking ID</span>
-                <span className="text-white font-semibold" data-testid="text-booking-id">#{bookingId}</span>
+              <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Booking ID</span>
+                <span className="text-slate-900 dark:text-white font-semibold" data-testid="text-booking-id">#{bookingId}</span>
               </div>
-              <div className="flex justify-between items-center py-3 border-b border-slate-800">
-                <span className="text-slate-400">Status</span>
+              <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Status</span>
                 <span className="text-green-400 font-semibold" data-testid="text-status">Confirmed</span>
               </div>
-              <p className="text-slate-400 text-sm pt-2" data-testid="text-inspector-contact">
+              <p className="text-slate-600 dark:text-slate-400 text-sm pt-2" data-testid="text-inspector-contact">
                 Our inspector will contact you to confirm the date and time.
               </p>
             </div>
@@ -78,7 +78,7 @@ export default function WebInspectionBooked() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-slate-900/50 rounded-xl p-8 border border-slate-800 mb-10"
+            className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 border border-slate-200 dark:border-slate-800 mb-10"
           >
             <h2 className="text-2xl font-bold text-[#0EA9B2] mb-6 text-center" data-testid="heading-what-to-expect">
               What to Expect
@@ -96,8 +96,8 @@ export default function WebInspectionBooked() {
                   <div className="w-12 h-12 rounded-full bg-[#0EA9B2]/20 flex items-center justify-center mx-auto mb-3">
                     <item.icon className="h-6 w-6 text-[#0EA9B2]" />
                   </div>
-                  <h3 className="text-white font-semibold mb-1">{item.title}</h3>
-                  <p className="text-slate-400 text-sm">{item.desc}</p>
+                  <h3 className="text-slate-900 dark:text-white font-semibold mb-1">{item.title}</h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -119,7 +119,7 @@ export default function WebInspectionBooked() {
             <Link
               href="/"
               data-testid="button-go-home"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-700 text-white font-semibold hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-semibold hover:bg-white dark:bg-slate-800 transition-colors"
             >
               Go to Home
             </Link>
@@ -129,7 +129,7 @@ export default function WebInspectionBooked() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="flex items-center justify-center gap-2 text-slate-400"
+            className="flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400"
             data-testid="text-need-help"
           >
             <Phone className="h-4 w-4" />
