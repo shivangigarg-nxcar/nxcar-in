@@ -301,13 +301,21 @@ export function Navbar() {
           </div>
 
           {/* Footer - Privacy & Terms */}
-          <div className="border-t border-slate-100 dark:border-white/10 px-5 py-4">
+          <div className="border-t border-slate-100 dark:border-white/10 px-5 py-4 space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <Link href="/privacy-policy" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-privacy">
                 <Shield className="h-3.5 w-3.5 inline mr-1.5" />Privacy Policy
               </Link>
               <Link href="/terms-of-use" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-terms">
                 <FileText className="h-3.5 w-3.5 inline mr-1.5" />Terms of Use
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <Link href="/grievance-policy" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-grievance">
+                <FileText className="h-3.5 w-3.5 inline mr-1.5" />Grievance Policy
+              </Link>
+              <Link href="/service-partner" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-service-partners">
+                <Store className="h-3.5 w-3.5 inline mr-1.5" />Service Partners
               </Link>
             </div>
           </div>
