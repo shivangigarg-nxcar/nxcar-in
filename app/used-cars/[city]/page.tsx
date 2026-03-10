@@ -5,30 +5,20 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@components/navbar";
 import { Footer } from "@components/footer";
-import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { useToast } from "@hooks/use-toast";
-import {
-  Car, MapPin, ChevronLeft, ChevronRight, ArrowRight, Filter
-} from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { useAuth } from "@hooks/use-auth";
 import { useFavorites } from "@hooks/use-favorites";
 import LoginModal from "@components/login-modal";
 import {
   type City, type Filters, type FilterOptions,
-  defaultFilterOptions, FilterPanel, MobileFilterSheet,
-  ActiveFiltersBar, SearchBar, formatPriceShort
+  defaultFilterOptions, FilterPanel, MobileFilterSheet
 } from "@components/buy-cars/filter-sidebar";
-import { type CarListing, CarListingCard, LoadingSkeleton } from "@components/buy-cars/car-listing-card";
-
-interface ListingsResponse {
-  listings: CarListing[];
-  total: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
-}
+import { type CarListing, LoadingSkeleton } from "@components/buy-cars/car-listing-card";
+import { CityHero } from "@components/city-listings/city-hero";
+import { CityCarGrid } from "@components/city-listings/city-car-grid";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -356,65 +346,7 @@ export default function UsedCarsCityPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [filters, debouncedSearch, doFetchListings]);
 
-  const renderPagination = () => {
-    if (totalPages <= 1) return null;
-
-    const pages: (number | string)[] = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible + 2) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
-    } else {
-      pages.push(1);
-      if (currentPage > 3) pages.push("...");
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-      for (let i = start; i <= end; i++) pages.push(i);
-      if (currentPage < totalPages - 2) pages.push("...");
-      pages.push(totalPages);
-    }
-
-    return (
-      <div className="flex items-center justify-center gap-1 mt-8" data-testid="pagination">
-        <Button
-          variant="outline"
-          disabled={currentPage <= 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-          className="min-h-[44px] min-w-[44px]"
-          aria-label="Previous page"
-          data-testid="button-prev-page"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        {pages.map((page, i) =>
-          typeof page === "string" ? (
-            <span key={`ellipsis-${i}`} className="px-2 text-muted-foreground">...</span>
-          ) : (
-            <Button
-              key={page}
-              variant={page === currentPage ? "default" : "outline"}
-              onClick={() => handlePageChange(page)}
-              className="min-h-[44px] min-w-[44px]"
-              aria-current={page === currentPage ? "page" : undefined}
-              data-testid={`button-page-${page}`}
-            >
-              {page}
-            </Button>
-          )
-        )}
-        <Button
-          variant="outline"
-          disabled={currentPage >= totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-          className="min-h-[44px] min-w-[44px]"
-          aria-label="Next page"
-          data-testid="button-next-page"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-    );
-  };
+  const handleShowLogin = useCallback(() => setShowLoginModal(true), []);
 
   if (!citiesLoaded) {
     return (
@@ -460,24 +392,15 @@ export default function UsedCarsCityPage() {
     );
   }
 
-  const emptyStateNoResults = !isLoading && listings.length === 0 && filters.cityId;
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-24">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">
-              Used Cars in {matchedCity?.city_name || citySlug}
-            </h1>
-            {totalListings > 0 && (
-              <Badge variant="secondary" data-testid="badge-total-count">
-                {totalListings.toLocaleString("en-IN")} cars
-              </Badge>
-            )}
-          </div>
-        </div>
+        <CityHero
+          cityName={matchedCity?.city_name || citySlug}
+          citySlug={citySlug}
+          totalListings={totalListings}
+        />
 
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="hidden lg:block w-72 shrink-0">
@@ -493,61 +416,25 @@ export default function UsedCarsCityPage() {
             </div>
           </aside>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex gap-2 mb-4">
-              <div className="flex-1">
-                <SearchBar value={searchQuery} onChange={setSearchQuery} />
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setMobileFilterOpen(true)}
-                className="shrink-0 lg:hidden"
-                aria-label="Open filters"
-                data-testid="button-mobile-filter"
-              >
-                <Filter className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <ActiveFiltersBar
-              filters={filters}
-              onRemoveFilter={handleRemoveFilter}
-              onClearAll={handleClearFilters}
-            />
-
-            {totalListings > 0 && (
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-muted-foreground">
-                  Showing {listings.length} of {totalListings.toLocaleString("en-IN")} results
-                </p>
-              </div>
-            )}
-
-            {isLoading ? (
-              <LoadingSkeleton />
-            ) : emptyStateNoResults ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center" data-testid="empty-state-no-results">
-                <Car className="h-16 w-16 text-muted-foreground mb-4" />
-                <h2 className="text-xl font-bold mb-2">No cars found</h2>
-                <p className="text-muted-foreground mb-6 max-w-md">
-                  We couldn't find any cars matching your current filters. Try adjusting your search criteria.
-                </p>
-                <Button onClick={handleClearFilters} data-testid="button-clear-filters-empty">
-                  Clear All Filters
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {listings.map((car) => (
-                    <CarListingCard key={car.id} car={car} citySlug={citySlug} isFavorited={favoriteIds.includes(Number(car.id))} onToggleFavorite={handleToggleFavorite} isAuthenticated={isAuthenticated} onShowLogin={() => setShowLoginModal(true)} />
-                  ))}
-                </div>
-                {renderPagination()}
-              </>
-            )}
-          </div>
+          <CityCarGrid
+            listings={listings}
+            totalListings={totalListings}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            isLoading={isLoading}
+            citySlug={citySlug}
+            filters={filters}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onRemoveFilter={handleRemoveFilter}
+            onClearFilters={handleClearFilters}
+            onPageChange={handlePageChange}
+            onMobileFilterOpen={() => setMobileFilterOpen(true)}
+            favoriteIds={favoriteIds}
+            onToggleFavorite={handleToggleFavorite}
+            isAuthenticated={isAuthenticated}
+            onShowLogin={handleShowLogin}
+          />
         </div>
       </main>
       <Footer />

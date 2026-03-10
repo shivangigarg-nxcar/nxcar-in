@@ -5,208 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Label } from "@components/ui/label";
-import { Checkbox } from "@components/ui/checkbox";
-import { ScrollArea } from "@components/ui/scroll-area";
-import { Slider } from "@components/ui/slider";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@components/ui/sheet";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover";
-import { Input } from "@components/ui/input";
 import { cn } from "@lib/utils";
-import {
-  Search, X, MapPin, SlidersHorizontal,
-  ChevronDown, ChevronRight as ChevronRightIcon, Check, ChevronsUpDown,
-  RotateCcw, Filter
-} from "lucide-react";
+import { SlidersHorizontal, ChevronDown, RotateCcw, X } from "lucide-react";
 
-export interface City {
-  city_id: string;
-  city_name: string;
-  city_image: string;
-  v_cnt: string;
-}
+export type { City, Filters, PriceGroup, FilterOptions } from "./filter-types";
+export { defaultFilterOptions, formatPriceShort } from "./filter-types";
+export { SearchBar } from "./search-bar";
+export { MobileFilterSheet } from "./mobile-filter-sheet";
 
-export interface Filters {
-  cityId?: string;
-  cityName?: string;
-  makes?: string[];
-  models?: string[];
-  minPrice?: number;
-  maxPrice?: number;
-  minYear?: number;
-  maxYear?: number;
-}
-
-export interface PriceGroup {
-  displayName: string;
-  name: string;
-  min: number;
-  max: number | null;
-  count: number;
-}
-
-export interface FilterOptions {
-  cities: City[];
-  makes: string[];
-  models: string[];
-  makeModels: Record<string, string[]>;
-  makeCounts: Record<string, number>;
-  modelCounts: Record<string, number>;
-  priceGroups: PriceGroup[];
-  years: number[];
-  priceRange: { min: number; max: number };
-  yearRange: { min: number; max: number };
-}
-
-export const defaultFilterOptions: FilterOptions = {
-  cities: [],
-  makes: [],
-  models: [],
-  makeModels: {},
-  makeCounts: {},
-  modelCounts: {},
-  priceGroups: [],
-  years: [],
-  priceRange: { min: 0, max: 20000000 },
-  yearRange: { min: 2010, max: new Date().getFullYear() },
-};
-
-export function formatPriceShort(price: number): string {
-  if (price >= 10000000) return `₹${(price / 10000000).toFixed(1)}Cr`;
-  if (price >= 100000) return `₹${(price / 100000).toFixed(1)}L`;
-  return `₹${price.toLocaleString('en-IN')}`;
-}
-
-function useFilterLogic(makeModels: Record<string, string[]>) {
-  const findMakeForModel = useCallback((model: string): string | null => {
-    for (const [make, models] of Object.entries(makeModels)) {
-      if (models.includes(model)) return make;
-    }
-    return null;
-  }, [makeModels]);
-
-  const deriveMakesFromModels = useCallback((selectedModels: string[]): string[] => {
-    const makes = new Set<string>();
-    for (const model of selectedModels) {
-      const make = findMakeForModel(model);
-      if (make) makes.add(make);
-    }
-    return Array.from(makes);
-  }, [findMakeForModel]);
-
-  const isMakeFullySelected = useCallback((make: string, selectedModels: string[]): boolean => {
-    const modelsForMake = makeModels[make] || [];
-    if (modelsForMake.length === 0) return false;
-    return modelsForMake.every((m) => selectedModels.includes(m));
-  }, [makeModels]);
-
-  const isMakePartiallySelected = useCallback((make: string, selectedModels: string[]): boolean => {
-    const modelsForMake = makeModels[make] || [];
-    if (modelsForMake.length === 0) return false;
-    const selectedCount = modelsForMake.filter((m) => selectedModels.includes(m)).length;
-    return selectedCount > 0 && selectedCount < modelsForMake.length;
-  }, [makeModels]);
-
-  return { findMakeForModel, deriveMakesFromModels, isMakeFullySelected, isMakePartiallySelected };
-}
-
-function CityCombobox({
-  cities,
-  value,
-  onValueChange,
-  placeholder = "Select a city...",
-}: {
-  cities: City[];
-  value: string;
-  onValueChange: (cityId: string, cityName: string) => void;
-  placeholder?: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const selectedCity = cities.find((c) => c.city_id === value);
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between text-left font-normal bg-background border-border text-foreground hover:bg-muted"
-          data-testid="select-city"
-        >
-          {selectedCity ? (
-            <span className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" />
-              {selectedCity.city_name}
-            </span>
-          ) : (
-            <span className="text-muted-foreground">{placeholder}</span>
-          )}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0 bg-popover border border-border shadow-xl" align="start">
-        <Command className="bg-popover">
-          <CommandInput placeholder="Search city..." data-testid="input-city-search" className="text-foreground" />
-          <CommandList className="bg-popover">
-            <CommandEmpty className="text-muted-foreground">No city found.</CommandEmpty>
-            <CommandGroup>
-              {cities.map((city) => (
-                <CommandItem
-                  key={city.city_id}
-                  value={city.city_name}
-                  onSelect={() => {
-                    onValueChange(city.city_id, city.city_name);
-                    setOpen(false);
-                  }}
-                  data-testid={`option-city-${city.city_id}`}
-                  className="text-foreground"
-                >
-                  <Check className={cn("mr-2 h-4 w-4", value === city.city_id ? "opacity-100" : "opacity-0")} />
-                  <span className="flex-1">{city.city_name}</span>
-                  <span className="text-xs text-muted-foreground">{city.v_cnt} cars</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-export function SearchBar({
-  value,
-  onChange,
-  placeholder = "Search by make, model...",
-}: {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <div className="relative" data-testid="search-bar">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="pl-10 pr-10 h-11 text-base focus:ring-2 focus:ring-primary/20 rounded-md"
-        data-testid="input-search"
-      />
-      {value && (
-        <button
-          onClick={() => onChange("")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-          aria-label="Clear search"
-          data-testid="button-clear-search"
-        >
-          <X className="h-4 w-4" />
-        </button>
-      )}
-    </div>
-  );
-}
+import type { City, Filters, FilterOptions } from "./filter-types";
+import { formatPriceShort } from "./filter-types";
+import { CityCombobox } from "./city-combobox";
+import { useFilterLogic, MakeModelFilterSection } from "./make-model-filter";
+import { PriceFilterSection } from "./price-filter";
+import { YearFilterSection } from "./year-filter";
 
 export function FilterPanel({
   filters,
@@ -385,59 +197,17 @@ export function FilterPanel({
               </button>
               {sectionOpen.makeModel && (
                 <div className="px-2 py-1">
-                  <ScrollArea className="h-[220px]">
-                    <div className="space-y-0.5 pr-3">
-                      {filterOptions.makes.map((make) => {
-                        const isExpanded = expandedMakes.has(make);
-                        const makeModels = filterOptions.makeModels[make] || [];
-                        const makeDirectlySelected = (filters.makes || []).includes(make);
-                        const isFullySelected = makeDirectlySelected || isMakeFullySelected(make, filters.models || []);
-                        const isPartiallySelected = !isFullySelected && isMakePartiallySelected(make, filters.models || []);
-
-                        return (
-                          <div key={make}>
-                            <div className="flex items-center gap-2 py-1.5 hover:bg-muted/50 rounded px-2">
-                              <Checkbox
-                                checked={isFullySelected ? true : isPartiallySelected ? "indeterminate" : false}
-                                onCheckedChange={(checked) => toggleMake(make, !!checked)}
-                                data-testid={`checkbox-make-${make}`}
-                              />
-                              <button
-                                onClick={() => toggleMakeExpand(make)}
-                                className="flex-1 flex items-center justify-between text-sm"
-                                data-testid={`button-expand-${make}`}
-                              >
-                                <span>{make}</span>
-                                <span className="flex items-center gap-1">
-                                  <Badge variant="secondary" className="text-[10px] h-4 px-1">
-                                    {filterOptions.makeCounts[make] || 0}
-                                  </Badge>
-                                  {makeModels.length > 0 && (
-                                    isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRightIcon className="w-3 h-3" />
-                                  )}
-                                </span>
-                              </button>
-                            </div>
-                            {isExpanded && makeModels.length > 0 && (
-                              <div className="ml-6 space-y-0.5 mb-1">
-                                {makeModels.map((model) => (
-                                  <div key={model} className="flex items-center gap-2 py-1 px-2 hover:bg-muted/50 rounded">
-                                    <Checkbox
-                                      checked={isModelChecked(model, make)}
-                                      onCheckedChange={(checked) => toggleModel(model, make, !!checked)}
-                                      data-testid={`checkbox-model-${model}`}
-                                    />
-                                    <span className="text-sm flex-1">{model}</span>
-                                    <span className="text-xs text-muted-foreground">({filterOptions.modelCounts[model] || 0})</span>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </ScrollArea>
+                  <MakeModelFilterSection
+                    filterOptions={filterOptions}
+                    filters={filters}
+                    expandedMakes={expandedMakes}
+                    onToggleMakeExpand={toggleMakeExpand}
+                    onToggleMake={toggleMake}
+                    onToggleModel={toggleModel}
+                    isModelChecked={isModelChecked}
+                    isMakeFullySelected={isMakeFullySelected}
+                    isMakePartiallySelected={isMakePartiallySelected}
+                  />
                 </div>
               )}
             </div>
@@ -452,52 +222,24 @@ export function FilterPanel({
                 <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-200", !sectionOpen.price && "-rotate-90")} />
               </button>
               {sectionOpen.price && (
-                <div className="px-3 py-2">
-                  {filterOptions.priceGroups.length > 0 && (
-                    <div className="space-y-1 mb-3">
-                      {filterOptions.priceGroups.map((group) => {
-                        const isActive = filters.minPrice === group.min && filters.maxPrice === (group.max ?? priceRange.max);
-                        return (
-                          <button
-                            key={group.name}
-                            onClick={() => {
-                              if (isActive) {
-                                onFilterChange({ minPrice: undefined, maxPrice: undefined });
-                                setLocalPriceValues([priceRange.min, priceRange.max]);
-                              } else {
-                                onFilterChange({ minPrice: group.min, maxPrice: group.max ?? priceRange.max });
-                                setLocalPriceValues([group.min, group.max ?? priceRange.max]);
-                              }
-                            }}
-                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${
-                              isActive
-                                ? "bg-primary text-primary-foreground font-semibold"
-                                : "bg-muted/50 text-foreground hover:bg-muted"
-                            }`}
-                            data-testid={`button-price-group-${group.name}`}
-                          >
-                            <span>{group.displayName}</span>
-                            <span className={`text-[10px] ${isActive ? "text-primary-foreground/80" : "text-muted-foreground"}`}>({group.count})</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                  <Slider
-                    value={localPriceValues}
-                    min={priceRange.min}
-                    max={priceRange.max}
-                    step={50000}
-                    onValueChange={(v) => setLocalPriceValues(v as [number, number])}
-                    onValueCommit={(v) => onFilterChange({ minPrice: v[0], maxPrice: v[1] })}
-                    className="mb-2"
-                    data-testid="slider-price"
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{formatPriceShort(localPriceValues[0])}</span>
-                    <span>{formatPriceShort(localPriceValues[1])}</span>
-                  </div>
-                </div>
+                <PriceFilterSection
+                  priceGroups={filterOptions.priceGroups}
+                  priceRange={priceRange}
+                  localPriceValues={localPriceValues}
+                  currentMinPrice={filters.minPrice}
+                  currentMaxPrice={filters.maxPrice}
+                  onLocalPriceChange={setLocalPriceValues}
+                  onPriceCommit={(v) => onFilterChange({ minPrice: v[0], maxPrice: v[1] })}
+                  onPriceGroupClick={(group, isActive) => {
+                    if (isActive) {
+                      onFilterChange({ minPrice: undefined, maxPrice: undefined });
+                      setLocalPriceValues([priceRange.min, priceRange.max]);
+                    } else {
+                      onFilterChange({ minPrice: group.min, maxPrice: group.max ?? priceRange.max });
+                      setLocalPriceValues([group.min, group.max ?? priceRange.max]);
+                    }
+                  }}
+                />
               )}
             </div>
 
@@ -511,350 +253,18 @@ export function FilterPanel({
                 <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-200", !sectionOpen.year && "-rotate-90")} />
               </button>
               {sectionOpen.year && (
-                <div className="px-3 py-2">
-                  <Slider
-                    value={localYearValues}
-                    min={yearRange.min}
-                    max={yearRange.max}
-                    step={1}
-                    onValueChange={(v) => setLocalYearValues(v as [number, number])}
-                    onValueCommit={(v) => onFilterChange({ minYear: v[0], maxYear: v[1] })}
-                    className="mb-2"
-                    data-testid="slider-year"
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{localYearValues[0]}</span>
-                    <span>{localYearValues[1]}</span>
-                  </div>
-                </div>
+                <YearFilterSection
+                  yearRange={yearRange}
+                  localYearValues={localYearValues}
+                  onLocalYearChange={setLocalYearValues}
+                  onYearCommit={(v) => onFilterChange({ minYear: v[0], maxYear: v[1] })}
+                />
               )}
             </div>
           </>
         )}
       </CardContent>
     </Card>
-  );
-}
-
-export function MobileFilterSheet({
-  filters,
-  filterOptions,
-  cities,
-  onApplyFilters,
-  onCityChange,
-  open,
-  onOpenChange,
-}: {
-  filters: Filters;
-  filterOptions: FilterOptions;
-  cities: City[];
-  onApplyFilters: (filters: Filters) => void;
-  onCityChange: (cityId: string, cityName: string) => void;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
-  const [expandedMakes, setExpandedMakes] = useState<Set<string>>(new Set());
-  const { isMakeFullySelected, isMakePartiallySelected } = useFilterLogic(filterOptions.makeModels);
-
-  useEffect(() => {
-    if (open) setPendingFilters(filters);
-  }, [open, filters]);
-
-  const priceRange = filterOptions.priceRange;
-  const yearRange = filterOptions.yearRange;
-
-  const [localPriceValues, setLocalPriceValues] = useState<[number, number]>([
-    pendingFilters.minPrice ?? priceRange.min,
-    pendingFilters.maxPrice ?? priceRange.max,
-  ]);
-  const [localYearValues, setLocalYearValues] = useState<[number, number]>([
-    pendingFilters.minYear ?? yearRange.min,
-    pendingFilters.maxYear ?? yearRange.max,
-  ]);
-
-  useEffect(() => {
-    setLocalPriceValues([
-      pendingFilters.minPrice ?? priceRange.min,
-      pendingFilters.maxPrice ?? priceRange.max,
-    ]);
-    setLocalYearValues([
-      pendingFilters.minYear ?? yearRange.min,
-      pendingFilters.maxYear ?? yearRange.max,
-    ]);
-  }, [pendingFilters.minPrice, pendingFilters.maxPrice, pendingFilters.minYear, pendingFilters.maxYear, priceRange.min, priceRange.max, yearRange.min, yearRange.max]);
-
-  const toggleMakeExpand = (make: string) => {
-    setExpandedMakes((prev) => {
-      const next = new Set(prev);
-      if (next.has(make)) next.delete(make);
-      else next.add(make);
-      return next;
-    });
-  };
-
-  const toggleMake = (make: string, checked: boolean) => {
-    const currentMakes = pendingFilters.makes || [];
-    const currentModels = pendingFilters.models || [];
-    const modelsForMake = filterOptions.makeModels[make] || [];
-
-    if (checked) {
-      const newMakes = currentMakes.includes(make) ? currentMakes : [...currentMakes, make];
-      setPendingFilters((p) => ({ ...p, makes: newMakes }));
-    } else {
-      const newMakes = currentMakes.filter((m) => m !== make);
-      const newModels = currentModels.filter((m) => !modelsForMake.includes(m));
-      setPendingFilters((p) => ({ ...p, makes: newMakes, models: newModels }));
-    }
-  };
-
-  const isModelChecked = (model: string, make: string) => {
-    const currentMakes = pendingFilters.makes || [];
-    const currentModels = pendingFilters.models || [];
-    if (currentModels.includes(model)) return true;
-    if (currentMakes.includes(make) && !currentModels.some((m) => (filterOptions.makeModels[make] || []).includes(m))) return true;
-    return false;
-  };
-
-  const toggleModel = (model: string, make: string, checked: boolean) => {
-    const currentMakes = pendingFilters.makes || [];
-    const currentModels = pendingFilters.models || [];
-    const modelsForMake = filterOptions.makeModels[make] || [];
-    const makeIsSelected = currentMakes.includes(make);
-    const hasExplicitModels = currentModels.some((m) => modelsForMake.includes(m));
-
-    let newModels: string[];
-    let newMakes: string[];
-
-    if (checked) {
-      newModels = [...currentModels, model];
-      newMakes = makeIsSelected ? currentMakes : [...currentMakes, make];
-    } else {
-      if (makeIsSelected && !hasExplicitModels) {
-        newModels = [...currentModels, ...modelsForMake.filter((m) => m !== model)];
-        newMakes = currentMakes;
-      } else {
-        newModels = currentModels.filter((m) => m !== model);
-        const anyModelStillSelected = newModels.some((m) => modelsForMake.includes(m));
-        newMakes = anyModelStillSelected ? currentMakes : currentMakes.filter((m) => m !== make);
-      }
-    }
-    setPendingFilters((p) => ({ ...p, makes: newMakes, models: newModels }));
-  };
-
-  const [mobileSectionOpen, setMobileSectionOpen] = useState<Record<string, boolean>>({
-    makeModel: true,
-    price: true,
-    year: true,
-  });
-
-  const toggleMobileSection = (key: string) => {
-    setMobileSectionOpen((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-full sm:max-w-md flex flex-col p-0">
-        <SheetHeader className="px-6 pt-6 pb-2 shrink-0">
-          <SheetTitle className="flex items-center gap-2">
-            <SlidersHorizontal className="h-5 w-5 text-primary" />
-            Filters
-          </SheetTitle>
-        </SheetHeader>
-        <div className="flex-1 overflow-y-auto px-6 space-y-3 py-4 min-h-0">
-          <div>
-            <Label className="text-[10px] text-primary font-semibold mb-1.5 block">City</Label>
-            <CityCombobox
-              cities={cities}
-              value={pendingFilters.cityId || ""}
-              onValueChange={(id, name) => {
-                onCityChange(id, name);
-                onOpenChange(false);
-              }}
-            />
-          </div>
-
-          {pendingFilters.cityId && (
-            <>
-              <div className="border border-border rounded-lg overflow-hidden">
-                <button
-                  onClick={() => toggleMobileSection("makeModel")}
-                  className="w-full flex items-center justify-between px-3 py-2.5 bg-muted/30 hover:bg-muted/50 transition-colors"
-                  data-testid="mobile-section-toggle-make-model"
-                >
-                  <Label className="text-[10px] text-primary font-semibold cursor-pointer">Make & Model</Label>
-                  <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-200", !mobileSectionOpen.makeModel && "-rotate-90")} />
-                </button>
-                {mobileSectionOpen.makeModel && (
-                  <div className="px-2 py-1">
-                    <ScrollArea className="h-[200px]">
-                      <div className="space-y-0.5 pr-3">
-                        {filterOptions.makes.map((make) => {
-                          const isExpanded = expandedMakes.has(make);
-                          const makeModels = filterOptions.makeModels[make] || [];
-                          const makeDirectlySelected = (pendingFilters.makes || []).includes(make);
-                          const isFullySelected = makeDirectlySelected || isMakeFullySelected(make, pendingFilters.models || []);
-                          const isPartial = !isFullySelected && isMakePartiallySelected(make, pendingFilters.models || []);
-
-                          return (
-                            <div key={make}>
-                              <div className="flex items-center gap-2 py-1.5 hover:bg-muted/50 rounded px-2">
-                                <Checkbox
-                                  checked={isFullySelected ? true : isPartial ? "indeterminate" : false}
-                                  onCheckedChange={(checked) => toggleMake(make, !!checked)}
-                                  data-testid={`mobile-checkbox-make-${make}`}
-                                />
-                                <button
-                                  onClick={() => toggleMakeExpand(make)}
-                                  className="flex-1 flex items-center justify-between text-sm"
-                                  data-testid={`mobile-button-expand-${make}`}
-                                >
-                                  <span>{make}</span>
-                                  <span className="flex items-center gap-1">
-                                    <Badge variant="secondary" className="text-[10px] h-4 px-1">
-                                      {filterOptions.makeCounts[make] || 0}
-                                    </Badge>
-                                    {makeModels.length > 0 && (isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRightIcon className="w-3 h-3" />)}
-                                  </span>
-                                </button>
-                              </div>
-                              {isExpanded && makeModels.length > 0 && (
-                                <div className="ml-6 space-y-0.5 mb-1">
-                                  {makeModels.map((model) => (
-                                    <div key={model} className="flex items-center gap-2 py-1 px-2 hover:bg-muted/50 rounded">
-                                      <Checkbox
-                                        checked={isModelChecked(model, make)}
-                                        onCheckedChange={(checked) => toggleModel(model, make, !!checked)}
-                                        data-testid={`mobile-checkbox-model-${model}`}
-                                      />
-                                      <span className="text-sm flex-1">{model}</span>
-                                      <span className="text-xs text-muted-foreground">({filterOptions.modelCounts[model] || 0})</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </ScrollArea>
-                  </div>
-                )}
-              </div>
-
-              <div className="border border-border rounded-lg overflow-hidden">
-                <button
-                  onClick={() => toggleMobileSection("price")}
-                  className="w-full flex items-center justify-between px-3 py-2.5 bg-muted/30 hover:bg-muted/50 transition-colors"
-                  data-testid="mobile-section-toggle-price"
-                >
-                  <Label className="text-[10px] text-primary font-semibold cursor-pointer">Price Range</Label>
-                  <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-200", !mobileSectionOpen.price && "-rotate-90")} />
-                </button>
-                {mobileSectionOpen.price && (
-                  <div className="px-3 py-2">
-                    {filterOptions.priceGroups.length > 0 && (
-                      <div className="space-y-1 mb-3">
-                        {filterOptions.priceGroups.map((group) => {
-                          const isActive = pendingFilters.minPrice === group.min && pendingFilters.maxPrice === (group.max ?? priceRange.max);
-                          return (
-                            <button
-                              key={group.name}
-                              onClick={() => {
-                                if (isActive) {
-                                  setPendingFilters((p) => ({ ...p, minPrice: undefined, maxPrice: undefined }));
-                                } else {
-                                  setPendingFilters((p) => ({ ...p, minPrice: group.min, maxPrice: group.max ?? priceRange.max }));
-                                  setLocalPriceValues([group.min, group.max ?? priceRange.max]);
-                                }
-                              }}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${
-                                isActive
-                                  ? "bg-primary text-primary-foreground font-semibold"
-                                  : "bg-muted/50 text-foreground hover:bg-muted"
-                              }`}
-                              data-testid={`mobile-button-price-group-${group.name}`}
-                            >
-                              <span>{group.displayName}</span>
-                              <span className={`text-[10px] ${isActive ? "text-primary-foreground/80" : "text-muted-foreground"}`}>({group.count})</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                    <Slider
-                      value={localPriceValues}
-                      min={priceRange.min}
-                      max={priceRange.max}
-                      step={50000}
-                      onValueChange={(v) => setLocalPriceValues(v as [number, number])}
-                      onValueCommit={(v) => setPendingFilters((p) => ({ ...p, minPrice: v[0], maxPrice: v[1] }))}
-                      className="mb-2"
-                      data-testid="mobile-slider-price"
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>{formatPriceShort(localPriceValues[0])}</span>
-                      <span>{formatPriceShort(localPriceValues[1])}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="border border-border rounded-lg overflow-hidden">
-                <button
-                  onClick={() => toggleMobileSection("year")}
-                  className="w-full flex items-center justify-between px-3 py-2.5 bg-muted/30 hover:bg-muted/50 transition-colors"
-                  data-testid="mobile-section-toggle-year"
-                >
-                  <Label className="text-[10px] text-primary font-semibold cursor-pointer">Year Range</Label>
-                  <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-200", !mobileSectionOpen.year && "-rotate-90")} />
-                </button>
-                {mobileSectionOpen.year && (
-                  <div className="px-3 py-2">
-                    <Slider
-                      value={localYearValues}
-                      min={yearRange.min}
-                      max={yearRange.max}
-                      step={1}
-                      onValueChange={(v) => setLocalYearValues(v as [number, number])}
-                      onValueCommit={(v) => setPendingFilters((p) => ({ ...p, minYear: v[0], maxYear: v[1] }))}
-                      className="mb-2"
-                      data-testid="mobile-slider-year"
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>{localYearValues[0]}</span>
-                      <span>{localYearValues[1]}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
-        <SheetFooter className="gap-2 px-6 py-4 border-t border-border shrink-0">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setPendingFilters({ cityId: filters.cityId, cityName: filters.cityName });
-              onApplyFilters({ cityId: filters.cityId, cityName: filters.cityName });
-              onOpenChange(false);
-            }}
-            data-testid="mobile-button-clear-filters"
-          >
-            Clear
-          </Button>
-          <Button
-            onClick={() => {
-              onApplyFilters(pendingFilters);
-              onOpenChange(false);
-            }}
-            data-testid="mobile-button-apply-filters"
-          >
-            Apply Filters
-          </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
   );
 }
 

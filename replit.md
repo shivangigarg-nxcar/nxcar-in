@@ -14,16 +14,55 @@ Preferred communication style: Simple, everyday language.
 The application is built using **Next.js 16 with the App Router**, leveraging TypeScript for development. It incorporates various rendering strategies including SSR, SSG, ISR, and Client Components. Styling is managed with **Tailwind CSS v3** and CSS variables for theming. UI components are sourced from the **shadcn/ui library** (New York style) located in `components/ui/`. State management for client-side server state is handled by **TanStack React Query**, and **Framer Motion** is used for animations. The application runs on port 5000.
 
 ### Project Structure
-The `app/` directory contains Next.js App Router pages and API routes, including dedicated folders for `api/` endpoints (e.g., `buy/`, `nxcar/`, `cars/`, `auth/`), `page.tsx` for the homepage, `layout.tsx`, and `providers.tsx`. Key page routes include `/used-cars/` for listings, `/used-cars/[city]/[car]/` for car details, `/sell-used-car/` for the sell car form, `/list-car/` for dealer listing, `/sell-car-edit/` for editing listings, and `/blogs-of-nxcar/`. Shared UI components are in `components/`, with specialized sub-component directories:
-- `components/sell-car/` — Sell flow sub-components: `sell-constants.ts`, `sell-steps.tsx`, `sell-timeline-pills.tsx`, `sell-success-section.tsx`
-- `components/list-car/` — List car sub-components: `list-steps.tsx`, `list-success-view.tsx`, `list-summary-badges.tsx`
-- `components/car-detail/` — Car detail page sub-components: `car-specs-grid.tsx`, `seller-action-sidebar.tsx`, `mobile-action-bar.tsx`, `document-upload-section.tsx`, `add-on-services.tsx`
-- `components/sell-car-edit/` — Edit listing sub-components: `collapsible-section.tsx`, `car-details-section.tsx`, `photos-section.tsx`, `rc-details-section.tsx`, `insurance-section.tsx`, `other-docs-section.tsx`, `seller-info-section.tsx`, `delete-dialog.tsx`
-- `components/buy-cars/` — Buy flow components: `filter-sidebar.tsx`, `car-listing-card.tsx`
-- `components/shared/` — Shared components: `car-card.tsx`
-- `components/ui/` — shadcn/ui components
+The `app/` directory contains Next.js App Router pages and API routes. Key page routes include `/used-cars/` for listings, `/used-cars/[city]/[car]/` for car details, `/sell-used-car/` for the sell car form, `/list-car/` for dealer listing, `/sell-car-edit/` for editing listings, and `/blogs-of-nxcar/`.
 
-Utility libraries, database configurations, API functions, and custom React hooks are found in `lib/` and `hooks/`. Shared schemas and models are defined in `shared/`, and static assets are in `public/`.
+**Server Routes** (`server/routes/`):
+- `index.ts` — Main router that mounts all sub-routers
+- `nxcar.ts` — Nxcar API proxy (makes, models, years, fuel types, variants, partners, inspection)
+- `buy.ts` — Buy/listings routes (cities, listings, filter-options, car detail, car images)
+- `public.ts` — Public data routes (cars, testimonials, cities, locations, sell leads)
+- `user.ts` — User routes (favorites, reviews, feedback, subscriptions)
+- `auth.ts` — Admin authentication routes
+- `admin.ts` — Admin CRUD routes
+- `ai.ts` — AI recommendation routes
+
+**Client API** (`lib/api/`):
+- `cars.ts` — Car catalog, ratings, reviews
+- `user.ts` — Favorites, preferences, subscriptions
+- `listings.ts` — Sell leads, car listings, inspection booking
+- `metadata.ts` — Locations, cities, makes, models, vehicle lookup, colors
+- `content.ts` — Blogs, testimonials
+- `index.ts` — Re-exports everything (backward-compatible via `lib/api.ts`)
+
+**Components** (`components/`):
+- `sell-car/` — Sell flow: `sell-constants.ts`, `sell-steps.tsx` (dispatcher), `sell-timeline-pills.tsx`, `sell-success-section.tsx`
+  - `sell-car/steps/` — 14 individual step components (brand, model, color, etc.)
+  - `sell-car/success/` — Success sub-components (inspection-booking, success-header, franchise-list)
+- `list-car/` — List car flow: `list-constants.ts`, `list-steps.tsx` (dispatcher), `list-success-view.tsx`, `list-summary-badges.tsx`
+  - `list-car/steps/` — 11 individual step components
+- `car-detail/` — Car detail sub-components: `car-detail-types.ts`, `car-specs-grid.tsx`, `quick-specs.tsx`, `car-features.tsx`, `insights-section.tsx`, `seller-action-sidebar.tsx`, `mobile-action-bar.tsx`, `document-upload-section.tsx`, `add-on-services.tsx`, `make-offer-modal.tsx`
+- `buy-cars/` — Buy flow: `filter-types.ts`, `filter-sidebar.tsx`, `car-listing-card.tsx`, `city-combobox.tsx`, `search-bar.tsx`, `make-model-filter.tsx`, `price-filter.tsx`, `year-filter.tsx`, `mobile-filter-sheet.tsx`
+- `dealer-detail/` — Dealer detail sub-components: `dealer-hero.tsx`, `dealer-image-slider.tsx`, `dealer-tabs.tsx`, `dealer-car-card.tsx`, `dealer-review-card.tsx`, `dealer-contact-form.tsx`, `dealer-service-grid.tsx`
+- `my-cars/` — Dashboard sub-components: `my-cars-tabs.tsx`, `buy-favorites-grid.tsx`, `sell-cars-grid.tsx`, `my-ads-grid.tsx`, `book-inspection-modal.tsx`, `dashboard-car-card.tsx`
+- `city-listings/` — City listings sub-components: `city-hero.tsx`, `city-car-grid.tsx`
+- `used-car-loan/` — Loan page sub-components: `loan-hero.tsx`, `loan-application-dialog.tsx`, `loan-features.tsx`
+- `partner/` — Partner page sub-components: `partner-hero.tsx`, `partner-registration-form.tsx`, `partner-benefits.tsx`
+- `challan-check/` — Challan sub-components: `challan-search-form.tsx`, `challan-results.tsx`, `challan-guide.tsx`
+- `rc-check/` — RC check sub-components: `rc-search-form.tsx`, `rc-detail-view.tsx`, `rc-info-sections.tsx`
+- `test-drive/` — Test drive sub-components: `speedometer.tsx`, `car-selector.tsx`, `acceleration-test.tsx`
+- `sell-car-edit/` — Edit listing sub-components
+- `shared/` — Shared components: `car-card.tsx`
+- `ui/` — shadcn/ui components
+
+**Custom Hooks** (`hooks/`):
+- `use-sell-car-form.ts` — Sell form state, navigation, validation
+- `use-vehicle-lookup.ts` — Vehicle lookup mutation and auto-fill
+- `use-image-upload.ts` — Image upload state and handlers
+- `use-list-car-form.ts` — List car form state and navigation
+- `use-car-actions.ts` — Offer/callback logic for car detail page
+- `use-auth.tsx`, `use-favorites.ts`, `use-theme.tsx`, etc.
+
+Shared schemas in `shared/`, static assets in `public/`.
 
 ### Data Storage
 The application uses **PostgreSQL** as its database, with **Drizzle ORM** and `drizzle-kit` for migrations. Database schema definitions are located in `shared/schema.ts`.
