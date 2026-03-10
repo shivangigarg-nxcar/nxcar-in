@@ -15,14 +15,14 @@ export const Footer = memo(function Footer() {
     <footer className="bg-slate-100 dark:bg-[#0D1117] text-slate-600 dark:text-slate-300 pt-10 sm:pt-16 pb-6 sm:pb-8 border-t border-slate-200 dark:border-white/5">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-8 sm:mb-12">
-          <div className="lg:max-w-xs">
-            <Image src="/images/nxcar-logo-light.png" alt="Nxcar" width={130} height={46} sizes="130px" loading="lazy" className="mb-4 w-[130px] h-auto object-contain drop-shadow-[0_0_8px_rgba(14,169,178,0.5)]" />
+          <div className="lg:max-w-xs text-center sm:text-left">
+            <Image src="/images/nxcar-logo-light.png" alt="Nxcar" width={130} height={46} sizes="130px" loading="lazy" className="mb-4 w-[130px] h-auto object-contain drop-shadow-[0_0_8px_rgba(14,169,178,0.5)] mx-auto sm:mx-0" />
             <p className="text-slate-500 dark:text-slate-400 mb-4 text-xs sm:text-sm leading-relaxed">
               India's most trusted platform for buying and selling used cars. 
               Transparency, trust, and technology.
             </p>
             
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-4">
               <a 
                 href="https://apps.apple.com/us/app/nxcar/id6739413869" 
                 target="_blank" 
@@ -53,7 +53,7 @@ export const Footer = memo(function Footer() {
               </a>
             </div>
             
-            <div className="flex gap-2">
+            <div className="flex justify-center sm:justify-start gap-2">
               <a href="https://www.facebook.com/nxfin" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" data-testid="link-social-facebook" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
                 <Image src="/images/icon-3d-facebook.png" alt="Facebook" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
               </a>

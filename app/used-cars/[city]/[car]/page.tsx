@@ -561,9 +561,9 @@ export default function BuyCarDetail() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="container max-w-screen-xl mx-auto px-4 py-6 pb-24 lg:pb-6">
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
+      <main className="max-w-screen-xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pb-24 lg:pb-6 overflow-hidden">
+        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
             <ImageGallery
               images={allImages}
               currentImage={currentImage}
@@ -716,10 +716,10 @@ export default function BuyCarDetail() {
         </div>
       </main>
 
-      <div className="container max-w-screen-xl mx-auto px-4 py-8 space-y-10">
+      <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-10 overflow-hidden">
         <section data-testid="section-emi-calculator">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2" data-testid="text-emi-calculator-title">
-            <Calculator className="h-6 w-6 text-primary" />
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2" data-testid="text-emi-calculator-title">
+            <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
             EMI Calculator
           </h2>
           <EMICalculator carPrice={car.price} />

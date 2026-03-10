@@ -254,7 +254,7 @@ export default function UsedCarsPage() {
                           <img
                             src={cityImg}
                             alt={city.city_name}
-                            loading="lazy"
+                            loading="eager"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>

@@ -28,9 +28,9 @@ export const ImageGallery = React.memo(function ImageGallery({ images, currentIm
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 min-w-0">
       <div
-        className="relative aspect-[7/5] rounded-md border overflow-hidden bg-muted"
+        className="relative aspect-[4/3] sm:aspect-[7/5] rounded-md border overflow-hidden bg-muted"
         data-testid="image-gallery"
       >
         <img
