@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@components/ui/dialog";
-import { Menu, X, Phone, User, UserCog, ChevronRight, ChevronDown, Heart, LogOut } from "lucide-react";
+import { Menu, X, Phone, User, UserCog, ChevronRight, ChevronDown, Heart, LogOut, Car, ShoppingCart, Banknote, Wrench, Store, Info, HelpCircle, Shield, FileText } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
 import { useAuth } from "@hooks/use-auth";
 import { ThemeToggle } from "./theme-toggle";
@@ -18,9 +18,19 @@ export function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const { user, isLoading, isAuthenticated, logout: logoutFn } = useAuth();
 
   useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   const toggleMenu = useCallback(() => setIsOpen(prev => !prev), []);
   const handleLogout = useCallback(() => { setProfileOpen(false); setShowLogoutDialog(true); }, []);
@@ -169,60 +179,137 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Full-Page Drawer */}
       {isOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-background/95 backdrop-blur-xl p-4 space-y-4 max-h-[calc(100vh-5rem)] overflow-y-auto">
-          <div className="flex flex-col space-y-1">
-            <Link href="/sell-used-car" className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary py-2" data-testid="link-mobile-sell" onClick={() => setIsOpen(false)}>Sell Car</Link>
-            <Link href="/used-cars" className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary py-2" data-testid="link-mobile-buy" onClick={() => setIsOpen(false)}>Buy Car</Link>
-            <Link href="/used-car-loan" className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary py-2" data-testid="link-mobile-loans" onClick={() => setIsOpen(false)}>Used Car Loans</Link>
-            <Link href="/dealers" className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary py-2" data-testid="link-mobile-dealers" onClick={() => setIsOpen(false)}>Dealers</Link>
-            <a href="https://www.nxcar.in/blog" target="_blank" rel="noopener noreferrer" className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary py-2" data-testid="link-mobile-blogs">
-              Blogs
-            </a>
-            <div className="space-y-1 pt-2 border-t border-slate-200 dark:border-white/10">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Services</span>
-              <Link href="/car-services" className="block text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary pl-3 py-2" data-testid="link-mobile-car-services" onClick={() => setIsOpen(false)}>Car Services</Link>
-              <Link href="/insurance-check" className="block text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary pl-3 py-2" data-testid="link-mobile-insurance-check" onClick={() => setIsOpen(false)}>Insurance Check</Link>
-              <Link href="/challan-check" className="block text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary pl-3 py-2" data-testid="link-mobile-challan-check" onClick={() => setIsOpen(false)}>Challan Check</Link>
-              <Link href="/rc-check" className="block text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:text-primary pl-3 py-2" data-testid="link-mobile-rc-check" onClick={() => setIsOpen(false)}>RC Check</Link>
-            </div>
-          </div>
-          <div className="pt-4 border-t border-slate-200 dark:border-white/10">
-            {mounted && isAuthenticated && user ? (
-              <div className="space-y-3">
-                <Link href="/my-cars" className="flex items-center text-sm font-bold uppercase tracking-wider text-foreground hover:text-primary" onClick={() => setIsOpen(false)} data-testid="link-mobile-my-cars">
-                  <Heart className="h-4 w-4 mr-2 text-red-500" />
-                  My Cars
-                </Link>
-                <Link href="/profile-edit" className="flex items-center text-sm font-bold uppercase tracking-wider text-foreground hover:text-primary" onClick={() => setIsOpen(false)} data-testid="link-mobile-edit-profile">
-                  <UserCog className="h-4 w-4 mr-2 text-primary" />
-                  Edit Profile
-                </Link>
+        <div className="md:hidden fixed inset-0 top-[80px] z-50 bg-white dark:bg-background flex flex-col" data-testid="mobile-drawer">
+          <div className="flex-1 overflow-y-auto">
+            {/* Profile Section */}
+            <div className="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-white/10">
+              {mounted && isAuthenticated && user ? (
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-foreground font-medium" data-testid="text-mobile-user-name">{user.firstName || user.phone || 'User'}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-primary/15 flex items-center justify-center">
+                      <User className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-base font-semibold text-foreground" data-testid="text-mobile-user-name">
+                        {user.firstName || user.phone || "User"}
+                      </p>
+                      {user.phone && (
+                        <p className="text-xs text-muted-foreground">+91 {user.phone}</p>
+                      )}
+                    </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-slate-400 hover:text-destructive"
-                    onClick={handleMobileLogout}
-                    data-testid="button-mobile-logout"
+                  <Link
+                    href="/profile-edit"
+                    onClick={() => setIsOpen(false)}
+                    className="text-xs font-semibold text-primary flex items-center gap-1"
+                    data-testid="link-mobile-edit-profile"
                   >
-                    <LogOut className="h-4 w-4 mr-2" /> Logout
-                  </Button>
+                    <UserCog className="h-3.5 w-3.5" /> Edit Details
+                  </Link>
                 </div>
-              </div>
-            ) : (
-              <Button
-                className="w-full bg-primary font-bold uppercase tracking-wider"
-                onClick={() => { setIsOpen(false); openLoginModal(); }}
-                data-testid="button-mobile-login"
+              ) : (
+                <Button
+                  className="w-full bg-primary font-semibold text-sm"
+                  onClick={() => { setIsOpen(false); openLoginModal(); }}
+                  data-testid="button-mobile-login"
+                >
+                  Login / Register
+                </Button>
+              )}
+            </div>
+
+            {/* Navigation Links */}
+            <div className="px-2 py-2">
+              <Link href="/used-cars" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <ShoppingCart className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Buy Car</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </Link>
+
+              <Link href="/sell-used-car" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <Car className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Sell Car</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </Link>
+
+              <Link href="/used-car-loan" onClick={() => setIsOpen(false)} data-testid="link-mobile-loans" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <Banknote className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Used Car Loan</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </Link>
+
+              {/* Car Services Dropdown */}
+              <button
+                onClick={() => setMobileServicesOpen(prev => !prev)}
+                className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors w-full text-left"
+                data-testid="button-mobile-services-toggle"
               >
-                Login / Register
-              </Button>
+                <Wrench className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Car Services</span>
+                <ChevronDown className={`h-4 w-4 text-muted-foreground ml-auto transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
+              </button>
+              {mobileServicesOpen && (
+                <div className="ml-12 border-l-2 border-primary/20 pl-3 space-y-0.5 mb-1">
+                  <Link href="/car-services" onClick={() => setIsOpen(false)} data-testid="link-mobile-car-services" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    All Services
+                  </Link>
+                  <Link href="/insurance-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-insurance-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    Insurance Check
+                  </Link>
+                  <Link href="/challan-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-challan-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    Challan Check
+                  </Link>
+                  <Link href="/rc-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-rc-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    RC Check
+                  </Link>
+                </div>
+              )}
+
+              <Link href="/dealers" onClick={() => setIsOpen(false)} data-testid="link-mobile-dealers" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <Store className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Used Car Dealers</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </Link>
+
+              <Link href="/about" onClick={() => setIsOpen(false)} data-testid="link-mobile-about" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <Info className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">About Us</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </Link>
+
+              <a href="tel:+919355924132" data-testid="link-mobile-help" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <HelpCircle className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Help & Support</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
+              </a>
+            </div>
+
+            {/* Logout for authenticated users */}
+            {mounted && isAuthenticated && user && (
+              <div className="px-5 pt-2 pb-4 border-t border-slate-100 dark:border-white/10">
+                <button
+                  onClick={handleMobileLogout}
+                  className="flex items-center gap-3 text-sm font-medium text-red-500 hover:text-red-600 py-2"
+                  data-testid="button-mobile-logout"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
+              </div>
             )}
+          </div>
+
+          {/* Footer - Privacy & Terms */}
+          <div className="border-t border-slate-100 dark:border-white/10 px-5 py-4">
+            <div className="grid grid-cols-2 gap-2">
+              <Link href="/privacy-policy" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-privacy">
+                <Shield className="h-3.5 w-3.5 inline mr-1.5" />Privacy Policy
+              </Link>
+              <Link href="/terms-of-use" onClick={() => setIsOpen(false)} className="text-xs text-muted-foreground hover:text-primary transition-colors" data-testid="link-mobile-terms">
+                <FileText className="h-3.5 w-3.5 inline mr-1.5" />Terms of Use
+              </Link>
+            </div>
           </div>
         </div>
       )}
