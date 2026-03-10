@@ -91,7 +91,7 @@ export function Hero() {
             alt="Premium SUV on scenic road"
             fetchPriority="high"
             decoding="async"
-            className="absolute inset-0 w-full h-full object-cover object-[70%_20%] sm:object-[center_20%]"
+            className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-[center_20%]"
           />
         </picture>
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />

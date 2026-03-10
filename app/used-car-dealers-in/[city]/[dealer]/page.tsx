@@ -288,8 +288,8 @@ function DealerImageSlider({ images }: { images: string[] }) {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((url, i) => (
-          <div key={i} className="min-w-full h-full flex-shrink-0">
-            <img src={url} alt={`Dealer ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+          <div key={i} className="min-w-full h-full flex-shrink-0 bg-slate-100 dark:bg-white/5">
+            <img src={url} alt={`Dealer ${i + 1}`} className="w-full h-full object-contain" loading="lazy" />
           </div>
         ))}
       </div>
@@ -297,14 +297,14 @@ function DealerImageSlider({ images }: { images: string[] }) {
         <>
           <button
             onClick={goPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
             data-testid="button-slider-prev"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={goNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
             data-testid="button-slider-next"
           >
             <ChevronRight className="h-5 w-5" />
@@ -320,6 +320,70 @@ function DealerImageSlider({ images }: { images: string[] }) {
             ))}
           </div>
         </>
+      )}
+    </div>
+  );
+}
+
+function DealerGalleryScroller({ images, onImageClick }: { images: string[]; onImageClick: (url: string) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollRef.current;
+    if (el) el.addEventListener("scroll", checkScroll, { passive: true });
+    return () => el?.removeEventListener("scroll", checkScroll);
+  }, [checkScroll]);
+
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = el.clientWidth * 0.75;
+    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  };
+
+  if (!images.length) return null;
+
+  return (
+    <div className="md:hidden relative group" data-testid="dealer-gallery-scroller">
+      <div ref={scrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
+        {images.map((url, i) => (
+          <div
+            key={i}
+            className="snap-start flex-shrink-0 w-[75vw] rounded-xl overflow-hidden cursor-pointer border border-border hover:opacity-90 transition-opacity"
+            onClick={() => onImageClick(url)}
+            data-testid={`img-dealer-gallery-mobile-${i}`}
+          >
+            <img src={url} alt={`Dealership ${i + 1}`} className="w-full h-48 object-contain bg-slate-100 dark:bg-white/5" loading="lazy" />
+          </div>
+        ))}
+      </div>
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white shadow-lg z-10"
+          data-testid="button-gallery-scroll-left"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+      )}
+      {canScrollRight && (
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white shadow-lg z-10"
+          data-testid="button-gallery-scroll-right"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
       )}
     </div>
   );
@@ -754,20 +818,19 @@ export default function DealerDetail() {
                     <ImageIcon className="h-5 w-5 inline mr-2 text-muted-foreground" />
                     Dealership Images
                   </h2>
-                  <div className={`grid gap-3 ${dealerImages.length % 2 === 1 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-2"}`}>
+                  <div className="hidden md:grid gap-3 grid-cols-2 lg:grid-cols-3">
                     {dealerImages.map((url, i) => (
                       <div
                         key={i}
-                        className={`rounded-xl overflow-hidden cursor-pointer hover:opacity-90 transition-opacity border border-border ${
-                          dealerImages.length % 2 === 1 && i === dealerImages.length - 1 ? "col-span-2 md:col-span-1" : ""
-                        }`}
+                        className="rounded-xl overflow-hidden cursor-pointer hover:opacity-90 transition-opacity border border-border"
                         onClick={() => setLightboxImage(url)}
                         data-testid={`img-dealer-gallery-${i}`}
                       >
-                        <img src={url} alt={`Dealership ${i + 1}`} className="w-full h-48 object-cover" loading="lazy" />
+                        <img src={url} alt={`Dealership ${i + 1}`} className="w-full h-48 object-contain bg-slate-100 dark:bg-white/5" loading="lazy" />
                       </div>
                     ))}
                   </div>
+                  <DealerGalleryScroller images={dealerImages} onImageClick={(url) => setLightboxImage(url)} />
                 </section>
               )}
 
