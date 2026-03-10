@@ -1,0 +1,63 @@
+modules = ["nodejs-20", "web", "postgresql-16"]
+run = "npm run dev"
+hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["unzip", "vim"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[env]
+PORT = "5000"
+
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+run = ["node", "./dist/index.cjs"]
+publicDir = "dist/public"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash dev-wrapper.sh"
+waitForPort = 5000
+
+[agent]
+stack = "MOCKUP_JS"
+mockupState = "FULLSTACK"
+integrations = ["javascript_log_in_with_replit:2.0.0", "javascript_openai_ai_integrations:2.0.0", "javascript_object_storage:2.0.0"]
+
+[userenv]
+
+[userenv.shared]
+AI_INTEGRATIONS_OPENAI_BASE_URL = "http://localhost:1106/modelfarm/openai"
+AI_INTEGRATIONS_OPENAI_API_KEY = "_DUMMY_API_KEY_"
+MSG91_AUTH_KEY = "470565AjwLWyWiFCWl68e8a185P1"
+MSG91_TEMPLATE_ID = "68ee20532a5a08435e04a3d5"
+VITE_GTM_ID = "GTM-W8DWXFZQ"
+VITE_API_GOOGLE_MAP_KEY = "AIzaSyAbtFh2E8VQAFTZT8btP-rAbq6lA_bndWA"
+VITE_APP_CRYPTO_KEY = "GAdEOaHirlQhqDgIHn5qX54sulA1BJCczQnPhv6NRms="
+NEXT_PUBLIC_GTM_ID = "GTM-W8DWXFZQ"
+NEXT_PUBLIC_API_GOOGLE_MAP_KEY = "AIzaSyAbtFh2E8VQAFTZT8btP-rAbq6lA_bndWA"
+NEXT_PUBLIC_APP_CRYPTO_KEY = "GAdEOaHirlQhqDgIHn5qX54sulA1BJCczQnPhv6NRms="
