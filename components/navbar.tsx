@@ -94,20 +94,20 @@ export function Navbar() {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           <ThemeToggle />
-          <a href="tel:+919355924132">
+          <a href="tel:+919355924132" className="hidden md:inline-flex">
             <Button variant="ghost" size="sm" className="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 uppercase tracking-wide font-bold" data-testid="button-contact">
               <Phone className="mr-2 h-4 w-4" />
               Contact
             </Button>
           </a>
           {!mounted || isLoading ? (
-            <div className="h-8 w-20 bg-white/10 animate-pulse rounded"></div>
+            <div className="hidden md:block h-8 w-20 bg-white/10 animate-pulse rounded"></div>
           ) : isAuthenticated && user ? (
             <Sheet open={profileOpen} onOpenChange={setProfileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" data-testid="button-profile">
+                <Button variant="ghost" size="sm" className="hidden md:inline-flex text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" data-testid="button-profile">
                   <User className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -159,7 +159,7 @@ export function Navbar() {
           ) : (
             <Button
               size="sm"
-              className="bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wider skew-x-[-10deg] px-6 border-0 shadow-[0_0_15px_rgba(14,169,178,0.4)] transition-all hover:shadow-[0_0_25px_rgba(14,169,178,0.6)]"
+              className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wider skew-x-[-10deg] px-6 border-0 shadow-[0_0_15px_rgba(14,169,178,0.4)] transition-all hover:shadow-[0_0_25px_rgba(14,169,178,0.6)]"
               onClick={openLoginModal}
               data-testid="button-login-nav"
             >
@@ -202,29 +202,23 @@ export function Navbar() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <ThemeToggle />
-                  <Link
-                    href="/profile-edit"
-                    onClick={() => setIsOpen(false)}
-                    className="text-xs font-semibold text-primary flex items-center gap-1"
-                    data-testid="link-mobile-edit-profile"
-                  >
-                    <UserCog className="h-3.5 w-3.5" /> Edit
-                  </Link>
-                </div>
+                <Link
+                  href="/profile-edit"
+                  onClick={() => setIsOpen(false)}
+                  className="text-xs font-semibold text-primary flex items-center gap-1"
+                  data-testid="link-mobile-edit-profile"
+                >
+                  <UserCog className="h-3.5 w-3.5" /> Edit Details
+                </Link>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <Button
-                  className="flex-1 bg-primary font-semibold text-sm"
-                  onClick={() => { setIsOpen(false); openLoginModal(); }}
-                  data-testid="button-mobile-login"
-                >
-                  Login / Register
-                </Button>
-                <ThemeToggle />
-              </div>
+              <Button
+                className="w-full bg-primary font-semibold text-sm"
+                onClick={() => { setIsOpen(false); openLoginModal(); }}
+                data-testid="button-mobile-login"
+              >
+                Login / Register
+              </Button>
             )}
           </div>
 
