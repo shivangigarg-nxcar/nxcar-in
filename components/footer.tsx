@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { memo, useState } from "react";
-import { MessageSquarePlus } from "lucide-react";
+import { MessageSquarePlus, Facebook, Instagram, Linkedin, MessageCircle, Youtube } from "lucide-react";
 import PlatformFeedbackModal from "./platform-feedback-modal";
 import { useAuth } from "@hooks/use-auth";
 
@@ -55,19 +55,19 @@ export const Footer = memo(function Footer() {
             
             <div className="flex justify-center sm:justify-start gap-2">
               <a href="https://www.facebook.com/nxfin" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" data-testid="link-social-facebook" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Image src="/images/icon-3d-facebook.png" alt="Facebook" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
+                <Facebook className="h-5 w-5 text-slate-600 dark:text-slate-300" />
               </a>
               <a href="https://www.instagram.com/nxcarindia/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" data-testid="link-social-instagram" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Image src="/images/icon-3d-instagram.png" alt="Instagram" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
+                <Instagram className="h-5 w-5 text-slate-600 dark:text-slate-300" />
               </a>
               <a href="https://www.linkedin.com/company/nxfin/mycompany/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" data-testid="link-social-linkedin" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Image src="/images/icon-3d-linkedin.png" alt="LinkedIn" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
+                <Linkedin className="h-5 w-5 text-slate-600 dark:text-slate-300" />
               </a>
               <a href="https://api.whatsapp.com/send/?phone=%2B919355924132&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" data-testid="link-social-whatsapp" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Image src="/images/icon-3d-whatsapp.png" alt="WhatsApp" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
+                <MessageCircle className="h-5 w-5 text-slate-600 dark:text-slate-300" />
               </a>
               <a href="https://www.youtube.com/@Nxcar-sr3ce" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" data-testid="link-social-youtube" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Image src="/images/icon-3d-youtube.png" alt="YouTube" width={22} height={22} sizes="22px" loading="lazy" className="object-contain" />
+                <Youtube className="h-5 w-5 text-slate-600 dark:text-slate-300" />
               </a>
             </div>
           </div>
