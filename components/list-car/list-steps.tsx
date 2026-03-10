@@ -132,6 +132,7 @@ export function ListSteps(props: ListStepsProps) {
         <ColorOwnersStep
           formData={props.formData}
           updateField={props.updateField}
+          autoFilledColor={props.vehicleData?.color || props.vehicleData?.all?.vehicleColour || undefined}
         />
       )}
       {currentStep === "location" && (

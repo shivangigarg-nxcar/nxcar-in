@@ -131,10 +131,7 @@ export function useListCarForm() {
     if (!data.makeId || !data.brand) return "brand";
     if (!data.modelId || !data.model) return "model";
     if (!data.fuelType || !data.year) return "fuel-year";
-    if (data.variantId && data.variant) {
-      return "km-transmission";
-    }
-    return "variant";
+    return "fuel-year";
   };
 
   const vehicleLookupMutation = useMutation({

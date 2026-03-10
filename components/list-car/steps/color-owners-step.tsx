@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Input } from "@components/ui/input";
-import { Palette } from "lucide-react";
+import { CheckCircle2, Palette } from "lucide-react";
 import type { NxcarColor } from "@lib/api";
 
 const OWNER_OPTIONS = [
@@ -16,9 +16,10 @@ const OWNER_OPTIONS = [
 interface ColorOwnersStepProps {
   formData: { color: string; ownerCount: number };
   updateField: (field: string, value: any) => void;
+  autoFilledColor?: string;
 }
 
-export function ColorOwnersStep({ formData, updateField }: ColorOwnersStepProps) {
+export function ColorOwnersStep({ formData, updateField, autoFilledColor }: ColorOwnersStepProps) {
   const [colors, setColors] = useState<NxcarColor[]>([]);
   const [useCustomColor, setUseCustomColor] = useState(false);
   const [customColorText, setCustomColorText] = useState("");
@@ -26,7 +27,7 @@ export function ColorOwnersStep({ formData, updateField }: ColorOwnersStepProps)
   useEffect(() => {
     fetch("/api/nxcar/colors")
       .then((res) => res.ok ? res.json() : [])
-      .then((data) => setColors(data))
+      .then((data) => setColors(Array.isArray(data) ? data : []))
       .catch(() => setColors([]));
   }, []);
 
@@ -45,6 +46,13 @@ export function ColorOwnersStep({ formData, updateField }: ColorOwnersStepProps)
   return (
     <div className="space-y-6">
       <div>
+        {autoFilledColor && (
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20 mb-4">
+            <CheckCircle2 className="w-5 h-5 text-green-400" />
+            <span className="text-green-400 text-sm">Auto-filled: {autoFilledColor}</span>
+          </div>
+        )}
+
         {!useCustomColor && colors.length > 0 && (
           <div className="grid grid-cols-4 sm:grid-cols-7 gap-3">
             {colors.map((c) => (
@@ -58,22 +66,22 @@ export function ColorOwnersStep({ formData, updateField }: ColorOwnersStepProps)
                   setUseCustomColor(false);
                 }}
                 className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border-2 transition-all ${
-                  formData.color === c.name && !useCustomColor
+                  formData.color.trim().toLowerCase() === c.name.trim().toLowerCase() && !useCustomColor
                     ? "border-primary bg-primary/10 shadow-sm"
                     : "border-border hover:border-primary/50"
                 }`}
               >
                 <span
-                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${
-                    formData.color === c.name && !useCustomColor
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 ${
+                    formData.color.trim().toLowerCase() === c.name.trim().toLowerCase() && !useCustomColor
                       ? "border-primary ring-2 ring-primary/30"
                       : "border-border/50"
                   }`}
                   style={{ backgroundColor: c.code }}
                 />
                 <span
-                  className={`text-[10px] sm:text-xs font-medium leading-tight text-center ${
-                    formData.color === c.name && !useCustomColor
+                  className={`text-xs sm:text-sm font-medium leading-tight text-center ${
+                    formData.color.trim().toLowerCase() === c.name.trim().toLowerCase() && !useCustomColor
                       ? "text-primary"
                       : "text-foreground"
                   }`}
