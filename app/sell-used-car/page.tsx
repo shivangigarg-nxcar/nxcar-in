@@ -393,10 +393,10 @@ function SellCar() {
       setIsUploading(true);
       const formPayload = new FormData();
       formPayload.append("vehicle_id", vehicleId);
-      const priceVal = formData.expectedPrice ? String(formData.expectedPrice) : "0";
+      const priceVal = formData.expectedPrice ? Number(formData.expectedPrice).toLocaleString('en-IN') : "0";
       formPayload.append("price", priceVal);
       for (const file of pendingFiles) {
-        formPayload.append("images", file);
+        formPayload.append("file", file);
       }
       const res = await fetch("/api/nxcar/image-upload", { method: "POST", body: formPayload });
       if (!res.ok) {

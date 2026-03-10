@@ -9,15 +9,15 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const vehicleId = formData.get('vehicle_id');
-    const images = formData.getAll('images');
+    const files = formData.getAll('file');
     const price = formData.get('price');
 
     if (!vehicleId) {
       return NextResponse.json({ error: 'vehicle_id is required' }, { status: 400 });
     }
 
-    if ((!images || images.length === 0) && !price) {
-      return NextResponse.json({ error: 'At least one image or price is required' }, { status: 400 });
+    if ((!files || files.length === 0) && !price) {
+      return NextResponse.json({ error: 'At least one file or price is required' }, { status: 400 });
     }
 
     const nxcarForm = new FormData();
@@ -27,10 +27,10 @@ export async function POST(request: NextRequest) {
       nxcarForm.append('price', price as string);
     }
 
-    for (const image of images) {
-      if (image instanceof Blob) {
-        const filename = (image as File).name || `image_${Date.now()}.jpg`;
-        nxcarForm.append('images[]', image, filename);
+    for (const file of files) {
+      if (file instanceof Blob) {
+        const filename = (file as File).name || `image_${Date.now()}.jpg`;
+        nxcarForm.append('file[]', file, filename);
       }
     }
 
