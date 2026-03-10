@@ -54,11 +54,6 @@ export function ListSummaryBadges({ formData }: ListSummaryBadgesProps) {
             {formData.model}
           </span>
         )}
-        {formData.variant && (
-          <span className="px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
-            {formData.variant}
-          </span>
-        )}
         {formData.fuelType && (
           <span className="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-medium flex items-center gap-1">
             <Fuel className="w-3 h-3" />
