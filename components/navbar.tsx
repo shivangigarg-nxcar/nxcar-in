@@ -183,8 +183,14 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden fixed inset-0 top-[80px] z-50 bg-white dark:bg-background flex flex-col" data-testid="mobile-drawer">
           <div className="flex-1 overflow-y-auto">
+            {/* Header with Theme Toggle */}
+            <div className="flex items-center justify-between px-5 pt-3 pb-2">
+              <span className="text-xs text-muted-foreground font-medium">Change Theme</span>
+              <ThemeToggle />
+            </div>
+
             {/* Profile Section */}
-            <div className="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-white/10">
+            <div className="px-5 pt-2 pb-4 border-b border-slate-100 dark:border-white/10">
               {mounted && isAuthenticated && user ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">

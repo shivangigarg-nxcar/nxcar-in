@@ -50,8 +50,8 @@ export const SellCarProcess = memo(function SellCarProcess() {
               width={448}
               height={448}
               loading="lazy"
-              sizes="(max-width: 768px) 80vw, 400px"
-              className="w-full max-w-xs sm:max-w-md mx-auto h-auto object-contain relative z-10 drop-shadow-[0_0_40px_rgba(14,169,178,0.3)] transition-transform duration-700 group-hover:scale-105 dark:mix-blend-lighten"
+              sizes="(max-width: 768px) 60vw, 400px"
+              className="w-3/5 sm:w-full max-w-[200px] sm:max-w-md mx-auto h-auto object-contain relative z-10 drop-shadow-[0_0_40px_rgba(14,169,178,0.3)] transition-transform duration-700 group-hover:scale-105 dark:mix-blend-lighten"
             />
             
             <div className="absolute inset-0 pointer-events-none hidden md:block z-20">

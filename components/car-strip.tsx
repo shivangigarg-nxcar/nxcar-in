@@ -110,9 +110,9 @@ export function CarStrip({ title, featured }: { title: string; featured?: boolea
               <div className="hidden sm:block h-9 w-32 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:hidden">
+          <div className="flex gap-3 overflow-hidden -mx-4 px-4 sm:hidden">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="rounded-xl overflow-hidden border border-slate-200 dark:border-white/5">
+              <div key={i} className="flex-shrink-0 w-[46%] rounded-xl overflow-hidden border border-slate-200 dark:border-white/5">
                 <div className="aspect-[4/3] bg-slate-200 dark:bg-slate-800 animate-pulse" />
                 <div className="p-3 space-y-2">
                   <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-3/4 animate-pulse" />
@@ -178,27 +178,28 @@ export function CarStrip({ title, featured }: { title: string; featured?: boolea
           onOpenChange={setNotificationModalOpen} 
         />
 
-        <div className="grid grid-cols-2 gap-2 sm:hidden">
+        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 scrollbar-hide sm:hidden">
           {mobileCars.map((car) => (
-            <CarCard
-              key={car.id}
-              car={car}
-              compact
-              isFavorite={favoriteIds.includes(car.id)}
-              onToggleFavorite={toggleFavorite}
-              ratingsMap={ratingsMap}
-              isAuthenticated={isAuthenticated}
-              onShowLogin={openLoginModal}
-              actionButtons={
-                <CompareButton
-                  car={car}
-                  isInComparison={isInComparison}
-                  removeFromCompare={removeFromCompare}
-                  addToCompare={addToCompare}
-                  isComparisonFull={isComparisonFull}
-                />
-              }
-            />
+            <div key={car.id} className="flex-shrink-0 w-[46%] snap-start">
+              <CarCard
+                car={car}
+                compact
+                isFavorite={favoriteIds.includes(car.id)}
+                onToggleFavorite={toggleFavorite}
+                ratingsMap={ratingsMap}
+                isAuthenticated={isAuthenticated}
+                onShowLogin={openLoginModal}
+                actionButtons={
+                  <CompareButton
+                    car={car}
+                    isInComparison={isInComparison}
+                    removeFromCompare={removeFromCompare}
+                    addToCompare={addToCompare}
+                    isComparisonFull={isComparisonFull}
+                  />
+                }
+              />
+            </div>
           ))}
         </div>
 

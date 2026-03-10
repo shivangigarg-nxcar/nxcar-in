@@ -208,3 +208,12 @@ body {
 .dark .slider-styled::-webkit-slider-thumb {
   border-color: #1e293b;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

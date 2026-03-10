@@ -66,16 +66,17 @@ export const Features = memo(function Features() {
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-slate-400/10 dark:bg-slate-600/20 rounded-full blur-[128px]"></div>
 
       <div className="max-w-screen-xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">
+        <div className="text-center mb-8 sm:mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-black text-slate-900 dark:text-white mb-3 sm:mb-6 uppercase tracking-tight">
             Advanced <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Ecosystem</span>
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
+          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-lg px-4 sm:px-0">
             A comprehensive suite of high-performance automotive services designed for the modern enthusiast.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Mobile: compact 2x2 grid */}
+        <div className="grid grid-cols-2 gap-3 sm:hidden">
           {SERVICES.map((service) => (
             <Link
               href={service.link}
@@ -83,11 +84,48 @@ export const Features = memo(function Features() {
               aria-label={service.title}
               target={service.link.startsWith("http") ? "_blank" : undefined}
               rel={service.link.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="group relative bg-white/80 dark:bg-card/40 backdrop-blur-sm border border-slate-200 dark:border-white/5 p-5 sm:p-8 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(14,169,178,0.15)]"
+              className="group relative bg-white/80 dark:bg-card/40 backdrop-blur-sm border border-slate-200 dark:border-white/5 p-4 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 text-center"
+            >
+              <div className="w-14 h-14 mx-auto mb-3 relative">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  width={56}
+                  height={56}
+                  sizes="56px"
+                  loading="lazy"
+                  className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(14,169,178,0.3)]"
+                />
+              </div>
+              <h3 className="font-heading text-xs font-bold text-slate-900 dark:text-white leading-tight mb-1.5">
+                {service.title}
+              </h3>
+              {service.new && (
+                <span className="inline-block bg-gradient-to-r from-red-600 to-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                  New
+                </span>
+              )}
+              <span className="flex items-center justify-center text-primary text-[10px] font-bold uppercase tracking-wider">
+                Learn More <ArrowRight className="ml-1 h-3 w-3" />
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop: full cards */}
+        <div className="hidden sm:grid sm:grid-cols-2 gap-8">
+          {SERVICES.map((service) => (
+            <Link
+              href={service.link}
+              key={service.id}
+              aria-label={service.title}
+              target={service.link.startsWith("http") ? "_blank" : undefined}
+              rel={service.link.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="group relative bg-white/80 dark:bg-card/40 backdrop-blur-sm border border-slate-200 dark:border-white/5 p-8 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(14,169,178,0.15)]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className="relative z-10 flex flex-col sm:flex-row gap-8 items-center sm:items-start text-center sm:text-left">
+              <div className="relative z-10 flex flex-row gap-8 items-start text-left">
                 <div className="flex-shrink-0 relative">
                   <div className="w-24 h-24 relative">
                     <Image 
@@ -103,12 +141,12 @@ export const Features = memo(function Features() {
                 </div>
                 
                 <div className="flex-1">
-                  <div className="flex items-center justify-center sm:justify-between mb-3">
+                  <div className="flex items-center justify-between mb-3">
                     <h3 className="font-heading text-2xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
                       {service.title}
                     </h3>
                     {service.new && (
-                      <span className="hidden sm:inline-block bg-gradient-to-r from-red-600 to-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded skew-x-[-10deg] uppercase tracking-wider shadow-[0_0_10px_rgba(220,38,38,0.5)]">
+                      <span className="inline-block bg-gradient-to-r from-red-600 to-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded skew-x-[-10deg] uppercase tracking-wider shadow-[0_0_10px_rgba(220,38,38,0.5)]">
                         New
                       </span>
                     )}

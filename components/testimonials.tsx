@@ -106,10 +106,8 @@ export function Testimonials() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex gap-2 justify-end mt-4 pr-4">
-             <CarouselPrevious className="static translate-y-0 h-8 w-8 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-primary hover:border-primary text-slate-700 dark:text-white" />
-             <CarouselNext className="static translate-y-0 h-8 w-8 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-primary hover:border-primary text-slate-700 dark:text-white" />
-          </div>
+          <CarouselPrevious className="hidden sm:flex -left-4 md:-left-12 h-8 w-8 bg-white/90 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-primary hover:border-primary text-slate-700 dark:text-white shadow-md" />
+          <CarouselNext className="hidden sm:flex -right-4 md:-right-12 h-8 w-8 bg-white/90 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-primary hover:border-primary text-slate-700 dark:text-white shadow-md" />
         </Carousel>
       </div>
     </section>
