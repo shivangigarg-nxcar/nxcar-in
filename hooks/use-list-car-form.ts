@@ -34,7 +34,7 @@ export function useListCarForm() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const { isAuthenticated, isDealer, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isDealer, isLoading: authLoading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const pendingSubmitAfterLogin = useRef(false);
   const [currentStep, setCurrentStep] = useState<FormStep>("vehicle-number");
@@ -206,6 +206,17 @@ export function useListCarForm() {
       vehicleLookupMutation.mutate(upperCarNumber);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        sellerName: prev.sellerName || [user.firstName, user.lastName].filter(Boolean).join(" "),
+        sellerPhone: prev.sellerPhone || user.phone || "",
+        sellerEmail: prev.sellerEmail || user.email || "",
+      }));
+    }
+  }, [user]);
 
   const sellCarMutation = useMutation({
     mutationFn: sellCar,

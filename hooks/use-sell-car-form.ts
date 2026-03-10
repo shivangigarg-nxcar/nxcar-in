@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { STEPS, type FormStep } from "@components/sell-car/sell-constants";
 import type { Make, NxcarColor, SellCity, NxcarCity, InspectionFranchise, InspectionSlot, Model, Variant } from "@lib/api";
+import { useAuth } from "@hooks/use-auth";
 
 export interface SellFormData {
   vehicleNumber: string;
@@ -48,6 +49,7 @@ interface UseSellCarFormParams {
 }
 
 export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSellCarFormParams) {
+  const { user } = useAuth();
   const [formData, setFormData] = useState<SellFormData>(INITIAL_FORM_DATA);
   const [currentStep, setCurrentStep] = useState<FormStep>("vehicle-number");
   const [highestStepReached, setHighestStepReached] = useState(0);
@@ -82,6 +84,17 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
   useEffect(() => {
     if (currentStepIndex >= 0) { setHighestStepReached((prev) => Math.max(prev, currentStepIndex)); }
   }, [currentStepIndex]);
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        sellerName: prev.sellerName || [user.firstName, user.lastName].filter(Boolean).join(" "),
+        sellerPhone: prev.sellerPhone || user.phone || "",
+        sellerEmail: prev.sellerEmail || user.email || "",
+      }));
+    }
+  }, [user]);
 
   const goNext = () => {
     const nextIndex = currentStepIndex + 1;
