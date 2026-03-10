@@ -393,6 +393,8 @@ function SellCar() {
       setIsUploading(true);
       const formPayload = new FormData();
       formPayload.append("vehicle_id", vehicleId);
+      const priceVal = formData.expectedPrice ? String(formData.expectedPrice) : "0";
+      formPayload.append("price", priceVal);
       for (const file of pendingFiles) {
         formPayload.append("images", file);
       }
