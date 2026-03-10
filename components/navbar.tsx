@@ -39,6 +39,7 @@ export function Navbar() {
   const openLoginModal = useCallback(() => setShowLoginModal(true), []);
 
   return (
+    <>
     <nav aria-label="Main navigation" className="fixed top-0 z-50 w-full border-b border-slate-200/50 dark:border-white/5 bg-white/90 dark:bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-20 max-w-screen-xl mx-auto items-center justify-between px-6 lg:px-8">
         <Link href="/" className="mr-8 flex items-center" data-testid="link-logo">
@@ -174,12 +175,14 @@ export function Navbar() {
           className="md:hidden text-slate-700 dark:text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close menu" : "Open menu"}
+          data-testid="button-mobile-menu"
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
+    </nav>
 
-      {/* Mobile Full-Page Drawer */}
+    {/* Mobile Full-Page Drawer — outside nav to avoid backdrop-filter containment */}
       {isOpen && (
         <div className="md:hidden fixed left-0 right-0 top-20 bottom-0 z-50 bg-white dark:bg-background overflow-y-auto" data-testid="mobile-drawer">
           {/* Profile Section */}
@@ -344,6 +347,6 @@ export function Navbar() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </nav>
+    </>
   );
 }
