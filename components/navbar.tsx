@@ -227,19 +227,16 @@ export function Navbar() {
             <Link href="/used-cars" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <ShoppingCart className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Buy Car</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </Link>
 
             <Link href="/sell-used-car" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Car className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Sell Car</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </Link>
 
             <Link href="/used-car-loan" onClick={() => setIsOpen(false)} data-testid="link-mobile-loans" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Banknote className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Used Car Loan</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </Link>
 
             {/* Car Services Dropdown */}
@@ -272,19 +269,16 @@ export function Navbar() {
             <Link href="/dealers" onClick={() => setIsOpen(false)} data-testid="link-mobile-dealers" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Store className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Used Car Dealers</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </Link>
 
             <Link href="/about" onClick={() => setIsOpen(false)} data-testid="link-mobile-about" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Info className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">About Us</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </Link>
 
             <a href="tel:+919355924132" data-testid="link-mobile-help" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <HelpCircle className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Help & Support</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
             </a>
           </div>
 
