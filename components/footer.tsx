@@ -55,19 +55,19 @@ export const Footer = memo(function Footer() {
             
             <div className="flex justify-center sm:justify-start gap-2">
               <a href="https://www.facebook.com/nxfin" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" data-testid="link-social-facebook" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Facebook className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <Facebook className="h-5 w-5 text-[#1877F2] dark:text-[#4DA3FF]" />
               </a>
               <a href="https://www.instagram.com/nxcarindia/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" data-testid="link-social-instagram" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Instagram className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <Instagram className="h-5 w-5 text-[#E4405F] dark:text-[#F06292]" />
               </a>
               <a href="https://www.linkedin.com/company/nxfin/mycompany/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" data-testid="link-social-linkedin" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Linkedin className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <Linkedin className="h-5 w-5 text-[#0A66C2] dark:text-[#5EA6E8]" />
               </a>
               <a href="https://api.whatsapp.com/send/?phone=%2B919355924132&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" data-testid="link-social-whatsapp" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <MessageCircle className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <MessageCircle className="h-5 w-5 text-[#25D366] dark:text-[#5EE89A]" />
               </a>
               <a href="https://www.youtube.com/@Nxcar-sr3ce" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" data-testid="link-social-youtube" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
-                <Youtube className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <Youtube className="h-5 w-5 text-[#FF0000] dark:text-[#FF6666]" />
               </a>
             </div>
           </div>
