@@ -34,15 +34,7 @@ export function useVehicleLookup({
   const findFirstIncompleteStep = (data: SellFormData): FormStep => {
     if (!data.makeId || !data.brand) return "brand";
     if (!data.modelId || !data.model) return "model";
-    if (!data.rtoCode) return "rto-location";
-    if (!data.year) return "year";
-    if (!data.ownerCount) return "ownership";
-    if (!data.color) return "color";
-    if (!data.fuelType) return "fuel-variant";
-    if (!data.transmission) return "transmission";
-    if (!data.kilometers) return "kilometers";
-    if (!data.location) return "vehicle-location";
-    return "price";
+    return "fuel-variant";
   };
 
   const vehicleLookupMutation = useMutation({
@@ -74,7 +66,7 @@ export function useVehicleLookup({
         fuelType: data.fule_type || data.all?.type || "",
         fuleId: data.fule_id || "",
         color: data.color || data.all?.vehicleColour || "",
-        ownerCount: 0,
+        ownerCount: parseInt(data.ownership || data.all?.ownerCount || "1") || 1,
         state: data.rto_state_name || "",
         rtoCode: data.rto_code || data.all?.rtoCode || "",
         rtoNumericId: data.rto_id || "",
