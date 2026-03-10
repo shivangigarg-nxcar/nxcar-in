@@ -141,6 +141,15 @@ export function SellSteps({
   const [stateDropdownOpen, setStateDropdownOpen] = useState(true);
   const [rtoSearch, setRtoSearch] = useState("");
   const [rtoDropdownOpen, setRtoDropdownOpen] = useState(true);
+  const [brandDropdownOpen, setBrandDropdownOpen] = useState(!formData.brand);
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(!formData.model);
+  const [variantDropdownOpen, setVariantDropdownOpen] = useState(!formData.variant);
+
+  React.useEffect(() => {
+    if (currentStep === "brand") setBrandDropdownOpen(!formData.brand);
+    if (currentStep === "model") setModelDropdownOpen(!formData.model);
+    if (currentStep === "fuel-variant") setVariantDropdownOpen(!formData.variant);
+  }, [currentStep]);
 
   const { data: nxcarStates = [], isLoading: statesLoading } = useQuery<NxcarState[]>({
     queryKey: ["nxcar-states"],
@@ -209,49 +218,54 @@ export function SellSteps({
 
       {currentStep === "brand" && (
         <div className="space-y-4">
-          {vehicleData && formData.brand && (
+          {vehicleData && formData.brand && !brandDropdownOpen && (
             <div className="flex items-center gap-2 p-3 rounded-xl bg-primary/10 border border-primary/20 mb-4">
               <CheckCircle2 className="w-5 h-5 text-primary" />
               <span className="text-primary text-sm font-medium">Auto-filled: {formData.brand}</span>
             </div>
           )}
-          <div className="relative">
+          <div className="relative cursor-pointer" onClick={() => { if (!brandDropdownOpen) { setBrandDropdownOpen(true); setSearchQuery(""); } }}>
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search brand..."
-              className="h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
+              value={brandDropdownOpen ? searchQuery : formData.brand || ""}
+              onChange={(e) => { setSearchQuery(e.target.value); if (!brandDropdownOpen) setBrandDropdownOpen(true); }}
+              onFocus={() => { if (!brandDropdownOpen) { setBrandDropdownOpen(true); setSearchQuery(""); } }}
+              placeholder={formData.brand || "Search brand..."}
+              readOnly={!brandDropdownOpen}
+              className={`h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground ${!brandDropdownOpen ? "cursor-pointer" : ""}`}
             />
+            <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-transform ${brandDropdownOpen ? "rotate-180" : ""}`} />
           </div>
-          <div className="max-h-[300px] overflow-y-auto space-y-2 pr-2">
-            {makesLoading ? (
-              <div className="flex justify-center py-8"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>
-            ) : (
-              filteredMakes.map((make) => (
-                <button
-                  key={make.id}
-                  type="button"
-                  onClick={() => selectMake(make)}
-                  className={`w-full p-4 rounded-xl border-2 transition-all duration-150 flex items-center gap-4 ${
-                    formData.makeId === make.id
-                      ? "border-primary bg-primary/15 text-primary shadow-sm shadow-primary/20"
-                      : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
-                  }`}
-                >
-                  {make.make_image && <img src={make.make_image} alt={make.make_name} className="w-10 h-10 object-contain" />}
-                  <span className="text-lg font-medium">{make.make_name}</span>
-                  {formData.makeId === make.id && <CheckCircle2 className="w-5 h-5 ml-auto text-primary" />}
-                </button>
-              ))
-            )}
-          </div>
+          {brandDropdownOpen && (
+            <div className="max-h-[300px] overflow-y-auto space-y-2 pr-2">
+              {makesLoading ? (
+                <div className="flex justify-center py-8"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>
+              ) : (
+                filteredMakes.map((make) => (
+                  <button
+                    key={make.id}
+                    type="button"
+                    onClick={() => { selectMake(make); setBrandDropdownOpen(false); setSearchQuery(""); }}
+                    className={`w-full p-4 rounded-xl border-2 transition-all duration-150 flex items-center gap-4 ${
+                      formData.makeId === make.id
+                        ? "border-primary bg-primary/15 text-primary shadow-sm shadow-primary/20"
+                        : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
+                    }`}
+                  >
+                    {make.make_image && <img src={make.make_image} alt={make.make_name} className="w-10 h-10 object-contain" />}
+                    <span className="text-lg font-medium">{make.make_name}</span>
+                    {formData.makeId === make.id && <CheckCircle2 className="w-5 h-5 ml-auto text-primary" />}
+                  </button>
+                ))
+              )}
+            </div>
+          )}
         </div>
       )}
 
       {currentStep === "model" && (
         <div className="space-y-4">
-          {vehicleData && formData.model && (
+          {vehicleData && formData.model && !modelDropdownOpen && (
             <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20 mb-4">
               <CheckCircle2 className="w-5 h-5 text-green-400" />
               <span className="text-green-400 text-sm">Auto-filled: {formData.model}</span>
@@ -261,38 +275,43 @@ export function SellSteps({
             <span className="text-muted-foreground">Brand: </span>
             <span className="text-primary font-semibold">{formData.brand}</span>
           </div>
-          <div className="relative">
+          <div className="relative cursor-pointer" onClick={() => { if (!modelDropdownOpen) { setModelDropdownOpen(true); setSearchQuery(""); } }}>
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search model..."
-              className="h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
+              value={modelDropdownOpen ? searchQuery : formData.model || ""}
+              onChange={(e) => { setSearchQuery(e.target.value); if (!modelDropdownOpen) setModelDropdownOpen(true); }}
+              onFocus={() => { if (!modelDropdownOpen) { setModelDropdownOpen(true); setSearchQuery(""); } }}
+              placeholder={formData.model || "Search model..."}
+              readOnly={!modelDropdownOpen}
+              className={`h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground ${!modelDropdownOpen ? "cursor-pointer" : ""}`}
             />
+            <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-transform ${modelDropdownOpen ? "rotate-180" : ""}`} />
           </div>
-          <div className="max-h-[300px] overflow-y-auto space-y-2 pr-2">
-            {modelsLoading ? (
-              <div className="flex justify-center py-8"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>
-            ) : filteredModels.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8">No models found</p>
-            ) : (
-              filteredModels.map((model) => (
-                <button
-                  key={model.id}
-                  type="button"
-                  onClick={() => selectModel(model)}
-                  className={`w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between ${
-                    formData.modelId === model.id
-                      ? "border-primary bg-primary/20 text-primary"
-                      : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
-                  }`}
-                >
-                  <span className="text-lg font-medium">{model.model_name}</span>
-                  {formData.modelId === model.id && <CheckCircle2 className="w-5 h-5 text-primary" />}
-                </button>
-              ))
-            )}
-          </div>
+          {modelDropdownOpen && (
+            <div className="max-h-[300px] overflow-y-auto space-y-2 pr-2">
+              {modelsLoading ? (
+                <div className="flex justify-center py-8"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>
+              ) : filteredModels.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">No models found</p>
+              ) : (
+                filteredModels.map((model) => (
+                  <button
+                    key={model.id}
+                    type="button"
+                    onClick={() => { selectModel(model); setModelDropdownOpen(false); setSearchQuery(""); }}
+                    className={`w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between ${
+                      formData.modelId === model.id
+                        ? "border-primary bg-primary/20 text-primary"
+                        : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
+                    }`}
+                  >
+                    <span className="text-lg font-medium">{model.model_name}</span>
+                    {formData.modelId === model.id && <CheckCircle2 className="w-5 h-5 text-primary" />}
+                  </button>
+                ))
+              )}
+            </div>
+          )}
         </div>
       )}
 
@@ -306,16 +325,18 @@ export function SellSteps({
           )}
           <div>
             <p className="text-muted-foreground mb-3 flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> Select State</p>
-            <div className="relative mb-3">
+            <div className="relative mb-3 cursor-pointer" onClick={() => { if (!stateDropdownOpen) { setStateDropdownOpen(true); setStateSearch(""); } }}>
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 data-testid="input-state-search"
-                value={formData.state && !stateDropdownOpen ? formData.state : stateSearch}
-                onChange={(e) => { setStateSearch(e.target.value); setStateDropdownOpen(true); }}
-                onFocus={() => setStateDropdownOpen(true)}
-                placeholder="Search state..."
-                className="h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
+                value={stateDropdownOpen ? stateSearch : formData.state || ""}
+                onChange={(e) => { setStateSearch(e.target.value); if (!stateDropdownOpen) setStateDropdownOpen(true); }}
+                onFocus={() => { if (!stateDropdownOpen) { setStateDropdownOpen(true); setStateSearch(""); } }}
+                placeholder={formData.state || "Search state..."}
+                readOnly={!stateDropdownOpen}
+                className={`h-14 pl-12 pr-10 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground ${!stateDropdownOpen ? "cursor-pointer" : ""}`}
               />
+              <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-transform ${stateDropdownOpen ? "rotate-180" : ""}`} />
             </div>
             {stateDropdownOpen && (
               <div className="max-h-[200px] overflow-y-auto space-y-2 pr-2">
@@ -345,16 +366,18 @@ export function SellSteps({
           {formData.state && (
             <div>
               <p className="text-muted-foreground mb-3 flex items-center gap-2"><Car className="w-4 h-4 text-primary" /> Select RTO</p>
-              <div className="relative mb-3">
+              <div className="relative mb-3 cursor-pointer" onClick={() => { if (!rtoDropdownOpen) { setRtoDropdownOpen(true); setRtoSearch(""); } }}>
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   data-testid="input-rto-search"
-                  value={formData.rtoCode && !rtoDropdownOpen ? formData.rtoCode : rtoSearch}
-                  onChange={(e) => { setRtoSearch(e.target.value); setRtoDropdownOpen(true); }}
-                  onFocus={() => setRtoDropdownOpen(true)}
-                  placeholder="Search RTO code or location..."
-                  className="h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
+                  value={rtoDropdownOpen ? rtoSearch : formData.rtoCode || ""}
+                  onChange={(e) => { setRtoSearch(e.target.value); if (!rtoDropdownOpen) setRtoDropdownOpen(true); }}
+                  onFocus={() => { if (!rtoDropdownOpen) { setRtoDropdownOpen(true); setRtoSearch(""); } }}
+                  placeholder={formData.rtoCode || "Search RTO code or location..."}
+                  readOnly={!rtoDropdownOpen}
+                  className={`h-14 pl-12 pr-10 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground ${!rtoDropdownOpen ? "cursor-pointer" : ""}`}
                 />
+                <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-transform ${rtoDropdownOpen ? "rotate-180" : ""}`} />
               </div>
               {rtoDropdownOpen && (
                 <div className="max-h-[200px] overflow-y-auto space-y-2 pr-2">
@@ -480,7 +503,7 @@ export function SellSteps({
             type="button"
             onClick={() => {
               setUseCustomColor(!useCustomColor);
-              if (!useCustomColor) { updateField("color", ""); } else { setCustomColorText(""); }
+              if (!useCustomColor) { updateField("color", ""); } else { setCustomColorText(""); updateField("color", ""); }
             }}
             className={`w-full p-3 rounded-xl border-2 transition-all flex items-center gap-3 ${
               useCustomColor ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/50"
@@ -544,36 +567,41 @@ export function SellSteps({
           {formData.fuelType && (
             <div>
               <p className="text-muted-foreground mb-3">Select Variant</p>
-              <div className="relative mb-3">
+              <div className="relative mb-3 cursor-pointer" onClick={() => { if (!variantDropdownOpen) { setVariantDropdownOpen(true); setSearchQuery(""); } }}>
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search variant..."
-                  className="h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
+                  value={variantDropdownOpen ? searchQuery : formData.variant || ""}
+                  onChange={(e) => { setSearchQuery(e.target.value); if (!variantDropdownOpen) setVariantDropdownOpen(true); }}
+                  onFocus={() => { if (!variantDropdownOpen) { setVariantDropdownOpen(true); setSearchQuery(""); } }}
+                  placeholder={formData.variant || "Search variant..."}
+                  readOnly={!variantDropdownOpen}
+                  className={`h-14 pl-12 text-lg bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground ${!variantDropdownOpen ? "cursor-pointer" : ""}`}
                 />
+                <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground transition-transform ${variantDropdownOpen ? "rotate-180" : ""}`} />
               </div>
-              <div className="max-h-[200px] overflow-y-auto space-y-2 pr-2">
-                {variantsLoading ? (
-                  <div className="flex justify-center py-4"><Loader2 className="w-6 h-6 text-primary animate-spin" /></div>
-                ) : filteredVariants.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-4">No variants found</p>
-                ) : (
-                  filteredVariants.map((variant) => (
-                    <button
-                      key={variant.id}
-                      type="button"
-                      onClick={() => { updateField("variantId", variant.id); updateField("variant", variant.variant_name); setSearchQuery(""); }}
-                      className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between ${
-                        formData.variantId === variant.id ? "border-primary bg-primary/20 text-primary" : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
-                      }`}
-                    >
-                      <span className="font-medium">{variant.variant_name}</span>
-                      {formData.variantId === variant.id && <CheckCircle2 className="w-5 h-5 text-primary" />}
-                    </button>
-                  ))
-                )}
-              </div>
+              {variantDropdownOpen && (
+                <div className="max-h-[200px] overflow-y-auto space-y-2 pr-2">
+                  {variantsLoading ? (
+                    <div className="flex justify-center py-4"><Loader2 className="w-6 h-6 text-primary animate-spin" /></div>
+                  ) : filteredVariants.length === 0 ? (
+                    <p className="text-center text-muted-foreground py-4">No variants found</p>
+                  ) : (
+                    filteredVariants.map((variant) => (
+                      <button
+                        key={variant.id}
+                        type="button"
+                        onClick={() => { updateField("variantId", variant.id); updateField("variant", variant.variant_name); setVariantDropdownOpen(false); setSearchQuery(""); }}
+                        className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between ${
+                          formData.variantId === variant.id ? "border-primary bg-primary/20 text-primary" : "border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
+                        }`}
+                      >
+                        <span className="font-medium">{variant.variant_name}</span>
+                        {formData.variantId === variant.id && <CheckCircle2 className="w-5 h-5 text-primary" />}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           )}
           <button

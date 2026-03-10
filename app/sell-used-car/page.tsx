@@ -241,7 +241,14 @@ function SellCar() {
       autoFilledSteps.current = new Set();
       if (newFormData.rtoCode) autoFilledSteps.current.add("rto-location");
       if (newFormData.year > 0) autoFilledSteps.current.add("year");
-      if (newFormData.color) autoFilledSteps.current.add("color");
+      if (newFormData.color) {
+        autoFilledSteps.current.add("color");
+        const colorInList = colors.some((c) => c.name.trim().toLowerCase() === newFormData.color.trim().toLowerCase());
+        if (!colorInList && colors.length > 0) {
+          setUseCustomColor(true);
+          setCustomColorText(newFormData.color);
+        }
+      }
       if (newFormData.fuelType) autoFilledSteps.current.add("fuel-variant");
       const filledFields = [];
       if (newFormData.brand) filledFields.push(newFormData.brand);
@@ -545,6 +552,16 @@ function SellCar() {
     }
     if (currentStep !== "transmission") { autoAdvancedTransmission.current = false; }
   }, [currentStep, formData.transmission]);
+
+  useEffect(() => {
+    if (colors.length > 0 && formData.color && autoFilledSteps.current.has("color") && !useCustomColor) {
+      const colorInList = colors.some((c) => c.name.trim().toLowerCase() === formData.color.trim().toLowerCase());
+      if (!colorInList) {
+        setUseCustomColor(true);
+        setCustomColorText(formData.color);
+      }
+    }
+  }, [colors, formData.color]);
 
   const slideVariants = {
     enter: (direction: number) => ({ x: direction > 0 ? 300 : -300, opacity: 0 }),

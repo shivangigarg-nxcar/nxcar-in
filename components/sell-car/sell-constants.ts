@@ -78,7 +78,7 @@ export const OWNER_OPTIONS = [
   "5th+ Owner",
 ];
 
-export const TRANSMISSION_OPTIONS = ["Manual", "Automatic", "CVT", "DCT", "AMT"];
+export const TRANSMISSION_OPTIONS = ["Manual", "Automatic"];
 
 export const FALLBACK_SLOTS: InspectionSlot[] = [
   {
