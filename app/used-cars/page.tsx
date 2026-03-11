@@ -23,37 +23,12 @@ interface City {
   v_cnt: string;
 }
 
-const cityImageMap: Record<string, string> = {
-  ahmadabad: "/images/buy/cities/ahmadabad.png",
-  amritsar: "/images/buy/cities/amritsar.png",
-  bangalore: "/images/buy/cities/bangalore.png",
-  chandigarh: "/images/buy/cities/chandigarh.png",
-  chennai: "/images/buy/cities/chennai.png",
-  delhi: "/images/buy/cities/delhi.png",
-  faridabad: "/images/buy/cities/faridabad.png",
-  ghaziabad: "/images/buy/cities/ghaziabad.png",
-  gurgaon: "/images/buy/cities/gurgaon.png",
-  hyderabad: "/images/buy/cities/hyderabad.png",
-  jaipur: "/images/buy/cities/jaipur.png",
-  kolkata: "/images/buy/cities/kolkata.png",
-  lucknow: "/images/buy/cities/lucknow.png",
-  mumbai: "/images/buy/cities/mumbai.png",
-  noida: "/images/buy/cities/noida.png",
-  pune: "/images/buy/cities/pune.png",
-};
+function getCityImagePath(cityName: string): string {
+  const key = cityName.toLowerCase().replace(/\s+/g, "");
+  return `/images/buy/cities/${key}.webp`;
+}
 
 const CITIES_TO_SHOW = 50;
-
-const cityColors = [
-  "from-rose-500/20 to-pink-500/20",
-  "from-blue-500/20 to-indigo-500/20",
-  "from-emerald-500/20 to-teal-500/20",
-  "from-amber-500/20 to-orange-500/20",
-  "from-violet-500/20 to-purple-500/20",
-  "from-cyan-500/20 to-sky-500/20",
-  "from-lime-500/20 to-green-500/20",
-  "from-fuchsia-500/20 to-pink-500/20",
-];
 
 function toSlug(text: string): string {
   return text
@@ -64,22 +39,19 @@ function toSlug(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-function getCityImage(cityName: string): string | null {
-  const key = cityName.toLowerCase().replace(/\s+/g, "");
-  return cityImageMap[key] || null;
-}
-
-function getCityColorIndex(name: string): number {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash) % cityColors.length;
-}
+const gradientColors = [
+  "from-rose-500/20 to-pink-500/20",
+  "from-blue-500/20 to-indigo-500/20",
+  "from-emerald-500/20 to-teal-500/20",
+  "from-amber-500/20 to-orange-500/20",
+  "from-violet-500/20 to-purple-500/20",
+  "from-cyan-500/20 to-sky-500/20",
+];
 
 function CityCard({ city, onSelect }: { city: City; onSelect: (name: string) => void }) {
-  const cityImg = getCityImage(city.city_name);
-  const colorIdx = getCityColorIndex(city.city_name);
+  const [imgError, setImgError] = useState(false);
+  const hash = city.city_name.split("").reduce((a, c) => c.charCodeAt(0) + ((a << 5) - a), 0);
+  const gradient = gradientColors[Math.abs(hash) % gradientColors.length];
 
   return (
     <button
@@ -87,20 +59,21 @@ function CityCard({ city, onSelect }: { city: City; onSelect: (name: string) => 
       className="rounded-lg border bg-card hover:border-primary/50 transition-all overflow-hidden group hover-elevate"
       data-testid={`button-city-card-${city.city_id}`}
     >
-      {cityImg ? (
-        <div className="aspect-square overflow-hidden">
-          <img
-            src={cityImg}
-            alt={city.city_name}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      ) : (
-        <div className={`aspect-square bg-gradient-to-br ${cityColors[colorIdx]} flex items-center justify-center`}>
+      {imgError ? (
+        <div className={`aspect-square bg-gradient-to-br ${gradient} flex items-center justify-center`}>
           <span className="text-2xl sm:text-3xl font-bold text-primary/70 group-hover:scale-110 transition-transform">
             {city.city_name.charAt(0).toUpperCase()}
           </span>
+        </div>
+      ) : (
+        <div className="aspect-square overflow-hidden">
+          <img
+            src={getCityImagePath(city.city_name)}
+            alt={city.city_name}
+            loading="lazy"
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
       )}
       <div className="p-1.5 text-center">
