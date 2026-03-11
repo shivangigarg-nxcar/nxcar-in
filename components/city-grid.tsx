@@ -6,15 +6,29 @@ import { ChevronDown, Building2, Trophy, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { getDealerCities } from "@lib/api";
 import Link from "next/link";
+
+interface DealerCityData {
+  id: number;
+  name: string;
+  region: string;
+  dealerCount: number;
+  imageUrl?: string | null;
+}
+
+async function fetchRealDealerCities(): Promise<DealerCityData[]> {
+  const response = await fetch("/api/nxcar/dealer-cities-web");
+  if (!response.ok) throw new Error("Failed to fetch dealer cities");
+  return response.json();
+}
 
 export function CityGrid() {
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [desktopExpanded, setDesktopExpanded] = useState(false);
   const { data: cities = [], isLoading } = useQuery({
-    queryKey: ["dealer-cities"],
-    queryFn: () => getDealerCities(12),
+    queryKey: ["dealer-cities-real"],
+    queryFn: fetchRealDealerCities,
+    staleTime: 30 * 60 * 1000,
   });
 
   const displayCities = mobileExpanded ? cities : cities.slice(0, 4);
@@ -120,19 +134,21 @@ export function CityGrid() {
                         
                         <div className="flex items-center text-sm text-slate-500 dark:text-slate-400 mb-4">
                           <Trophy className="h-3 w-3 mr-1.5 text-primary" />
-                          {city.dealerCount} Premium Dealers
+                          {city.dealerCount} {city.dealerCount === 1 ? "Dealer" : "Dealers"}
                         </div>
                         
                         <div className="pt-4 border-t border-slate-200 dark:border-white/5 flex items-center justify-between">
                           <div className="flex -space-x-2 overflow-hidden">
-                            {[1,2,3,4].map((i) => (
+                            {Array.from({ length: Math.min(city.dealerCount, 4) }, (_, i) => (
                               <div key={i} className="h-7 w-7 rounded-full ring-2 ring-white dark:ring-background bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-[10px] text-slate-500 dark:text-slate-400 font-bold border border-slate-300 dark:border-white/10">
-                                D{i}
+                                D{i + 1}
                               </div>
                             ))}
-                            <div className="h-7 w-7 rounded-full ring-2 ring-white dark:ring-background bg-primary flex items-center justify-center text-[9px] text-white font-bold shadow-lg z-10">
-                              +{city.dealerCount - 4}
-                            </div>
+                            {city.dealerCount > 4 && (
+                              <div className="h-7 w-7 rounded-full ring-2 ring-white dark:ring-background bg-primary flex items-center justify-center text-[9px] text-white font-bold shadow-lg z-10">
+                                +{city.dealerCount - 4}
+                              </div>
+                            )}
                           </div>
                           <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                         </div>
@@ -184,7 +200,7 @@ export function CityGrid() {
                           </h3>
                           <div className="flex items-center text-xs text-slate-500 dark:text-slate-400">
                             <Trophy className="h-3 w-3 mr-1 text-primary" />
-                            {city.dealerCount} Premium Dealers
+                            {city.dealerCount} {city.dealerCount === 1 ? "Dealer" : "Dealers"}
                             <span className="mx-1.5 text-slate-300 dark:text-slate-600">·</span>
                             <span className="text-slate-400 dark:text-slate-500 uppercase text-[10px] font-semibold tracking-wider">{city.region}</span>
                           </div>

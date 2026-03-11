@@ -47,12 +47,18 @@ export default function DealerNetwork() {
       try {
         const res = await fetch("/api/nxcar/dealer-cities-web");
         const data = await res.json();
-        if ((data.success || data.status === "success") && Array.isArray(data.data)) {
-          const mapped: CityData[] = data.data.map((city: any) => ({
+        let rawCities: any[] = [];
+        if (Array.isArray(data)) {
+          rawCities = data;
+        } else if ((data.success || data.status === "success") && Array.isArray(data.data)) {
+          rawCities = data.data;
+        }
+        if (rawCities.length > 0) {
+          const mapped: CityData[] = rawCities.map((city: any) => ({
             id: city.id || city.city_id || Math.random(),
             name: city.name || city.city_name || city.city || "",
-            region: assignRegion(city.name || city.city_name || city.city || ""),
-            dealerCount: city.dealer_count || city.dealerCount,
+            region: city.region || assignRegion(city.name || city.city_name || city.city || ""),
+            dealerCount: city.dealerCount || city.dealer_count || 0,
           })).filter((c: CityData) => c.name);
           setCities(mapped);
         }
