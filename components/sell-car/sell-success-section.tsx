@@ -69,6 +69,7 @@ export interface SellSuccessSectionProps {
   isAuthenticated: boolean;
   onLoginRequired: () => void;
   onBookInspectionToast: (title: string, description: string) => void;
+  onGoBack?: () => void;
 }
 
 export function SellSuccessSection(props: SellSuccessSectionProps) {
@@ -167,9 +168,16 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
       )}
 
       {selectedCityInspectionAvailable ? (
-        <div className="flex items-center justify-center mt-6">
+        <div className="flex items-center justify-between mt-6 gap-4">
+          {props.onGoBack ? (
+            <button type="button" onClick={props.onGoBack} data-testid="button-back-to-form" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
+              <ArrowLeft className="w-4 h-4" />Back
+            </button>
+          ) : (
+            <div />
+          )}
           <Button onClick={resetForm} variant="outline" data-testid="button-sell-another-car" className="px-6 py-3 rounded-xl border-2 border-border">
-            <ArrowLeft className="w-4 h-4 mr-2" />Sell Another Car
+            Sell Another Car
           </Button>
         </div>
       ) : (

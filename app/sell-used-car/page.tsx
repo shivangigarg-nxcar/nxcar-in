@@ -298,6 +298,10 @@ function SellCar() {
                   onBookInspectionToast={(title, description) => {
                     toast({ title, description, variant: "destructive" });
                   }}
+                  onGoBack={() => {
+                    form.setDirection(-1);
+                    form.setCurrentStep(form.lastFormStep);
+                  }}
                 />
               ) : (
                 <motion.div

@@ -81,6 +81,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
 
   const currentStepIndex = STEPS.findIndex((s) => s.id === currentStep);
   const progress = currentStep === "success" ? 100 : ((currentStepIndex + 1) / STEPS.length) * 100;
+  const lastFormStep = STEPS[highestStepReached]?.id || STEPS[STEPS.length - 1].id;
 
   useEffect(() => {
     if (currentStepIndex >= 0) { setHighestStepReached((prev) => Math.max(prev, currentStepIndex)); }
@@ -320,7 +321,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
   return {
     formData, setFormData, updateField,
     currentStep, setCurrentStep, currentStepIndex, direction, setDirection,
-    highestStepReached, progress,
+    highestStepReached, progress, lastFormStep,
     goNext, goBack, goToStep, handleBack,
     canProceed,
     searchQuery, setSearchQuery,
