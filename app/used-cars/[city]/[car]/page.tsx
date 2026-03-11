@@ -212,6 +212,7 @@ export default function BuyCarDetail() {
     handleMakeOfferClick,
     handleSubmitOffer,
     handleRequestCallback,
+    handleWhatsAppSeller,
     handleOfferModalClose,
     handleOfferRetry,
     handleCallbackDialogClose,
@@ -299,6 +300,7 @@ export default function BuyCarDetail() {
                 formatEmi={formatEmi}
                 onMakeOfferClick={handleMakeOfferClick}
                 onRequestCallback={handleRequestCallback}
+                onWhatsAppSeller={handleWhatsAppSeller}
                 callbackLoading={callbackLoading}
               />
             </div>
@@ -359,6 +361,7 @@ export default function BuyCarDetail() {
                 formatEmi={formatEmi}
                 onMakeOfferClick={handleMakeOfferClick}
                 onRequestCallback={handleRequestCallback}
+                onWhatsAppSeller={handleWhatsAppSeller}
                 callbackLoading={callbackLoading}
               />
 

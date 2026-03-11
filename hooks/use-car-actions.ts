@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import type { CarDetail } from "@components/car-detail/car-detail-types";
 
 function getUserId(): string {
@@ -29,7 +29,15 @@ function getNxcarUserId(): string {
   return "";
 }
 
+function openWhatsApp(phone: string, car: CarDetail) {
+  const cleanPhone = phone.replace(/[^0-9]/g, "");
+  const fullPhone = cleanPhone.startsWith("91") ? cleanPhone : `91${cleanPhone}`;
+  const message = `Hi, I'm interested in your ${car.year} ${car.make} ${car.model} listed on NxCar for ₹${car.price?.toLocaleString("en-IN")}. Is it still available?`;
+  window.open(`https://wa.me/${fullPhone}?text=${encodeURIComponent(message)}`, "_blank");
+}
+
 export function useCarActions(car: CarDetail | undefined) {
+  const pendingActionRef = useRef<"callback" | "whatsapp" | null>(null);
   const [offerModalOpen, setOfferModalOpen] = useState(false);
   const [offerLoading, setOfferLoading] = useState(false);
   const [predictionData, setPredictionData] = useState<{
@@ -162,11 +170,25 @@ export function useCarActions(car: CarDetail | undefined) {
     if (!car) return;
     const nxcarUserId = getNxcarUserId();
     if (!nxcarUserId) {
+      pendingActionRef.current = "callback";
       setShowLoginModal(true);
       return;
     }
     submitCallbackRequest(nxcarUserId);
   }, [car, submitCallbackRequest]);
+
+  const handleWhatsAppSeller = useCallback(() => {
+    if (!car) return;
+    const nxcarUserId = getNxcarUserId();
+    if (!nxcarUserId) {
+      pendingActionRef.current = "whatsapp";
+      setShowLoginModal(true);
+      return;
+    }
+    if (car.sellerPhone) {
+      openWhatsApp(car.sellerPhone, car);
+    }
+  }, [car]);
 
   const handleOfferModalClose = useCallback((open: boolean) => {
     setOfferModalOpen(open);
@@ -191,11 +213,23 @@ export function useCarActions(car: CarDetail | undefined) {
 
   const handleLoginSuccess = useCallback(() => {
     setShowLoginModal(false);
-    const nxcarUserId = getNxcarUserId();
-    if (nxcarUserId) {
-      submitCallbackRequest(nxcarUserId);
+    const action = pendingActionRef.current;
+    pendingActionRef.current = null;
+
+    if (action === "whatsapp" && car?.sellerPhone) {
+      openWhatsApp(car.sellerPhone, car);
+    } else if (action === "callback") {
+      const nxcarUserId = getNxcarUserId();
+      if (nxcarUserId) {
+        submitCallbackRequest(nxcarUserId);
+      }
+    } else {
+      const nxcarUserId = getNxcarUserId();
+      if (nxcarUserId) {
+        submitCallbackRequest(nxcarUserId);
+      }
     }
-  }, [submitCallbackRequest]);
+  }, [car, submitCallbackRequest]);
 
   return {
     offerModalOpen,
@@ -214,6 +248,7 @@ export function useCarActions(car: CarDetail | undefined) {
     handleMakeOfferClick,
     handleSubmitOffer,
     handleRequestCallback,
+    handleWhatsAppSeller,
     handleOfferModalClose,
     handleOfferRetry,
     handleCallbackDialogClose,

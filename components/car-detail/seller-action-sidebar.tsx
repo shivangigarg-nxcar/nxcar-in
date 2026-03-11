@@ -18,6 +18,7 @@ import {
   HandCoins,
   Loader2,
   PhoneCall,
+  MessageCircle,
 } from "lucide-react";
 import { ShareSection } from "@components/car-detail/share-section";
 
@@ -55,6 +56,7 @@ interface SellerActionSidebarProps {
   formatEmi: (emi: number) => string;
   onMakeOfferClick: () => void;
   onRequestCallback: () => void;
+  onWhatsAppSeller: () => void;
   callbackLoading: boolean;
 }
 
@@ -77,6 +79,7 @@ export function SellerActionSidebar({
   formatEmi,
   onMakeOfferClick,
   onRequestCallback,
+  onWhatsAppSeller,
   callbackLoading,
 }: SellerActionSidebarProps) {
   const hasFairRange = priceMap &&
@@ -189,6 +192,13 @@ export function SellerActionSidebar({
                 <Phone className="mr-2 h-4 w-4" /> Contact Seller
               </Button>
             )}
+            <Button
+              className="w-full bg-[#25D366] hover:bg-[#20BD5A] text-white"
+              onClick={onWhatsAppSeller}
+              data-testid="button-whatsapp-seller"
+            >
+              <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Seller
+            </Button>
             <Link href="/used-car-loan">
               <Button
                 variant="outline"
