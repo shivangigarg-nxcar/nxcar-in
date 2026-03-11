@@ -293,6 +293,7 @@ export default function BuyCarDetail() {
             <div className="lg:hidden">
               <SellerActionSidebar
                 car={car}
+                priceMap={car.priceMap}
                 formatPriceNoSymbol={formatPriceNoSymbol}
                 formatKilometers={formatKilometers}
                 formatEmi={formatEmi}
@@ -351,6 +352,7 @@ export default function BuyCarDetail() {
             <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <SellerActionSidebar
                 car={car}
+                priceMap={car.priceMap}
                 formatPriceNoSymbol={formatPriceNoSymbol}
                 formatKilometers={formatKilometers}
                 formatEmi={formatEmi}

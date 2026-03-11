@@ -17,8 +17,19 @@ import {
   HandCoins,
   Loader2,
   PhoneCall,
+  TrendingDown,
+  TrendingUp,
+  CheckCircle2,
+  BarChart3,
 } from "lucide-react";
 import { ShareSection } from "@components/car-detail/share-section";
+
+interface PriceMapData {
+  buyerLower: number;
+  buyerUpper: number;
+  sellerLower: number;
+  sellerUpper: number;
+}
 
 interface SellerActionSidebarProps {
   car: {
@@ -41,6 +52,7 @@ interface SellerActionSidebarProps {
       inspectionReportUrl: string | null;
     } | null;
   };
+  priceMap?: PriceMapData | null;
   formatPriceNoSymbol: (price: number) => string;
   formatKilometers: (km: number) => string;
   formatEmi: (emi: number) => string;
@@ -49,8 +61,24 @@ interface SellerActionSidebarProps {
   callbackLoading: boolean;
 }
 
+function formatLakh(price: number): string {
+  if (price >= 10000000) return `${(price / 10000000).toFixed(1)} Cr`;
+  if (price >= 100000) return `${(price / 100000).toFixed(1)}L`;
+  if (price >= 1000) return `${(price / 1000).toFixed(0)}K`;
+  return price.toLocaleString("en-IN");
+}
+
+function getDealLabel(askingPrice: number, fairLow: number, fairHigh: number) {
+  const fairMid = (fairLow + fairHigh) / 2;
+  if (askingPrice < fairLow) return { label: "Below Market", color: "text-green-500", bg: "bg-green-500/10 border-green-500/20", icon: TrendingDown };
+  if (askingPrice <= fairMid) return { label: "Good Deal", color: "text-green-500", bg: "bg-green-500/10 border-green-500/20", icon: CheckCircle2 };
+  if (askingPrice <= fairHigh) return { label: "Fair Price", color: "text-blue-500", bg: "bg-blue-500/10 border-blue-500/20", icon: CheckCircle2 };
+  return { label: "Above Market", color: "text-amber-500", bg: "bg-amber-500/10 border-amber-500/20", icon: TrendingUp };
+}
+
 export function SellerActionSidebar({
   car,
+  priceMap,
   formatPriceNoSymbol,
   formatKilometers,
   formatEmi,
@@ -58,6 +86,13 @@ export function SellerActionSidebar({
   onRequestCallback,
   callbackLoading,
 }: SellerActionSidebarProps) {
+  const hasFairRange = priceMap &&
+    Number.isFinite(priceMap.buyerLower) &&
+    Number.isFinite(priceMap.buyerUpper) &&
+    priceMap.buyerUpper > priceMap.buyerLower &&
+    priceMap.buyerLower > 0;
+  const deal = hasFairRange ? getDealLabel(car.price, priceMap.buyerLower, priceMap.buyerUpper) : null;
+
   return (
     <Card className="overflow-hidden" data-testid="seller-info-card">
       <div className="h-1.5 bg-gradient-to-r from-primary/80 to-primary" />
@@ -69,6 +104,11 @@ export function SellerActionSidebar({
             </Badge>
           )}
           <Badge variant="outline">{car.year}</Badge>
+          {deal && (
+            <Badge className={`${deal.bg} ${deal.color} border`} data-testid="badge-deal-label">
+              {deal.label}
+            </Badge>
+          )}
         </div>
 
         <div>
@@ -87,6 +127,52 @@ export function SellerActionSidebar({
             </p>
           )}
         </div>
+
+        {hasFairRange && (
+          <div className="rounded-xl border p-3 space-y-2" data-testid="section-fair-range">
+            <div className="flex items-center gap-1.5 text-sm font-medium">
+              <BarChart3 className="h-4 w-4 text-primary" />
+              Nxcar Fair Range
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">Market Range</span>
+              <span className="text-sm font-semibold" data-testid="text-fair-range">
+                ₹{formatLakh(priceMap!.buyerLower)} – ₹{formatLakh(priceMap!.buyerUpper)}
+              </span>
+            </div>
+            <div className="relative h-2 rounded-full bg-muted overflow-hidden">
+              {(() => {
+                const low = priceMap!.buyerLower;
+                const high = priceMap!.buyerUpper;
+                const rangeSpan = high - low;
+                const barMin = Math.max(low - rangeSpan * 0.3, 0);
+                const barMax = high + rangeSpan * 0.3;
+                const totalSpan = barMax - barMin;
+                const fairStart = ((low - barMin) / totalSpan) * 100;
+                const fairWidth = ((high - low) / totalSpan) * 100;
+                const askingPos = Math.min(Math.max(((car.price - barMin) / totalSpan) * 100, 0), 100);
+                return (
+                  <>
+                    <div
+                      className="absolute top-0 h-full rounded-full bg-gradient-to-r from-green-400 to-blue-400"
+                      style={{ left: `${fairStart}%`, width: `${fairWidth}%` }}
+                    />
+                    <div
+                      className="absolute top-0 w-1 h-full bg-purple-500 rounded-full"
+                      style={{ left: `${askingPos}%` }}
+                      title={`Asking: ₹${formatLakh(car.price)}`}
+                    />
+                  </>
+                );
+              })()}
+            </div>
+            <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+              <span>₹{formatLakh(priceMap!.buyerLower)}</span>
+              <span className="text-purple-500 font-medium">Asking</span>
+              <span>₹{formatLakh(priceMap!.buyerUpper)}</span>
+            </div>
+          </div>
+        )}
 
         <div className="border-y py-3 space-y-2">
           {[

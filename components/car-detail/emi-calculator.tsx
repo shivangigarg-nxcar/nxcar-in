@@ -1,18 +1,27 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent } from "@components/ui/card";
 import { Slider } from "@components/ui/slider";
 
 export function EMICalculator({ carPrice }: { carPrice: number }) {
-  const [loanAmount, setLoanAmount] = useState(carPrice);
   const [downPayment, setDownPayment] = useState(Math.round(carPrice * 0.2));
+
+  useEffect(() => {
+    setDownPayment(prev => Math.min(prev, carPrice));
+  }, [carPrice]);
   const [interestRate, setInterestRate] = useState(9.5);
   const [tenure, setTenure] = useState(36);
   const tenureOptions = [12, 24, 36, 48, 60];
 
+  const loanAmount = Math.max(carPrice - downPayment, 0);
+
+  const handleDownPaymentChange = (value: number) => {
+    setDownPayment(Math.min(value, carPrice));
+  };
+
   const calculations = useMemo(() => {
-    const principal = Math.max(loanAmount - downPayment, 0);
+    const principal = loanAmount;
     const monthlyRate = interestRate / 12 / 100;
     const months = tenure;
     if (principal <= 0 || monthlyRate <= 0 || months <= 0) {
@@ -22,7 +31,7 @@ export function EMICalculator({ carPrice }: { carPrice: number }) {
     const totalAmount = emi * months;
     const totalInterest = totalAmount - principal;
     return { emi: Math.round(emi), totalInterest: Math.round(totalInterest), totalAmount: Math.round(totalAmount), principal };
-  }, [loanAmount, downPayment, interestRate, tenure]);
+  }, [loanAmount, interestRate, tenure]);
 
   const principalPercent = calculations.totalAmount > 0 ? (calculations.principal / calculations.totalAmount) * 100 : 0;
   const circumference = 2 * Math.PI * 60;
@@ -34,18 +43,38 @@ export function EMICalculator({ carPrice }: { carPrice: number }) {
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div>
-              <div className="flex justify-between mb-2">
-                <label className="text-sm font-medium">Loan Amount</label>
-                <span className="text-sm font-bold text-primary" data-testid="text-emi-loan-amount">₹{loanAmount.toLocaleString('en-IN')}</span>
+              <div className="flex justify-between mb-1">
+                <label className="text-sm font-medium">Car Price</label>
+                <span className="text-sm font-bold text-primary">₹{carPrice.toLocaleString('en-IN')}</span>
               </div>
-              <Slider value={[loanAmount]} min={100000} max={Math.max(carPrice * 2, 2000000)} step={10000} onValueChange={([v]) => setLoanAmount(v)} data-testid="slider-loan-amount" />
+              <div className="text-xs text-muted-foreground mb-4">Loan & down payment are calculated based on this price</div>
             </div>
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-sm font-medium">Down Payment</label>
                 <span className="text-sm font-bold text-primary" data-testid="text-emi-down-payment">₹{downPayment.toLocaleString('en-IN')}</span>
               </div>
-              <Slider value={[downPayment]} min={0} max={loanAmount} step={10000} onValueChange={([v]) => setDownPayment(v)} data-testid="slider-down-payment" />
+              <Slider value={[downPayment]} min={0} max={carPrice} step={10000} onValueChange={([v]) => handleDownPaymentChange(v)} data-testid="slider-down-payment" />
+              <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <span>₹0</span>
+                <span>₹{carPrice.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-2">
+                <label className="text-sm font-medium">Loan Amount</label>
+                <span className="text-sm font-bold text-primary" data-testid="text-emi-loan-amount">₹{loanAmount.toLocaleString('en-IN')}</span>
+              </div>
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${carPrice > 0 ? (loanAmount / carPrice) * 100 : 0}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <span>{carPrice > 0 ? Math.round((loanAmount / carPrice) * 100) : 0}% of car price</span>
+                <span>₹{loanAmount.toLocaleString('en-IN')}</span>
+              </div>
             </div>
             <div>
               <div className="flex justify-between mb-2">
@@ -77,9 +106,13 @@ export function EMICalculator({ carPrice }: { carPrice: number }) {
                 <span className="text-xl font-bold" data-testid="text-emi-monthly">₹{calculations.emi.toLocaleString('en-IN')}</span>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-3 gap-3 w-full">
               <div className="bg-muted/50 rounded-xl p-3 text-center">
-                <p className="text-xs text-muted-foreground mb-1">Principal</p>
+                <p className="text-xs text-muted-foreground mb-1">Down Payment</p>
+                <p className="text-sm font-bold">₹{downPayment.toLocaleString('en-IN')}</p>
+              </div>
+              <div className="bg-muted/50 rounded-xl p-3 text-center">
+                <p className="text-xs text-muted-foreground mb-1">Loan Amount</p>
                 <p className="text-sm font-bold" data-testid="text-emi-principal">₹{calculations.principal.toLocaleString('en-IN')}</p>
               </div>
               <div className="bg-muted/50 rounded-xl p-3 text-center">
