@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -32,6 +32,14 @@ const INITIAL_SLOTS: Omit<DocSlot, "file" | "preview" | "confirmed" | "uploading
 ];
 
 export default function UploadDocumentsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+      <UploadDocumentsContent />
+    </Suspense>
+  );
+}
+
+function UploadDocumentsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
