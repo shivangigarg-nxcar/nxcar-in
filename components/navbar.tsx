@@ -19,6 +19,7 @@ export function Navbar() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileSellOpen, setMobileSellOpen] = useState(false);
   const { user, isLoading, isAuthenticated, logout: logoutFn } = useAuth();
 
   useEffect(() => { setMounted(true); }, []);
@@ -48,11 +49,19 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex md:items-center md:space-x-1">
-          <Link href="/sell-used-car" className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white" data-testid="link-nav-sell-car">
+          <div className="relative group" data-testid="nav-sell-dropdown">
+            <button className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
               <span className="relative z-10">Sell Car</span>
+              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
               <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
               <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
+            </button>
+            <div className="absolute top-full left-0 mt-1 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+              <Link href="/sell-used-car" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-online">Sell Car Online</Link>
+              <Link href="/sell-used-car/delhi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-delhi">Sell Car in Delhi</Link>
+              <Link href="/sell-used-car/gurgaon" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-gurgaon">Sell Car in Gurgaon</Link>
+            </div>
+          </div>
             <Link href="/used-cars" className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white" data-testid="link-nav-buy-car">
               <span className="relative z-10">Buy Car</span>
               <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
@@ -229,10 +238,28 @@ export function Navbar() {
               <span className="text-sm font-medium text-foreground">Buy Car</span>
             </Link>
 
-            <Link href="/sell-used-car" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <button
+              onClick={() => setMobileSellOpen(prev => !prev)}
+              className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors w-full text-left"
+              data-testid="button-mobile-sell-toggle"
+            >
               <Car className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Sell Car</span>
-            </Link>
+              <ChevronDown className={`h-4 w-4 text-muted-foreground ml-auto transition-transform ${mobileSellOpen ? "rotate-180" : ""}`} />
+            </button>
+            {mobileSellOpen && (
+              <div className="ml-12 border-l-2 border-primary/20 pl-3 space-y-0.5 mb-1">
+                <Link href="/sell-used-car" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell-online" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Sell Car Online
+                </Link>
+                <Link href="/sell-used-car/delhi" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell-delhi" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Sell Car in Delhi
+                </Link>
+                <Link href="/sell-used-car/gurgaon" onClick={() => setIsOpen(false)} data-testid="link-mobile-sell-gurgaon" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Sell Car in Gurgaon
+                </Link>
+              </div>
+            )}
 
             <Link href="/used-car-loan" onClick={() => setIsOpen(false)} data-testid="link-mobile-loans" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Banknote className="h-5 w-5 text-primary" />

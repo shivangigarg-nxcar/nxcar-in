@@ -42,15 +42,15 @@ import { useSellCarForm } from "@hooks/use-sell-car-form";
 import { useVehicleLookup } from "@hooks/use-vehicle-lookup";
 import { useImageUpload } from "@hooks/use-image-upload";
 
-export default function SellCarPage() {
+export default function SellCarPage({ cityTagline }: { cityTagline?: string | null }) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <SellCar />
+      <SellCar cityTagline={cityTagline} />
     </Suspense>
   );
 }
 
-function SellCar() {
+function SellCar({ cityTagline }: { cityTagline?: string | null }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();
@@ -321,6 +321,11 @@ function SellCar() {
                     <p className="text-lg text-muted-foreground">
                       {STEPS[form.currentStepIndex]?.subtitle}
                     </p>
+                    {cityTagline && (
+                      <p className="text-base font-semibold text-primary mt-2" data-testid="text-city-tagline">
+                        {cityTagline}
+                      </p>
+                    )}
                   </div>
 
                   <SellTimelinePills
