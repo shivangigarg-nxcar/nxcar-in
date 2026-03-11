@@ -122,7 +122,7 @@ export function Navbar() {
             <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
               <Link href="/car-services" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-car-services">Car Services</Link>
               <Link href="/pdi-services" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-pdi-services">PDI Services</Link>
-              <Link href="/insurance-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-insurance-check">Insurance Check</Link>
+              <Link href="/insurance-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-insurance-check">Buy Insurance</Link>
               <Link href="/challan-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-challan-check">Challan Check</Link>
               <Link href="/rc-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-rc-check">RC Check</Link>
             </div>
@@ -341,7 +341,7 @@ export function Navbar() {
                   PDI Services
                 </Link>
                 <Link href="/insurance-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-insurance-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                  Insurance Check
+                  Buy Insurance
                 </Link>
                 <Link href="/challan-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-challan-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                   Challan Check
