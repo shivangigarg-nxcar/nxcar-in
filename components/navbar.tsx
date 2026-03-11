@@ -70,7 +70,7 @@ export function Navbar() {
               <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
               <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <div className="absolute top-full left-0 mt-1 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+            <div className="absolute top-full left-0 mt-1 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden max-h-[70vh] overflow-y-auto">
               <Link href="/used-cars" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-online">Buy Car Online</Link>
               <Link href="/used-cars/delhi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-delhi">Buy Car in Delhi</Link>
               <Link href="/used-cars/mumbai" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-mumbai">Buy Car in Mumbai</Link>
@@ -79,6 +79,14 @@ export function Navbar() {
               <Link href="/used-cars/gurgaon" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-gurgaon">Buy Car in Gurgaon</Link>
               <Link href="/used-cars/pune" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-pune">Buy Car in Pune</Link>
               <Link href="/used-cars/kolkata" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-kolkata">Buy Car in Kolkata</Link>
+              <Link href="/used-cars/chennai" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-chennai">Buy Car in Chennai</Link>
+              <Link href="/used-cars/jaipur" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-jaipur">Buy Car in Jaipur</Link>
+              <Link href="/used-cars/lucknow" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-lucknow">Buy Car in Lucknow</Link>
+              <Link href="/used-cars/ahmedabad" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-ahmedabad">Buy Car in Ahmedabad</Link>
+              <Link href="/used-cars/chandigarh" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-chandigarh">Buy Car in Chandigarh</Link>
+              <Link href="/used-cars/noida" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-noida">Buy Car in Noida</Link>
+              <Link href="/used-cars/faridabad" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-faridabad">Buy Car in Faridabad</Link>
+              <Link href="/used-cars/ghaziabad" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-buy-ghaziabad">Buy Car in Ghaziabad</Link>
             </div>
           </div>
             <Link href="/used-car-loan" className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white" data-testid="link-nav-used-car-loans">
@@ -257,7 +265,7 @@ export function Navbar() {
               <ChevronDown className={`h-4 w-4 text-muted-foreground ml-auto transition-transform ${mobileBuyOpen ? "rotate-180" : ""}`} />
             </button>
             {mobileBuyOpen && (
-              <div className="ml-12 border-l-2 border-primary/20 pl-3 space-y-0.5 mb-1">
+              <div className="ml-12 border-l-2 border-primary/20 pl-3 space-y-0.5 mb-1 max-h-[50vh] overflow-y-auto">
                 <Link href="/used-cars" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-online" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                   Buy Car Online
                 </Link>
@@ -281,6 +289,30 @@ export function Navbar() {
                 </Link>
                 <Link href="/used-cars/kolkata" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-kolkata" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                   Buy Car in Kolkata
+                </Link>
+                <Link href="/used-cars/chennai" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-chennai" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Chennai
+                </Link>
+                <Link href="/used-cars/jaipur" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-jaipur" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Jaipur
+                </Link>
+                <Link href="/used-cars/lucknow" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-lucknow" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Lucknow
+                </Link>
+                <Link href="/used-cars/ahmedabad" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-ahmedabad" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Ahmedabad
+                </Link>
+                <Link href="/used-cars/chandigarh" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-chandigarh" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Chandigarh
+                </Link>
+                <Link href="/used-cars/noida" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-noida" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Noida
+                </Link>
+                <Link href="/used-cars/faridabad" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-faridabad" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Faridabad
+                </Link>
+                <Link href="/used-cars/ghaziabad" onClick={() => setIsOpen(false)} data-testid="link-mobile-buy-ghaziabad" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Buy Car in Ghaziabad
                 </Link>
               </div>
             )}

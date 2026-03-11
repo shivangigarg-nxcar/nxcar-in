@@ -9,6 +9,7 @@ import { Badge } from "@components/ui/badge";
 import { Input } from "@components/ui/input";
 import { MapPin, Search, Building2, CheckCircle, Users, Award, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface CityData {
   id: number;
@@ -174,14 +175,28 @@ export default function DealerNetwork() {
                           data-testid={`link-city-${city.name.toLowerCase().replace(/ /g, '-')}`}
                         >
                           <Card className="group cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-300 bg-white dark:bg-slate-800/50 border-slate-200 dark:border-white/10 overflow-hidden">
-                            <CardContent className="p-4 relative">
-                              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                              <div className="flex items-center gap-3">
-                                <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary font-bold text-lg">
-                                  {city.name.charAt(0)}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-semibold text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors">
+                            <div className="aspect-[16/9] overflow-hidden relative">
+                              <Image
+                                src={`/images/buy/cities/${city.name.toLowerCase().replace(/\s+/g, "")}.webp`}
+                                alt={city.name}
+                                fill
+                                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  const target = e.currentTarget;
+                                  target.style.display = 'none';
+                                  target.parentElement!.classList.add('bg-gradient-to-br', 'from-primary/20', 'to-primary/5');
+                                  const span = document.createElement('span');
+                                  span.className = 'absolute inset-0 flex items-center justify-center text-primary font-bold text-2xl';
+                                  span.textContent = city.name.charAt(0);
+                                  target.parentElement!.appendChild(span);
+                                }}
+                              />
+                            </div>
+                            <CardContent className="p-3 relative">
+                              <div className="flex items-center justify-between">
+                                <div className="min-w-0">
+                                  <p className="font-semibold text-sm text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors">
                                     {city.name}
                                   </p>
                                   <p className="text-xs text-slate-500 flex items-center gap-1">
@@ -189,7 +204,7 @@ export default function DealerNetwork() {
                                     View Dealers
                                   </p>
                                 </div>
-                                <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex-shrink-0" />
                               </div>
                             </CardContent>
                           </Card>

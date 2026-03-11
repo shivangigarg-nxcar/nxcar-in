@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Navbar } from "@components/navbar";
 import { Footer } from "@components/footer";
 import { Card } from "@components/ui/card";
@@ -66,13 +67,14 @@ function CityCard({ city, onSelect }: { city: City; onSelect: (name: string) => 
           </span>
         </div>
       ) : (
-        <div className="aspect-square overflow-hidden">
-          <img
+        <div className="aspect-square overflow-hidden relative">
+          <Image
             src={getCityImagePath(city.city_name)}
             alt={city.city_name}
-            loading="lazy"
+            fill
+            sizes="(max-width: 640px) 25vw, (max-width: 768px) 16vw, 12vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
       )}
@@ -210,10 +212,13 @@ export default function UsedCarsPage() {
       <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-16">
         <div className="space-y-12">
           <div className="relative rounded-2xl overflow-hidden min-h-[400px]">
-            <img
+            <Image
               src="/images/buy/hero-bg.webp"
               alt="Buy Used Cars"
-              className="absolute inset-0 w-full h-full object-cover bg-center"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/35" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -319,12 +324,13 @@ export default function UsedCarsPage() {
                   className="text-center rounded-xl border bg-card overflow-hidden hover-elevate"
                   data-testid={`card-how-it-works-${i}`}
                 >
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
+                  <div className="aspect-[16/10] overflow-hidden relative">
+                    <Image
                       src={step.img}
                       alt={step.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
                     />
                   </div>
                   <div className="p-4 sm:p-5">
