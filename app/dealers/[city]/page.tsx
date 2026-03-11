@@ -244,10 +244,12 @@ export default function CityDealers() {
                                   <Car className="h-4 w-4" />
                                   {dealer.vehicle_count} Cars
                                 </div>
-                                <div className="flex items-center gap-1 text-sm text-amber-500">
-                                  <Star className="h-4 w-4 fill-current" />
-                                  4.5
-                                </div>
+                                {dealer.rating && dealer.rating !== "0.00" && dealer.rating !== "0" && (
+                                  <div className="flex items-center gap-1 text-sm text-amber-500">
+                                    <Star className="h-4 w-4 fill-current" />
+                                    {parseFloat(dealer.rating).toFixed(1)}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>

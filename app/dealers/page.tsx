@@ -129,8 +129,8 @@ export default function DealerNetwork() {
                 </div>
                 <div className="text-center p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-white/10">
                   <Award className="h-6 w-6 sm:h-8 sm:w-8 mx-auto text-primary mb-1 sm:mb-2" />
-                  <p className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">4.5★</p>
-                  <p className="text-xs sm:text-sm text-slate-500">Avg Rating</p>
+                  <p className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Trusted</p>
+                  <p className="text-xs sm:text-sm text-slate-500">Verified Dealers</p>
                 </div>
               </div>
 
