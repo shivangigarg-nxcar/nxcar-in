@@ -265,7 +265,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
       vehicle_number: formData.vehicleNumber, vehicle_no: formData.vehicleNumber,
       make: formData.brand, make_id: formData.makeId ? String(formData.makeId) : "",
       model: formData.model, model_id: formData.modelId ? String(formData.modelId) : "",
-      variant: variantNotFound ? "null" : formData.variant, variant_id: variantNotFound ? "" : (formData.variantId ? String(formData.variantId) : ""),
+      variant: variantNotFound ? "null" : formData.variant, variant_id: variantNotFound ? "null" : (formData.variantId ? String(formData.variantId) : ""),
       year: formData.year ? String(formData.year) : "",
       manufacturing_year: formData.manufacturingYear || (formData.year ? String(formData.year) : ""),
       fule_type: formData.fuelType ? formData.fuelType.toLowerCase() : "",
