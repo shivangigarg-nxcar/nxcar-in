@@ -11,6 +11,7 @@ import { Toaster as SonnerToaster } from 'sonner';
 import { ComparisonBar } from '@components/comparison-bar';
 import { ScrollRestoration } from '@components/scroll-restoration';
 import HeadTags from '../utils/HeadTags';
+import { CanonicalTag } from '@components/canonical-tag';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -29,6 +30,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <FavoritesProvider>
             <TooltipProvider>
               <HeadTags />
+              <CanonicalTag />
               <ScrollRestoration />
               {children}
               <ComparisonBar />

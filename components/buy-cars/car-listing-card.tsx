@@ -55,7 +55,7 @@ function formatListingDate(dateStr: string): string {
   if (diffDays === 0) return "today";
   if (diffDays === 1) return "yesterday";
   if (diffDays < 30) return `${diffDays} days ago`;
-  return "over a month ago";
+  return "1 month ago";
 }
 
 function toSlug(text: string): string {

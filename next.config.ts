@@ -38,28 +38,7 @@ const nextConfig: NextConfig = {
       destination: '/terms-of-use',
     },
   ],
-  redirects: async () => [
-    {
-      source: '/used-car-in/:city/:rest*',
-      destination: '/used-cars/:city',
-      permanent: true,
-    },
-    {
-      source: '/used-car-in/:city',
-      destination: '/used-cars/:city',
-      permanent: true,
-    },
-    {
-      source: '/used-cars-in/:city/:rest*',
-      destination: '/used-cars/:city',
-      permanent: true,
-    },
-    {
-      source: '/used-cars-in/:city',
-      destination: '/used-cars/:city',
-      permanent: true,
-    },
-  ],
+  redirects: async () => [],
   headers: async () => [
     {
       source: '/:path*',

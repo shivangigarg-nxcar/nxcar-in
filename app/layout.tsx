@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     locale: 'en_IN',
   },
   twitter: { card: 'summary_large_image', title: 'Nxcar - Buy & Sell Used Cars' },
-  alternates: { canonical: 'https://nxcar.in' },
   robots: { index: true, follow: true },
   metadataBase: new URL('https://nxcar.in'),
 };

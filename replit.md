@@ -44,3 +44,39 @@ All legal pages match exact content from dev.nxcar.in:
 
 -   `/p1rtn5rs-*` → `/partners-account` (handles `@` character which conflicts with Next.js parallel routes)
 -   `/nxcar-t3rms-*` → `/terms-of-use` (handles `$` characters in URL)
+
+### Legacy URL Redirects (middleware.ts)
+
+-   `/used-car-in/{city}/{make}/{model}/{variant}/{id}` → `/used-cars/{city}/{make}-{model}-{variant}-{id}` (individual car page)
+-   `/used-car-in/{city}/{slug}` → `/used-cars/{city}` (city listing fallback when no numeric ID)
+-   Same pattern for `/used-cars-in/` prefix
+-   Middleware extracts last segment as car ID if numeric, builds slugified car detail URL
+
+## SEO & Canonical Tags
+
+-   Dynamic canonical tags via `components/canonical-tag.tsx` using `usePathname()` from next/navigation
+-   Each page gets `<link rel="canonical" href="https://nxcar.in{pathname}">` automatically
+-   Component is rendered in `app/providers.tsx`
+
+## Navbar & Footer City Links
+
+-   **Navbar**: Both "Sell Car" and "Buy Car" are hover dropdowns with city-specific links (Delhi, Mumbai, Bangalore, Hyderabad, Gurgaon, Pune, Kolkata). Mobile has expandable sections.
+-   **Footer**: "Buy Used Cars" section (10 cities), "Sell Used Cars" section (2 cities: Delhi, Gurgaon)
+
+## Listing Date Display
+
+-   Listings older than 30 days show "1 month ago" (capped, never shows "2 months ago" etc.)
+-   Format: today, yesterday, X days ago, 1 month ago
+-   Logic in `components/buy-cars/car-listing-card.tsx` and `components/car-detail/quick-specs.tsx`
+
+## Price Prediction (Sell Flow)
+
+-   Price step calls `POST https://dev-ai.nxcar.in/price-prediction` with car details
+-   Payload fields: make, model, variant, variant_id, year, fuel_type, transmission, distance (km), owner_count, rto_code, color
+-   Displays seller price range from `pricing.seller.lower` / `pricing.seller.upper`
+
+## Buy Page Cities
+
+-   `/used-cars` page shows top 50 cities sorted by car count with images/initials
+-   Remaining cities behind "View More Cities" toggle
+-   Cities with local images in `public/images/buy/cities/` show photos; others show gradient + initial letter

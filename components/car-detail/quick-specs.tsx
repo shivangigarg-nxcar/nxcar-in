@@ -22,7 +22,7 @@ function formatListingDate(dateStr: string): string {
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Yesterday";
   if (diffDays < 30) return `${diffDays} days ago`;
-  return "Over a month ago";
+  return "1 month ago";
 }
 
 export function QuickSpecs({ year, kilometersDriven, fuelType, transmission, listingDate }: QuickSpecsProps) {

@@ -72,7 +72,7 @@ export const Footer = memo(function Footer() {
             </div>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 sm:gap-8 flex-1">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-5 sm:gap-8 flex-1">
             <div role="navigation" aria-label="Footer navigation">
               <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Services</h3>
               <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
@@ -84,6 +84,30 @@ export const Footer = memo(function Footer() {
                 <li><a href="/car-services" data-testid="link-service-car-services" className="hover:text-[#0EA9B2] transition-colors">Car Services</a></li>
                 <li><a href="/rc-check" data-testid="link-service-rc-check" className="hover:text-[#0EA9B2] transition-colors">RC Check</a></li>
                 <li><a href="/challan-check" data-testid="link-service-challan-check" className="hover:text-[#0EA9B2] transition-colors">Challan Check</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Buy Used Cars</h3>
+              <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
+                <li><a href="/used-cars/delhi" data-testid="link-buy-city-delhi" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Delhi</a></li>
+                <li><a href="/used-cars/mumbai" data-testid="link-buy-city-mumbai" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Mumbai</a></li>
+                <li><a href="/used-cars/bangalore" data-testid="link-buy-city-bangalore" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Bangalore</a></li>
+                <li><a href="/used-cars/hyderabad" data-testid="link-buy-city-hyderabad" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Hyderabad</a></li>
+                <li><a href="/used-cars/gurgaon" data-testid="link-buy-city-gurgaon" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Gurgaon</a></li>
+                <li><a href="/used-cars/pune" data-testid="link-buy-city-pune" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Pune</a></li>
+                <li><a href="/used-cars/kolkata" data-testid="link-buy-city-kolkata" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Kolkata</a></li>
+                <li><a href="/used-cars/jaipur" data-testid="link-buy-city-jaipur" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Jaipur</a></li>
+                <li><a href="/used-cars/chennai" data-testid="link-buy-city-chennai" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Chennai</a></li>
+                <li><a href="/used-cars/chandigarh" data-testid="link-buy-city-chandigarh" className="hover:text-[#0EA9B2] transition-colors">Buy Car in Chandigarh</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Sell Used Cars</h3>
+              <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
+                <li><a href="/sell-used-car/delhi" data-testid="link-sell-city-delhi" className="hover:text-[#0EA9B2] transition-colors">Sell Car in Delhi</a></li>
+                <li><a href="/sell-used-car/gurgaon" data-testid="link-sell-city-gurgaon" className="hover:text-[#0EA9B2] transition-colors">Sell Car in Gurgaon</a></li>
               </ul>
             </div>
             
