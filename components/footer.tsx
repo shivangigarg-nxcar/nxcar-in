@@ -91,6 +91,12 @@ export const Footer = memo(function Footer() {
               <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Buy Used Cars</h3>
               <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
                 <li><a href="/used-cars" data-testid="link-buy-cars" className="hover:text-[#0EA9B2] transition-colors">Buy Cars</a></li>
+                <li><a href="/used-cars/delhi" data-testid="link-buy-city-delhi" className="hover:text-[#0EA9B2] transition-colors">Delhi</a></li>
+                <li><a href="/used-cars/mumbai" data-testid="link-buy-city-mumbai" className="hover:text-[#0EA9B2] transition-colors">Mumbai</a></li>
+                <li><a href="/used-cars/bangalore" data-testid="link-buy-city-bangalore" className="hover:text-[#0EA9B2] transition-colors">Bangalore</a></li>
+                <li><a href="/used-cars/hyderabad" data-testid="link-buy-city-hyderabad" className="hover:text-[#0EA9B2] transition-colors">Hyderabad</a></li>
+                <li><a href="/used-cars/gurgaon" data-testid="link-buy-city-gurgaon" className="hover:text-[#0EA9B2] transition-colors">Gurgaon</a></li>
+                <li><a href="/used-cars/pune" data-testid="link-buy-city-pune" className="hover:text-[#0EA9B2] transition-colors">Pune</a></li>
               </ul>
             </div>
             
@@ -142,6 +148,62 @@ export const Footer = memo(function Footer() {
           </div>
         </div>
         
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-6 mb-4">
+          <h3 className="text-slate-900 dark:text-white font-bold mb-3 text-sm">Buy Used Car in</h3>
+          <div className="flex flex-wrap text-xs sm:text-sm leading-6 text-slate-500 dark:text-slate-400">
+            {[
+              { name: "Ahmadabad", slug: "ahmadabad" },
+              { name: "Amritsar", slug: "amritsar" },
+              { name: "Bangalore", slug: "bangalore" },
+              { name: "Chandigarh", slug: "chandigarh" },
+              { name: "Chennai", slug: "chennai" },
+              { name: "Delhi", slug: "delhi" },
+              { name: "Faridabad", slug: "faridabad" },
+              { name: "Ghaziabad", slug: "ghaziabad" },
+              { name: "Gurgaon", slug: "gurgaon" },
+              { name: "Hyderabad", slug: "hyderabad" },
+              { name: "Kolkata", slug: "kolkata" },
+              { name: "Mumbai", slug: "mumbai" },
+              { name: "Agra", slug: "agra" },
+              { name: "Bhopal", slug: "bhopal" },
+              { name: "Coimbatore", slug: "coimbatore" },
+              { name: "Dehradun", slug: "dehradun" },
+              { name: "Jaipur", slug: "jaipur" },
+              { name: "Lucknow", slug: "lucknow" },
+              { name: "Ludhiana", slug: "ludhiana" },
+              { name: "Meerut", slug: "meerut" },
+              { name: "Mohali", slug: "mohali" },
+              { name: "Nagpur", slug: "nagpur" },
+              { name: "Nashik", slug: "nashik" },
+              { name: "Noida", slug: "noida" },
+              { name: "Patna", slug: "patna" },
+              { name: "Pune", slug: "pune" },
+              { name: "Surat", slug: "surat" },
+              { name: "Thane", slug: "thane" },
+              { name: "Ujjain", slug: "ujjain" },
+              { name: "Visakhapatnam", slug: "visakhapatnam" },
+              { name: "Aurangabad", slug: "aurangabad" },
+              { name: "Bathinda", slug: "bathinda" },
+              { name: "Bokaro", slug: "bokaro" },
+              { name: "Cuttack", slug: "cuttack" },
+              { name: "Guntur", slug: "guntur" },
+              { name: "Hassan", slug: "hassan" },
+              { name: "Jalandhar", slug: "jalandhar" },
+              { name: "Belgaum", slug: "belgaum" },
+              { name: "Bilaspur", slug: "bilaspur" },
+              { name: "Ambala", slug: "ambala" },
+              { name: "Barmer", slug: "barmer" },
+              { name: "Firozpur", slug: "firozpur" },
+              { name: "Rangareddy", slug: "rangareddy" },
+            ].map((city, idx, arr) => (
+              <span key={city.slug}>
+                <a href={`/used-cars/${city.slug}`} className="hover:text-[#0EA9B2] hover:underline transition-colors" data-testid={`link-footer-city-${city.slug}`}>{city.name}</a>
+                {idx < arr.length - 1 && <span className="mx-1.5 sm:mx-2">|</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
         <div className="border-t border-slate-200 dark:border-slate-800 pt-6 mb-4">
           <p className="text-[10px] sm:text-xs text-slate-500 leading-relaxed text-center max-w-4xl mx-auto">
             Nxcar is India's leading platform for <strong className="text-slate-700 dark:text-slate-400">selling used cars</strong>, <strong className="text-slate-700 dark:text-slate-400">buying verified second-hand cars</strong>, and connecting with trusted dealers across Delhi NCR, Mumbai, Bangalore, Hyderabad, Chennai, Pune, and 50+ cities. 
