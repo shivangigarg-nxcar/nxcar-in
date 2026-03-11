@@ -1,10 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 import { Card, CardContent } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
 import { Building2, CheckCircle, ArrowRight, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
+
+function getCityImagePath(cityName: string): string {
+  return `/images/buy/cities/${cityName.toLowerCase().replace(/\s+/g, "")}.webp`;
+}
 
 interface CityPreview {
   id: number;
@@ -97,24 +103,33 @@ export function DealerNetworkPreview() {
                     href={`/dealers/${city.slug}`}
                     data-testid={`link-dealer-city-${city.slug}`}
                   >
-                    <Card className="group cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-300 bg-white dark:bg-slate-800/50 border-slate-200 dark:border-white/10 h-full">
-                      <CardContent className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary font-bold text-lg flex-shrink-0">
-                            {city.name.charAt(0)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors">
-                              {city.name}
-                            </p>
-                            <p className="text-xs text-slate-500">
-                              {city.dealerCount} Premium Dealers
-                            </p>
-                          </div>
-                        </div>
-                        <div className="mt-3 flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span>View Dealers</span>
-                          <ArrowRight className="h-3 w-3" />
+                    <Card className="group cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-300 bg-white dark:bg-slate-800/50 border-slate-200 dark:border-white/10 h-full overflow-hidden">
+                      <div className="relative h-28 w-full overflow-hidden">
+                        <Image
+                          src={getCityImagePath(city.name)}
+                          alt={`${city.name} dealers`}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.style.display = "none";
+                            if (target.parentElement) {
+                              target.parentElement.classList.add("bg-gradient-to-br", "from-primary/20", "to-primary/5");
+                              target.parentElement.innerHTML = `<span class="absolute inset-0 flex items-center justify-center text-primary font-bold text-3xl">${city.name.charAt(0)}</span>`;
+                            }
+                          }}
+                        />
+                      </div>
+                      <CardContent className="p-3">
+                        <p className="font-semibold text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors text-sm">
+                          {city.name}
+                        </p>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-xs text-slate-500">
+                            {city.dealerCount} Premium Dealers
+                          </p>
+                          <ArrowRight className="h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                       </CardContent>
                     </Card>
