@@ -22,7 +22,7 @@ jobs:
           script: |
             cd /var/www/nxcar-in
             git pull origin main
-            cd client && npm install && npm run build && cd ..
+            npm install && npm run build && cd ..
             ./scripts/run-migrations.sh
             pm2 restart myapp-nxcar-in
             pm2 save
