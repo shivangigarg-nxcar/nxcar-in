@@ -21,6 +21,27 @@ import {
 import { OWNER_OPTIONS } from "../sell-constants";
 import { FranchiseList } from "./franchise-list";
 
+function toLocalDateString(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function isSlotTooSoon(slotTime: string, selectedDate: string): boolean {
+  const todayStr = toLocalDateString(new Date());
+  if (selectedDate !== todayStr) return false;
+  const match = slotTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return false;
+  let hour = parseInt(match[1], 10);
+  const ampm = match[3].toUpperCase();
+  if (ampm === "PM" && hour !== 12) hour += 12;
+  if (ampm === "AM" && hour === 12) hour = 0;
+  const now = new Date();
+  const currentHour = now.getHours() + now.getMinutes() / 60;
+  return hour < currentHour + 2;
+}
+
 interface InspectionBookingFormData {
   vehicleNumber: string;
   brand: string;
@@ -51,6 +72,8 @@ export interface InspectionBookingProps {
   setSelectedDate: (date: string) => void;
   inspectionLocation: string;
   setInspectionLocation: (location: string) => void;
+  inspectionPincode: string;
+  setInspectionPincode: (pincode: string) => void;
   franchises: InspectionFranchise[];
   franchisesLoading: boolean;
   franchisesError: boolean;
@@ -87,6 +110,8 @@ export function InspectionBooking(props: InspectionBookingProps) {
     setSelectedDate,
     inspectionLocation,
     setInspectionLocation,
+    inspectionPincode,
+    setInspectionPincode,
     franchises,
     franchisesLoading,
     franchisesError,
@@ -121,17 +146,17 @@ export function InspectionBooking(props: InspectionBookingProps) {
     const days: { date: Date; dateString: string; day: number; isCurrentMonth: boolean; isPast: boolean }[] = [];
     for (let i = 0; i < startDayOfWeek; i++) {
       const d = new Date(year, month, -startDayOfWeek + i + 1);
-      days.push({ date: d, dateString: d.toISOString().split("T")[0], day: d.getDate(), isCurrentMonth: false, isPast: d < today });
+      days.push({ date: d, dateString: toLocalDateString(d), day: d.getDate(), isCurrentMonth: false, isPast: d < today });
     }
     for (let d = 1; d <= totalDays; d++) {
       const date = new Date(year, month, d);
-      days.push({ date, dateString: date.toISOString().split("T")[0], day: d, isCurrentMonth: true, isPast: date < today });
+      days.push({ date, dateString: toLocalDateString(date), day: d, isCurrentMonth: true, isPast: date < today });
     }
     const remaining = 7 - (days.length % 7);
     if (remaining < 7) {
       for (let i = 1; i <= remaining; i++) {
         const d = new Date(year, month + 1, i);
-        days.push({ date: d, dateString: d.toISOString().split("T")[0], day: i, isCurrentMonth: false, isPast: d < today });
+        days.push({ date: d, dateString: toLocalDateString(d), day: i, isCurrentMonth: false, isPast: d < today });
       }
     }
     return days;
@@ -153,11 +178,14 @@ export function InspectionBooking(props: InspectionBookingProps) {
       const address = inspectionMode === "franchise" && selectedFranchise
         ? selectedFranchise.franchise_address
         : inspectionLocation.trim();
+      const pincode = inspectionMode === "home" && inspectionPincode
+        ? inspectionPincode
+        : extractPincode(address);
       const inspectionData: Record<string, any> = {
         vehicle_id: submittedVehicleId,
         city: resolvedCityId,
         inspection_date: formattedDate,
-        pincode: extractPincode(address),
+        pincode,
         address: address,
         time: selectedSlot.slot_name === "Evening" ? "Evening" : "Morning",
       };
@@ -215,8 +243,8 @@ export function InspectionBooking(props: InspectionBookingProps) {
             <p className="text-xs text-muted-foreground mb-4">Upload your RC copy, insurance, PAN card and payment details to speed up the selling process.</p>
             <div className="flex gap-3">
               <a
-                href={savedCarListingId
-                  ? `/used-cars/${(formData.location || "india").toLowerCase().replace(/\s+/g, "-")}/${(formData.brand || "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(formData.model || "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}${formData.year || ""}-${savedCarListingId}?from=sell`
+                href={submittedVehicleId
+                  ? `/upload-documents?vehicle_id=${submittedVehicleId}`
                   : "/my-cars"}
                 className="flex-1"
                 data-testid="button-upload-docs"
@@ -295,6 +323,8 @@ export function InspectionBooking(props: InspectionBookingProps) {
           setInspectionMode={setInspectionMode}
           inspectionLocation={inspectionLocation}
           setInspectionLocation={setInspectionLocation}
+          inspectionPincode={inspectionPincode}
+          setInspectionPincode={setInspectionPincode}
         />
 
         {(selectedFranchise || (inspectionMode === "home" && inspectionLocation.trim())) && (
@@ -339,14 +369,19 @@ export function InspectionBooking(props: InspectionBookingProps) {
               <div className="grid grid-cols-7 gap-0.5">
                 {calendarDays.map((day, idx) => {
                   const isSelected = selectedDate === day.dateString;
-                  const isToday = day.dateString === new Date().toISOString().split("T")[0];
+                  const isToday = day.dateString === toLocalDateString(new Date());
                   const isDisabled = day.isPast || !day.isCurrentMonth;
                   return (
                     <button
                       key={idx}
                       type="button"
                       disabled={isDisabled}
-                      onClick={() => setSelectedDate(day.dateString)}
+                      onClick={() => {
+                        setSelectedDate(day.dateString);
+                        if (selectedSlot && isSlotTooSoon(selectedSlot.slot_time, day.dateString)) {
+                          setSelectedSlot(null);
+                        }
+                      }}
                       data-testid={`date-${day.dateString}`}
                       className={`relative w-full aspect-square flex items-center justify-center rounded-lg text-sm transition-all ${
                         isSelected ? "bg-primary text-primary-foreground font-bold shadow-sm"
@@ -380,21 +415,26 @@ export function InspectionBooking(props: InspectionBookingProps) {
               <div className="flex justify-center py-4"><Loader2 className="w-6 h-6 text-primary animate-spin" /></div>
             ) : inspectionSlots.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {inspectionSlots.filter((slot) => slot.is_available).map((slot) => (
-                  <button
-                    key={slot.slot_id}
-                    type="button"
-                    onClick={() => setSelectedSlot(slot)}
-                    data-testid={`slot-${slot.slot_id}`}
-                    className={`p-3 rounded-xl border-2 transition-all ${selectedSlot?.slot_id === slot.slot_id ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"}`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Clock className={`w-4 h-4 ${selectedSlot?.slot_id === slot.slot_id ? "text-primary" : "text-muted-foreground"}`} />
-                      <span className="font-medium text-foreground text-sm">{slot.slot_name}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{slot.slot_time}</p>
-                  </button>
-                ))}
+                {inspectionSlots.filter((slot) => slot.is_available).map((slot) => {
+                  const tooSoon = isSlotTooSoon(slot.slot_time, selectedDate);
+                  return (
+                    <button
+                      key={slot.slot_id}
+                      type="button"
+                      disabled={tooSoon}
+                      onClick={() => setSelectedSlot(slot)}
+                      data-testid={`slot-${slot.slot_id}`}
+                      className={`p-3 rounded-xl border-2 transition-all ${tooSoon ? "opacity-40 cursor-not-allowed border-border" : selectedSlot?.slot_id === slot.slot_id ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Clock className={`w-4 h-4 ${selectedSlot?.slot_id === slot.slot_id && !tooSoon ? "text-primary" : "text-muted-foreground"}`} />
+                        <span className="font-medium text-foreground text-sm">{slot.slot_name}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">{slot.slot_time}</p>
+                      {tooSoon && <p className="text-[10px] text-destructive mt-0.5">Not available</p>}
+                    </button>
+                  );
+                })}
               </div>
             ) : (
               <p className="text-muted-foreground text-center py-4 text-sm">Loading available slots...</p>
@@ -406,8 +446,9 @@ export function InspectionBooking(props: InspectionBookingProps) {
           data-testid="button-book-inspection"
           onClick={handleBookInspection}
           disabled={
-            !(inspectionMode === "franchise" ? !!selectedFranchise : !!inspectionLocation.trim()) ||
-            !selectedDate || !selectedSlot || bookInspectionMutation.isPending
+            !(inspectionMode === "franchise" ? !!selectedFranchise : (!!inspectionLocation.trim() && /^\d{6}$/.test(inspectionPincode))) ||
+            !selectedDate || !selectedSlot || bookInspectionMutation.isPending ||
+            (selectedSlot && isSlotTooSoon(selectedSlot.slot_time, selectedDate))
           }
           className="w-full h-14 text-lg bg-gradient-to-r from-primary to-teal-500 hover:from-primary/90 hover:to-teal-500/90 text-white rounded-xl shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
         >

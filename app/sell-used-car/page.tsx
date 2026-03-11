@@ -274,6 +274,8 @@ function SellCar() {
                   selectedDate={form.selectedDate}
                   setSelectedDate={form.setSelectedDate}
                   inspectionLocation={form.inspectionLocation}
+                  inspectionPincode={form.inspectionPincode}
+                  setInspectionPincode={form.setInspectionPincode}
                   setInspectionLocation={form.setInspectionLocation}
                   franchises={franchises}
                   franchisesLoading={franchisesLoading}

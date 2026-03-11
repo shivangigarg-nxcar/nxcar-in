@@ -48,6 +48,8 @@ export interface SellSuccessSectionProps {
   setSelectedDate: (date: string) => void;
   inspectionLocation: string;
   setInspectionLocation: (location: string) => void;
+  inspectionPincode: string;
+  setInspectionPincode: (pincode: string) => void;
   franchises: InspectionFranchise[];
   franchisesLoading: boolean;
   franchisesError: boolean;
@@ -120,6 +122,8 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
               setSelectedDate={props.setSelectedDate}
               inspectionLocation={props.inspectionLocation}
               setInspectionLocation={props.setInspectionLocation}
+              inspectionPincode={props.inspectionPincode}
+              setInspectionPincode={props.setInspectionPincode}
               franchises={props.franchises}
               franchisesLoading={props.franchisesLoading}
               franchisesError={props.franchisesError}

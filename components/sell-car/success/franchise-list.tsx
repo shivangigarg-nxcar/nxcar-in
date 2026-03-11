@@ -21,6 +21,8 @@ interface FranchiseListProps {
   setInspectionMode: (mode: "franchise" | "home") => void;
   inspectionLocation: string;
   setInspectionLocation: (location: string) => void;
+  inspectionPincode: string;
+  setInspectionPincode: (pincode: string) => void;
 }
 
 export function FranchiseList({
@@ -33,6 +35,8 @@ export function FranchiseList({
   setInspectionMode,
   inspectionLocation,
   setInspectionLocation,
+  inspectionPincode,
+  setInspectionPincode,
 }: FranchiseListProps) {
   return (
     <div>
@@ -105,6 +109,28 @@ export function FranchiseList({
               placeholder="Enter your complete address"
               className="h-14 pl-12 text-base bg-background/50 border-2 border-border focus:border-primary rounded-xl text-foreground"
             />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              PIN Code <span className="text-destructive">*</span>
+            </label>
+            <Input
+              data-testid="input-inspection-pincode"
+              value={inspectionPincode}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                setInspectionPincode(val);
+              }}
+              placeholder="Enter 6-digit PIN code"
+              inputMode="numeric"
+              maxLength={6}
+              className={`h-12 text-base bg-background/50 border-2 focus:border-primary rounded-xl text-foreground ${
+                inspectionPincode && !/^\d{6}$/.test(inspectionPincode) ? "border-destructive" : "border-border"
+              }`}
+            />
+            {inspectionPincode && !/^\d{6}$/.test(inspectionPincode) && (
+              <p className="text-xs text-destructive mt-1">PIN code must be 6 digits</p>
+            )}
           </div>
         </div>
       )}

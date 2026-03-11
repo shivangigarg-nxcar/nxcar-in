@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useToast } from "@hooks/use-toast";
-import { buildSellDetailUrl } from "./dashboard-car-card";
+
 
 interface InspectionSlot {
   slot_id: string;
@@ -29,7 +29,7 @@ export function BookInspectionModal({ car, onClose }: { car: any; onClose: () =>
   const vehicleId = car.vehicle_id || car.id;
   const carName = `${car.make || ''} ${car.model || ''}`.trim();
   const location = car.city_name || car.city || car.location || "";
-  const docUploadUrl = `${buildSellDetailUrl(car)}?from=sell`;
+  const docUploadUrl = `/upload-documents?vehicle_id=${vehicleId}`;
 
   const [city, setCity] = useState(location);
   const [inspectionDate, setInspectionDate] = useState("");
@@ -61,10 +61,29 @@ export function BookInspectionModal({ car, onClose }: { car: any; onClose: () =>
   const slots = slotsData || [];
   const cities = (citiesData || []).filter(c => c.inspection_available !== false);
 
+  function toLocalDateString(d: Date): string {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
   function getMinDate() {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split("T")[0];
+    return toLocalDateString(new Date());
+  }
+
+  function isSlotTooSoon(slotTime: string, dateStr: string): boolean {
+    const todayStr = toLocalDateString(new Date());
+    if (dateStr !== todayStr) return false;
+    const match = slotTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!match) return false;
+    let hour = parseInt(match[1], 10);
+    const ampm = match[3].toUpperCase();
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
+    const now = new Date();
+    const currentHour = now.getHours() + now.getMinutes() / 60;
+    return hour < currentHour + 2;
   }
 
   function formatDateForApi(dateStr: string) {
@@ -209,7 +228,15 @@ export function BookInspectionModal({ car, onClose }: { car: any; onClose: () =>
               <Input
                 type="date"
                 value={inspectionDate}
-                onChange={(e) => setInspectionDate(e.target.value)}
+                onChange={(e) => {
+                  setInspectionDate(e.target.value);
+                  if (timeSlot) {
+                    const selectedSlotObj = slots.find(s => s.slot_id === timeSlot);
+                    if (selectedSlotObj && isSlotTooSoon(selectedSlotObj.slot_time, e.target.value)) {
+                      setTimeSlot("");
+                    }
+                  }
+                }}
                 min={getMinDate()}
                 className="rounded-xl"
                 data-testid="input-inspection-date"
@@ -221,24 +248,32 @@ export function BookInspectionModal({ car, onClose }: { car: any; onClose: () =>
                 <Clock className="w-3.5 h-3.5 text-primary" /> Preferred Time
               </label>
               <div className="grid grid-cols-3 gap-2">
-                {slots.length > 0 ? slots.filter(s => s.is_available).map(slot => (
-                  <button
-                    key={slot.slot_id}
-                    type="button"
-                    onClick={() => setTimeSlot(slot.slot_id)}
-                    className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all border text-center ${
-                      timeSlot === slot.slot_id
-                        ? "bg-primary/10 border-primary text-primary"
-                        : "bg-muted border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
-                    }`}
-                    data-testid={`button-slot-${slot.slot_id}`}
-                  >
-                    <div className="font-semibold">{slot.slot_name}</div>
-                    <div className="text-[10px] mt-0.5 opacity-70">{slot.slot_time}</div>
-                  </button>
-                )) : (
+                {slots.length > 0 ? slots.map(slot => {
+                  const tooSoon = inspectionDate ? isSlotTooSoon(slot.slot_time, inspectionDate) : false;
+                  const disabled = !slot.is_available || tooSoon;
+                  return (
+                    <button
+                      key={slot.slot_id}
+                      type="button"
+                      onClick={() => !disabled && setTimeSlot(slot.slot_id)}
+                      disabled={disabled}
+                      className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all border text-center ${
+                        disabled
+                          ? "bg-muted/50 border-border/50 text-muted-foreground/50 cursor-not-allowed"
+                          : timeSlot === slot.slot_id
+                            ? "bg-primary/10 border-primary text-primary"
+                            : "bg-muted border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
+                      }`}
+                      data-testid={`button-slot-${slot.slot_id}`}
+                    >
+                      <div className="font-semibold">{slot.slot_name}</div>
+                      <div className="text-[10px] mt-0.5 opacity-70">
+                        {disabled ? "Not available" : slot.slot_time}
+                      </div>
+                    </button>
+                  );
+                }) : (
                   <>{[1, 2, 3].map((i) => (<div key={i} className="h-14 bg-muted rounded-lg animate-pulse" />))}</>
-
                 )}
               </div>
             </div>

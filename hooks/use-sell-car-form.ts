@@ -64,6 +64,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
   const autoAdvancedTransmission = useRef(false);
 
   const [inspectionLocation, setInspectionLocation] = useState("");
+  const [inspectionPincode, setInspectionPincode] = useState("");
   const [inspectionBooked, setInspectionBooked] = useState(false);
   const [selectedFranchise, setSelectedFranchise] = useState<InspectionFranchise | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<InspectionSlot | null>(null);
@@ -299,6 +300,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
     autoFilledSteps.current = new Set();
     setSearchQuery("");
     setInspectionLocation("");
+    setInspectionPincode("");
     setInspectionBooked(false);
     setSelectedFranchise(null);
     setSelectedSlot(null);
@@ -328,6 +330,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
     variantNotFound, setVariantNotFound,
     autoFilledSteps,
     inspectionLocation, setInspectionLocation,
+    inspectionPincode, setInspectionPincode,
     inspectionBooked, setInspectionBooked,
     selectedFranchise, setSelectedFranchise,
     selectedSlot, setSelectedSlot,
