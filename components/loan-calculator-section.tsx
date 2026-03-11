@@ -127,8 +127,8 @@ export function LoanCalculatorSection() {
                           <div className="text-sm">
                             <span className="font-semibold text-slate-900 dark:text-foreground">Need help?</span>
                             <span className="text-slate-600 dark:text-muted-foreground ml-1">Call</span>
-                            <a href="tel:+919355924132" className="text-[#0EA9B2] font-semibold ml-1 hover:underline">
-                              +91 93559 24132
+                            <a href="tel:+919355924133" className="text-[#0EA9B2] font-semibold ml-1 hover:underline">
+                              +91 93559 24133
                             </a>
                           </div>
                         </div>

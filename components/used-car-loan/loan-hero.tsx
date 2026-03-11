@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  Phone, Car, AlertTriangle, Shield, ClipboardCheck
+  Phone, Car, AlertTriangle, Shield, ClipboardCheck, MessageCircle
 } from "lucide-react";
 
 const quickLinks = [
@@ -50,7 +50,7 @@ export function LoanHero({ onApply }: { onApply: () => void }) {
               >
                 Apply Now
               </motion.button>
-              <a href="tel:+919355924132" data-testid="link-call-us">
+              <a href="tel:+919355924133" data-testid="link-call-us">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -58,7 +58,18 @@ export function LoanHero({ onApply }: { onApply: () => void }) {
                   data-testid="button-call-us"
                 >
                   <Phone className="w-4 h-4" />
-                  +91 93559 24132
+                  +91 93559 24133
+                </motion.button>
+              </a>
+              <a href="https://wa.me/919355924133?text=Hi, I'm interested in a used car loan from NxCar." target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-loan">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-shadow flex items-center gap-2"
+                  data-testid="button-whatsapp-loan"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
                 </motion.button>
               </a>
             </div>
