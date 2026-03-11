@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
     },
     optimizePackageImports: ['lucide-react', 'framer-motion', '@tanstack/react-query', 'date-fns', 'recharts'],
   },
+  rewrites: async () => [
+    {
+      source: '/p1rtn5rs-:slug(.*)',
+      destination: '/partners-account',
+    },
+    {
+      source: '/nxcar-t3rms-:slug(.*)',
+      destination: '/terms-of-use',
+    },
+  ],
   redirects: async () => [
     {
       source: '/used-car-in/:city/:rest*',

@@ -24,52 +24,52 @@ export default function GrievancePolicy() {
 
           <div className="prose prose-invert prose-lg max-w-none">
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-purpose">01. Purpose</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-purpose">Purpose</h2>
               <p className="text-slate-300 leading-relaxed">
                 This Grievance Redressal Policy aims to provide a clear, transparent, and timely mechanism for users (buyers, sellers, partners, and other stakeholders) of the Nxcar platform to raise concerns or complaints about any aspect of our products, services, or interactions.
               </p>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-scope">02. Scope</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-scope">Scope</h2>
               <div className="text-slate-300 leading-relaxed space-y-2">
                 <p>This policy applies to all:</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>Registered and unregistered buyers and sellers on Nxcar.in and our mobile app</li>
+                  <li>Registered and unregistered buyers and sellers on Nxcar.in and our mobile app(Nxcar : Sell and Buy Used Cars and Nxcar Partners)</li>
                   <li>Users, dealers, and partner entities</li>
                   <li>Visitors to our website and social media channels</li>
-                  <li>Employees, contractors, and third‑party service providers whose actions may give rise to grievances</li>
+                  <li>{"Employees, contractors, and third\u2011party service providers whose actions may give rise to grievances"}</li>
                 </ul>
               </div>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-definitions">03. Definitions</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-definitions">Definitions</h2>
               <div className="text-slate-300 leading-relaxed space-y-3">
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Grievance</h3>
-                  <p>Any expression of dissatisfaction or concern regarding Nxcar's services.</p>
+                  <h3 className="text-white font-semibold mb-1">Grievance:</h3>
+                  <p>{"Any expression of dissatisfaction or concern regarding Nxcar's services (e.g., listing quality, transaction support, loan facilitation, data privacy)."}</p>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Complainant</h3>
-                  <p>An individual or entity raising a grievance.</p>
+                  <h3 className="text-white font-semibold mb-1">Complainant:</h3>
+                  <p>An individual or entity raising a grievance under this policy.</p>
                 </div>
               </div>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-redressal-team">04. Grievance Redressal Team</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-redressal-team">Grievance Redressal Team</h2>
               <div className="text-slate-300 leading-relaxed space-y-4">
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Grievance Officer</h3>
-                  <p>The primary point of contact for all grievances raised on the platform.</p>
+                  <h3 className="text-white font-semibold mb-1">Grievance Officer:</h3>
+                  <p>The primary point of contact responsible for logging, investigating, and resolving grievances.</p>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Escalation Committee</h3>
-                  <p>A cross‑functional team comprising members from Operations, Compliance, Legal, and Customer Support.</p>
+                  <h3 className="text-white font-semibold mb-1">Escalation Committee:</h3>
+                  <p>{"A cross\u2011functional team (Operations, Compliance, Legal, Customer Support) that reviews unresolved or high\u2011severity cases."}</p>
                 </div>
                 <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
-                  <h3 className="text-white font-semibold mb-2">Contact Details</h3>
+                  <h3 className="text-white font-semibold mb-2">Grievance Officer Contact Details:</h3>
                   <ul className="space-y-2">
                     <li>
                       <span className="text-slate-400">Email:</span>{" "}
@@ -80,7 +80,7 @@ export default function GrievancePolicy() {
                       <a href="tel:+919289213935" data-testid="link-contact-phone" className="text-[#0EA9B2] hover:underline">+91 9289213935</a>
                     </li>
                     <li>
-                      <span className="text-slate-400">Address:</span>{" "}
+                      <span className="text-slate-400">Postal Address:</span>{" "}
                       Nxfin Technologies Private Limited, 3rd Floor, Plot No. 809, Sector 42, Golf Course Road, Gurgaon Haryana, India 122009
                     </li>
                   </ul>
@@ -89,88 +89,87 @@ export default function GrievancePolicy() {
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-principles">05. Guiding Principles</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-principles">Guiding Principles</h2>
               <div className="text-slate-300 leading-relaxed">
                 <ul className="space-y-3">
                   <li>
-                    <span className="text-white font-semibold">Accessibility:</span> Easy-to-use channels for lodging grievances.
+                    <span className="text-white font-semibold">Accessibility:</span> Multiple channels to lodge grievances (email, phone, web form, in-app support).
                   </li>
                   <li>
-                    <span className="text-white font-semibold">Confidentiality:</span> All grievance details are handled with strict confidentiality.
+                    <span className="text-white font-semibold">Confidentiality:</span> {"Personal data and case details are protected; shared only on a need\u2011to\u2011know basis."}
                   </li>
                   <li>
-                    <span className="text-white font-semibold">Impartiality:</span> Grievances are assessed objectively without bias.
+                    <span className="text-white font-semibold">Impartiality:</span> Investigations are conducted without bias or conflict of interest.
                   </li>
                   <li>
-                    <span className="text-white font-semibold">Timeliness:</span> Acknowledgement within 2 business days; resolution within 15 business days.
+                    <span className="text-white font-semibold">Timeliness:</span> Acknowledgement within 2 business days; resolution communicated within 15 business days.
                   </li>
                   <li>
-                    <span className="text-white font-semibold">No Retaliation:</span> No adverse action will be taken against any individual for raising a grievance in good faith.
+                    <span className="text-white font-semibold">No Retaliation:</span> Complainants will not face adverse actions for raising genuine concerns.
                   </li>
                 </ul>
               </div>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-lodgement-process">06. Grievance Lodgement Process</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-lodgement-process">Grievance Lodgement Process</h2>
               <div className="text-slate-300 leading-relaxed">
                 <ol className="space-y-3 list-none">
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">1</span>
-                    <div><span className="text-white font-semibold">Submission</span> — The complainant submits a grievance via email, phone, or the website.</div>
+                    <div><span className="text-white font-semibold">Submission</span> — Complainants can submit grievances via email, phone, or the website.</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">2</span>
-                    <div><span className="text-white font-semibold">Acknowledgement</span> — The grievance is acknowledged within 7 business days with a unique reference number.</div>
+                    <div><span className="text-white font-semibold">Acknowledgement</span> — Grievance Officer logs the case, assigns a unique reference number, and acknowledges receipt within 7 business days.</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">3</span>
-                    <div><span className="text-white font-semibold">Preliminary Assessment</span> — The Grievance Officer reviews the complaint to determine its nature and urgency.</div>
+                    <div><span className="text-white font-semibold">Preliminary Assessment</span> — Officer assesses scope and severity; assigns case for investigation or resolves directly if straightforward.</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">4</span>
-                    <div><span className="text-white font-semibold">Investigation</span> — Relevant teams investigate the grievance thoroughly.</div>
+                    <div><span className="text-white font-semibold">Investigation</span> — Gather documentation, interview relevant parties (internal teams, dealers, customers).</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">5</span>
-                    <div><span className="text-white font-semibold">Resolution Proposal</span> — A resolution is proposed to the complainant.</div>
+                    <div><span className="text-white font-semibold">Resolution Proposal</span> — Draft proposed corrective actions or compensatory measures.</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">6</span>
-                    <div><span className="text-white font-semibold">Decision & Communication</span> — Final decision is communicated within 30 business days of receipt.</div>
+                    <div><span className="text-white font-semibold">Decision & Communication</span> — Notify complainant of findings and actions within 30 business days of acknowledgement.</div>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0EA9B2]/20 text-[#0EA9B2] flex items-center justify-center text-sm font-bold">7</span>
-                    <div><span className="text-white font-semibold">Implementation & Closure</span> — The agreed resolution is implemented and the grievance is formally closed.</div>
+                    <div><span className="text-white font-semibold">Implementation & Closure</span> — Execute corrective measures; confirm closure with complainant and solicit feedback.</div>
                   </li>
                 </ol>
               </div>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-escalation">07. Escalation & Appeals</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-escalation">Escalation & Appeals</h2>
               <div className="text-slate-300 leading-relaxed space-y-3">
                 <p>
-                  If a complainant is not satisfied with the resolution, they may escalate the matter to the Escalation Committee. The committee will review the case within 10 business days.
+                  If dissatisfied, complainants may escalate to the Escalation Committee by writing to-
                 </p>
                 <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
-                  <h3 className="text-white font-semibold mb-2">Escalation Contact</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <span className="text-slate-400">Name:</span> Dinesh Kumar Sharma
-                    </li>
-                    <li>
-                      <span className="text-slate-400">Address:</span> Nxfin Technologies Private Limited, 3rd Floor, Plot No. 809, Sector 42, Golf Course Road, Gurgaon Haryana, India 122009
-                    </li>
+                  <ul className="space-y-1">
+                    <li>Dinesh Kumar Sharma,</li>
+                    <li>Nxfin Technologies Private Limited,</li>
+                    <li>3rd Floor, Plot No. 809</li>
+                    <li>Sector 42, Golf Course Road,</li>
+                    <li>Gurgaon Haryana, India 122009</li>
                   </ul>
                 </div>
+                <p>The Committee will review and communicate its final decision within 10 business days of escalation.</p>
               </div>
             </section>
 
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-policy-review">08. Policy Review</h2>
+              <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-policy-review">Policy Review</h2>
               <p className="text-slate-300 leading-relaxed">
-                This Grievance Redressal Policy is reviewed annually or upon significant regulatory or operational changes to ensure its continued effectiveness and relevance.
+                This policy is reviewed annually or upon significant changes in regulatory requirements, service offerings, or organizational structure.
               </p>
             </section>
           </div>

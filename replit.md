@@ -28,3 +28,19 @@ Features include a car comparison modal, a book inspection modal with dynamic sl
 -   **Authentication APIs**: NxCar backend APIs (defined by `AUTH_BASE_URL` as `https://api.nxcar.in`) for mobile OTP, verification, resend OTP, and logout.
 -   **AI Integrations**: Requires `AI_INTEGRATIONS_OPENAI_API_KEY` and `AI_INTEGRATIONS_OPENAI_BASE_URL` for AI recommendations.
 -   **Service Pages APIs**: Integrated with NxCar backend APIs for challan checks, loan eligibility, dealer login, insurance queries, and partner registration.
+
+## Legal & Policy Pages
+
+All legal pages match exact content from dev.nxcar.in:
+
+-   `/privacy-policy` — Full privacy policy (Introduction, Scope, Collection, Retention, Sharing, Rights, Marketing, Compliance, Review, Contact, Data Review)
+-   `/terms-of-use` — Full 21-section Terms Of Use legal text
+-   `/grievance-policy` — Grievance Redressal Policy (Purpose, Scope, Definitions, Team, Principles, Process, Escalation, Review)
+-   `/service-partner` — Financial Services Partners page (banking + NBFC partners list with regulatory info)
+-   `/nxcar-p1rtn5rs-pr1va3y-poli3y` — Partners Privacy Policy (same as privacy, but "Review/Delete" links to `/p1rtn5rs-@ccou5t`)
+-   `/partners-account` — Data Collection & Storage Inquiry form (canonical URL for `/p1rtn5rs-@ccou5t`)
+
+### Special Character URL Rewrites (next.config.ts)
+
+-   `/p1rtn5rs-*` → `/partners-account` (handles `@` character which conflicts with Next.js parallel routes)
+-   `/nxcar-t3rms-*` → `/terms-of-use` (handles `$` characters in URL)
