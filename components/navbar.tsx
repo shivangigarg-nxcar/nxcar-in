@@ -41,9 +41,9 @@ export function Navbar() {
   return (
     <>
     <nav aria-label="Main navigation" className="fixed top-0 z-50 w-full border-b border-slate-200/50 dark:border-white/5 bg-white/90 dark:bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-20 max-w-screen-xl mx-auto items-center justify-between px-6 lg:px-8">
+      <div className="flex h-14 max-w-screen-xl mx-auto items-center justify-between px-6 lg:px-8">
         <Link href="/" className="mr-8 flex items-center" data-testid="link-logo">
-          <Image src="/images/nxcar-logo-light.png" alt="Nxcar" width={160} height={56} sizes="(max-width: 640px) 120px, 160px" className="w-[120px] sm:w-[160px] h-auto object-contain drop-shadow-[0_0_12px_rgba(14,169,178,0.6)]" priority />
+          <Image src="/images/nxcar-logo-light.png" alt="Nxcar" width={140} height={48} sizes="(max-width: 640px) 100px, 140px" className="w-[100px] sm:w-[140px] h-auto object-contain drop-shadow-[0_0_12px_rgba(14,169,178,0.6)]" priority />
         </Link>
 
         {/* Desktop Nav */}
@@ -184,7 +184,7 @@ export function Navbar() {
 
     {/* Mobile Full-Page Drawer — outside nav to avoid backdrop-filter containment */}
       {isOpen && (
-        <div className="md:hidden fixed left-0 right-0 top-20 bottom-0 z-50 bg-white dark:bg-background overflow-y-auto" data-testid="mobile-drawer">
+        <div className="md:hidden fixed left-0 right-0 top-14 bottom-0 z-50 bg-white dark:bg-background overflow-y-auto" data-testid="mobile-drawer">
           {/* Profile Section */}
           <div className="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-white/10">
             {mounted && isAuthenticated && user ? (

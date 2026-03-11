@@ -17,7 +17,7 @@ const QUICK_SERVICES = [
 
 export const QuickServices = memo(function QuickServices() {
   return (
-    <nav aria-label="Quick services" className="w-full bg-white/90 dark:bg-card/80 border-b border-slate-200 dark:border-white/5 sticky top-20 z-40 backdrop-blur-md">
+    <nav aria-label="Quick services" className="w-full bg-white/90 dark:bg-card/80 border-b border-slate-200 dark:border-white/5 sticky top-14 z-40 backdrop-blur-md">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-6 lg:gap-10 lg:justify-center">
           {QUICK_SERVICES.map((service) => {

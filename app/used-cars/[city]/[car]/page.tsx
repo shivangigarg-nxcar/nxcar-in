@@ -222,7 +222,7 @@ export default function BuyCarDetail() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="sticky top-20 z-40 mt-20 bg-background/95 backdrop-blur border-b">
+        <div className="sticky top-14 z-40 mt-14 bg-background/95 backdrop-blur border-b">
           <div className="container max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-3">
             <Skeleton className="h-8 w-8 rounded-md" />
             <div className="flex-1">
@@ -257,7 +257,7 @@ export default function BuyCarDetail() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="container max-w-screen-xl mx-auto px-6 pt-24 pb-12 text-center">
+        <main className="container max-w-screen-xl mx-auto px-6 pt-16 pb-12 text-center">
           <Car className="h-20 w-20 mx-auto text-muted-foreground mb-4" />
           <h1 className="text-2xl font-bold mb-2" data-testid="text-not-found">
             Car Not Found
@@ -278,7 +278,7 @@ export default function BuyCarDetail() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="max-w-screen-xl mx-auto px-3 sm:px-4 pt-24 pb-4 sm:pb-6 overflow-hidden">
+      <main className="max-w-screen-xl mx-auto px-3 sm:px-4 pt-16 pb-4 sm:pb-6 overflow-hidden">
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
             <ImageGallery
@@ -349,7 +349,7 @@ export default function BuyCarDetail() {
           </div>
 
           <div className="hidden lg:block space-y-6">
-            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <div className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
               <SellerActionSidebar
                 car={car}
                 priceMap={car.priceMap}

@@ -87,7 +87,7 @@ export default function RCTransfer() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-14">
         <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />

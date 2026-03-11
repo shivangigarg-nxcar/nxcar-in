@@ -126,7 +126,7 @@ export default function ExtendedWarrantyTerms() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="extended-warranty-terms-page">
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pt-16 pb-16">
         <div className="container px-4 max-w-4xl mx-auto">
           <Link href="/" data-testid="link-back-home" className="inline-flex items-center gap-2 text-[#0EA9B2] hover:text-[#0EA9B2]/80 mb-8 transition-colors">
             <ArrowLeft className="h-4 w-4" />

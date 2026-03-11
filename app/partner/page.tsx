@@ -10,7 +10,7 @@ export default function Partner() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden" data-testid="partner-page">
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-14">
         <PartnerHero />
         <PartnerBenefits />
         <PartnerRegistrationForm />

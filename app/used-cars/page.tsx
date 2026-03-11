@@ -172,7 +172,7 @@ export default function UsedCarsPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-24">
+      <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-16">
         <div className="space-y-12">
           <div className="relative rounded-2xl overflow-hidden min-h-[400px]">
             <img

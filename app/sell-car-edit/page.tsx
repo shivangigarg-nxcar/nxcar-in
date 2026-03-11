@@ -331,7 +331,7 @@ function SellCarEditContent() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px]" />
       </div>
 
-      <section className="relative pt-24 pb-8 overflow-hidden">
+      <section className="relative pt-16 pb-8 overflow-hidden">
         <div className="relative z-10 max-w-3xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

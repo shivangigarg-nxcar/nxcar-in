@@ -238,7 +238,7 @@ function SellCar() {
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-primary/5 dark:from-[#0a0f14] dark:via-[#0d1318] dark:to-primary/10 overflow-x-hidden">
       <Navbar />
 
-      <main className="pt-20 min-h-screen flex flex-col">
+      <main className="pt-14 min-h-screen flex flex-col">
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />

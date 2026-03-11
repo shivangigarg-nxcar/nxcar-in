@@ -41,7 +41,7 @@ export default function Favorites() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-14">
         <section className="py-16">
           <div className="container px-4 max-w-screen-2xl">
             <div className="flex items-center gap-4 mb-8">

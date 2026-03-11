@@ -20,7 +20,7 @@ export default function WebInspectionBooked() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="web-inspection-booked-page">
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pt-16 pb-16">
         <div className="container px-4 max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ scale: 0 }}

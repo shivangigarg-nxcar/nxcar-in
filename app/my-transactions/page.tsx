@@ -24,7 +24,7 @@ export default function MyTransactions() {
     <div className="min-h-screen bg-background" data-testid="my-transactions-page">
       <Navbar />
 
-      <section className="pt-20 pb-3">
+      <section className="pt-14 pb-3">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">

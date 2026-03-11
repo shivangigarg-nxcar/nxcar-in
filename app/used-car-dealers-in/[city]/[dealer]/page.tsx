@@ -253,7 +253,7 @@ export default function DealerDetail() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-20 pb-16">
+      <main className="pt-14 pb-16">
         {isLoading && <HeroSkeleton />}
 
         {error && (

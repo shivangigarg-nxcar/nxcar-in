@@ -224,7 +224,7 @@ export default function TestDriveSimulator() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-background pt-24 pb-16">
+    <div className="min-h-screen bg-slate-50 dark:bg-background pt-16 pb-16">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors mb-4">

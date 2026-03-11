@@ -85,7 +85,7 @@ export default function DealerNetwork() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0D1117] font-sans">
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pt-16 pb-16">
         <section className="relative py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10"></div>
           <div className="absolute inset-0">

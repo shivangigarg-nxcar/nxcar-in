@@ -352,7 +352,7 @@ export default function UsedCarsCityPage() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-24">
+        <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-16">
           <div className="flex items-center gap-3 mb-4">
             <Skeleton className="h-8 w-64" />
             <Skeleton className="h-6 w-20" />
@@ -375,7 +375,7 @@ export default function UsedCarsCityPage() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="w-full max-w-7xl mx-auto px-6 py-24 pt-28 text-center">
+        <main className="w-full max-w-7xl mx-auto px-6 py-16 pt-20 text-center">
           <MapPin className="h-20 w-20 mx-auto text-muted-foreground mb-4" />
           <h1 className="text-2xl font-bold mb-2">City Not Found</h1>
           <p className="text-muted-foreground mb-6">
@@ -395,7 +395,7 @@ export default function UsedCarsCityPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-24">
+      <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-16">
         <CityHero
           cityName={matchedCity?.city_name || citySlug}
           citySlug={citySlug}
@@ -404,7 +404,7 @@ export default function UsedCarsCityPage() {
 
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="hidden lg:block w-72 shrink-0">
-            <div className="sticky top-20">
+            <div className="sticky top-14">
               <FilterPanel
                 filters={filters}
                 filterOptions={effectiveFilterOptions}

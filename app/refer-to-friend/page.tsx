@@ -39,7 +39,7 @@ export default function ReferToFriend() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] font-sans" data-testid="refer-to-friend-page">
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pt-16 pb-16">
         <section className="container px-4 max-w-4xl mx-auto text-center mb-16">
           <motion.div
             initial={{ scale: 0 }}

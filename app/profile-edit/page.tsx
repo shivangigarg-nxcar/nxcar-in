@@ -253,7 +253,7 @@ export default function ProfileEdit() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <section className="pt-20 pb-4">
+        <section className="pt-14 pb-4">
           <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
             <div className="flex items-center gap-3">
               <div className="h-9 w-9 bg-muted rounded-lg animate-pulse" />
@@ -304,7 +304,7 @@ export default function ProfileEdit() {
     <div className="min-h-screen bg-background" data-testid="profile-edit-page">
       <Navbar />
 
-      <section className="pt-20 pb-4">
+      <section className="pt-14 pb-4">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
