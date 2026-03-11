@@ -61,7 +61,7 @@ export function SkeletonGrid() {
 }
 
 export function buildSellDetailUrl(car: any) {
-  const carName = `${car.make || ''} ${car.model || ''}`.trim();
+  const carName = resolveCarName(car);
   const vehicleId = car.vehicle_id || car.id;
   const year = car.year || car.manufacturing_year || "";
   const location = car.city_name || car.city || car.location || "";
@@ -70,12 +70,22 @@ export function buildSellDetailUrl(car: any) {
   return `/used-cars/${citySlug}/${nameSlug}${year ? year : ""}-${vehicleId}`;
 }
 
-export function resolveCarImage(car: any): string {
+export function resolveCarImage(car: any): { url: string; isBrandLogo: boolean } {
   const imgs = car.images;
   const firstImage = Array.isArray(imgs) && imgs.length > 0
     ? (typeof imgs[0] === "string" ? imgs[0] : imgs[0]?.image_url || imgs[0]?.url)
     : typeof imgs === "string" && imgs ? imgs : null;
-  return firstImage || car.image_url || car.front_image || car.imageUrl || car.car_make_url || "/images/car-sedan.png";
+  const carPhoto = firstImage || car.image_url || car.front_image || car.imageUrl;
+  if (carPhoto) return { url: carPhoto, isBrandLogo: false };
+  const brandLogo = car.car_make_url || car.make_image;
+  if (brandLogo) return { url: brandLogo, isBrandLogo: true };
+  return { url: "/images/car-sedan.png", isBrandLogo: false };
+}
+
+function resolveCarName(car: any): string {
+  const make = car.make || car.make_name || car.brand || "";
+  const model = car.model || car.model_name || "";
+  return `${make} ${model}`.trim() || car.car_name || "Car";
 }
 
 function CarSpecBadges({ mileage, fuelType, transmission }: { mileage: number; fuelType: string; transmission: string }) {
@@ -104,8 +114,9 @@ function CarSpecBadges({ mileage, fuelType, transmission }: { mileage: number; f
 }
 
 export function BuyCarCard({ car, isFavorited, onToggleFavorite }: { car: any; isFavorited?: boolean; onToggleFavorite?: (carId: number, e: React.MouseEvent) => void }) {
-  const carName = `${car.make || ''} ${car.model || ''}`.trim() || car.car_name || "Car";
-  const imageUrl = car.images || car.front_image || car.image_url || car.imageUrl || "/images/car-sedan.png";
+  const carName = resolveCarName(car);
+  const resolved = resolveCarImage(car);
+  const imageUrl = resolved.url;
   const vehicleId = car.vehicle_id || car.id;
   const year = car.manufacturing_year || car.year || "";
   const variant = car.variant || "";
@@ -122,8 +133,23 @@ export function BuyCarCard({ car, isFavorited, onToggleFavorite }: { car: any; i
   return (
     <Link href={detailUrl}>
       <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)] cursor-pointer" data-testid={`card-favorite-${vehicleId}`} role="article">
-        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative">
-          <img src={imageUrl} alt={carName} className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = "/images/car-sedan.png"; }} />
+        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
+          <img
+            src={imageUrl}
+            alt={carName}
+            className={`transition-transform duration-500 group-hover:scale-105 ${resolved.isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              const brandLogo = car.car_make_url || car.make_image;
+              if (brandLogo && target.src !== brandLogo) {
+                target.src = brandLogo;
+                target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
+              } else {
+                target.src = "/images/car-sedan.png";
+              }
+            }}
+          />
           {year && (
             <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
               {year}
@@ -168,8 +194,10 @@ export function BuyCarCard({ car, isFavorited, onToggleFavorite }: { car: any; i
 }
 
 export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspection: (car: any) => void }) {
-  const carName = `${car.make || ''} ${car.model || ''}`.trim();
-  const imageUrl = resolveCarImage(car);
+  const carName = resolveCarName(car);
+  const resolved = resolveCarImage(car);
+  const imageUrl = resolved.url;
+  const isBrandLogo = resolved.isBrandLogo;
   const vehicleId = car.vehicle_id || car.id;
   const status = car.status || car.sell_status || "pending";
   const year = car.year || car.manufacturing_year || "";
@@ -187,8 +215,23 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
   return (
     <Link href={detailUrl}>
       <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)] cursor-pointer" data-testid={`card-sell-${vehicleId}`} role="article">
-        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative">
-          <img src={imageUrl} alt={carName} className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = "/images/car-sedan.png"; }} />
+        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
+          <img
+            src={imageUrl}
+            alt={carName}
+            className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              const brandLogo = car.car_make_url || car.make_image;
+              if (brandLogo && target.src !== brandLogo) {
+                target.src = brandLogo;
+                target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
+              } else {
+                target.src = "/images/car-sedan.png";
+              }
+            }}
+          />
           {year && (
             <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
               {year}
@@ -238,8 +281,10 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
 }
 
 export function AdCarCard({ car }: { car: any }) {
-  const carName = `${car.make || ''} ${car.model || ''}`.trim();
-  const imageUrl = resolveCarImage(car);
+  const carName = resolveCarName(car);
+  const resolved = resolveCarImage(car);
+  const imageUrl = resolved.url;
+  const isBrandLogo = resolved.isBrandLogo;
   const vehicleId = car.vehicle_id || car.id;
   const status = car.status || car.sell_status || "pending";
   const year = car.year || car.manufacturing_year || "";
@@ -255,8 +300,23 @@ export function AdCarCard({ car }: { car: any }) {
   return (
     <Link href={detailUrl}>
       <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)] cursor-pointer" data-testid={`card-ad-${vehicleId}`} role="article">
-        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative">
-          <img src={imageUrl} alt={carName} className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = "/images/car-sedan.png"; }} />
+        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
+          <img
+            src={imageUrl}
+            alt={carName}
+            className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              const brandLogo = car.car_make_url || car.make_image;
+              if (brandLogo && target.src !== brandLogo) {
+                target.src = brandLogo;
+                target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
+              } else {
+                target.src = "/images/car-sedan.png";
+              }
+            }}
+          />
           {year && (
             <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
               {year}
