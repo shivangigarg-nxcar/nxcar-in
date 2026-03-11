@@ -36,6 +36,7 @@ import { AddOnServices } from "@components/car-detail/add-on-services";
 import { QuickSpecs } from "@components/car-detail/quick-specs";
 import { CarFeatures } from "@components/car-detail/car-features";
 import { InsightsSection } from "@components/car-detail/insights-section";
+import { ListingPriceChart } from "@components/car-detail/listing-price-chart";
 import { useCarActions } from "@hooks/use-car-actions";
 import type { CarDetail } from "@components/car-detail/car-detail-types";
 import { formatPriceNoSymbol, formatKilometers, formatEmi } from "@components/car-detail/car-detail-types";
@@ -307,6 +308,17 @@ export default function BuyCarDetail() {
               kilometersDriven={car.kilometersDriven}
               fuelType={car.fuelType}
               transmission={car.transmission}
+            />
+
+            <ListingPriceChart
+              vehicleId={vehicleId}
+              city={citySlug}
+              make={car.make}
+              model={car.model}
+              variant={car.variant || ""}
+              year={car.year}
+              price={car.price}
+              mileage={car.kilometersDriven}
             />
 
             {car.detailedSpecs && car.detailedSpecs.length > 0 && (
