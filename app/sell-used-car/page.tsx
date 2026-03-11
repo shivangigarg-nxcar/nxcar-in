@@ -155,7 +155,7 @@ function SellCar() {
       vehicle_number: form.formData.vehicleNumber, vehicle_no: form.formData.vehicleNumber,
       make: form.formData.brand, make_id: form.formData.makeId ? String(form.formData.makeId) : "",
       model: form.formData.model, model_id: form.formData.modelId ? String(form.formData.modelId) : "",
-      variant: form.formData.variant, variant_id: form.formData.variantId ? String(form.formData.variantId) : "",
+      variant: form.variantNotFound ? "null" : form.formData.variant, variant_id: form.variantNotFound ? "" : (form.formData.variantId ? String(form.formData.variantId) : ""),
       year: form.formData.year ? String(form.formData.year) : "",
       manufacturing_year: form.formData.manufacturingYear || (form.formData.year ? String(form.formData.year) : ""),
       fule_type: form.formData.fuelType.toLowerCase(),

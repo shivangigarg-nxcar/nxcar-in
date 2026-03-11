@@ -144,7 +144,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
       case "year": return formData.year > 0;
       case "ownership": return formData.ownerCount > 0;
       case "color": return !!formData.color || (useCustomColor && !!customColorText.trim());
-      case "fuel-variant": return !!formData.fuelType && formData.variantId > 0;
+      case "fuel-variant": return !!formData.fuelType && (formData.variantId > 0 || variantNotFound);
       case "transmission": return !!formData.transmission;
       case "kilometers": return formData.kilometers > 0 && formData.kilometers <= 200000;
       case "vehicle-location": return !!formData.location;
@@ -265,7 +265,7 @@ export function useSellCarForm({ makes, colors, sellCities, nxcarCities }: UseSe
       vehicle_number: formData.vehicleNumber, vehicle_no: formData.vehicleNumber,
       make: formData.brand, make_id: formData.makeId ? String(formData.makeId) : "",
       model: formData.model, model_id: formData.modelId ? String(formData.modelId) : "",
-      variant: formData.variant, variant_id: formData.variantId ? String(formData.variantId) : "",
+      variant: variantNotFound ? "null" : formData.variant, variant_id: variantNotFound ? "" : (formData.variantId ? String(formData.variantId) : ""),
       year: formData.year ? String(formData.year) : "",
       manufacturing_year: formData.manufacturingYear || (formData.year ? String(formData.year) : ""),
       fule_type: formData.fuelType ? formData.fuelType.toLowerCase() : "",

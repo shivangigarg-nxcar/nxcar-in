@@ -52,7 +52,7 @@ export function FuelVariantStep({ formData, updateField, autoFilledSteps, search
           )}
         </div>
       </div>
-      {formData.fuelType && (
+      {formData.fuelType && !variantNotFound && (
         <div>
           <p className="text-muted-foreground mb-3">Select Variant</p>
           <div className="relative mb-3 cursor-pointer" onClick={() => { if (!variantDropdownOpen) { setVariantDropdownOpen(true); setSearchQuery(""); } }}>
@@ -95,7 +95,13 @@ export function FuelVariantStep({ formData, updateField, autoFilledSteps, search
       <button
         type="button"
         onClick={() => {
-          setVariantNotFound(!variantNotFound);
+          const newVal = !variantNotFound;
+          setVariantNotFound(newVal);
+          if (newVal) {
+            updateField("variantId", 0);
+            updateField("variant", "");
+            setVariantDropdownOpen(false);
+          }
         }}
         className={`w-full p-3 rounded-xl border-2 transition-all flex items-center gap-3 ${
           variantNotFound ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/50"
