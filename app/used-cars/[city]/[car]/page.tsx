@@ -308,6 +308,7 @@ export default function BuyCarDetail() {
               kilometersDriven={car.kilometersDriven}
               fuelType={car.fuelType}
               transmission={car.transmission}
+              listingDate={car.listingDate}
             />
 
             <ListingPriceChart

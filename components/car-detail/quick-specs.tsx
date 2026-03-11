@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Gauge, Fuel, Settings2 } from "lucide-react";
+import { Calendar, Gauge, Fuel, Settings2, CalendarDays } from "lucide-react";
 import { formatKilometers } from "@components/car-detail/car-detail-types";
 
 interface QuickSpecsProps {
@@ -8,14 +8,34 @@ interface QuickSpecsProps {
   kilometersDriven: number;
   fuelType: string;
   transmission: string;
+  listingDate?: string;
 }
 
-export function QuickSpecs({ year, kilometersDriven, fuelType, transmission }: QuickSpecsProps) {
+function formatListingDate(dateStr: string): string {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return "Today";
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 30) return `${diffDays} days ago`;
+  if (diffDays < 365) {
+    const months = Math.floor(diffDays / 30);
+    return `${months} ${months === 1 ? "month" : "months"} ago`;
+  }
+  return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+export function QuickSpecs({ year, kilometersDriven, fuelType, transmission, listingDate }: QuickSpecsProps) {
   const items = [
     { icon: Calendar, label: "Year", value: `${year}` },
     { icon: Gauge, label: "Kilometers", value: formatKilometers(kilometersDriven) },
     { icon: Fuel, label: "Fuel Type", value: fuelType },
     { icon: Settings2, label: "Transmission", value: transmission },
+    ...(listingDate ? [{ icon: CalendarDays, label: "Listed", value: formatListingDate(listingDate) }] : []),
   ].filter((item) => item.value && item.value !== "0");
 
   return (

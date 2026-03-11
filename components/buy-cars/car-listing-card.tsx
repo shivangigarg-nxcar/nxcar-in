@@ -12,7 +12,7 @@ import { useCarComparison, type ComparisonCar } from "@hooks/use-car-comparison"
 import { toast as sonnerToast } from "sonner";
 import {
   Car, MapPin, Fuel, Gauge, Heart, User,
-  Phone, MessageCircle, Navigation, IndianRupee, Link2, GitCompare
+  Phone, MessageCircle, Navigation, IndianRupee, Link2, GitCompare, CalendarDays
 } from "lucide-react";
 
 export interface CarListing {
@@ -42,6 +42,24 @@ export function formatPrice(price: number): string {
 export function formatKilometers(km: number): string {
   if (km >= 100000) return `${(km / 100000).toFixed(1)} Lakh km`;
   return `${km.toLocaleString("en-IN")} km`;
+}
+
+function formatListingDate(dateStr: string): string {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return "today";
+  if (diffDays === 0) return "today";
+  if (diffDays === 1) return "yesterday";
+  if (diffDays < 30) return `${diffDays} days ago`;
+  if (diffDays < 365) {
+    const months = Math.floor(diffDays / 30);
+    return `${months} ${months === 1 ? "month" : "months"} ago`;
+  }
+  return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
 function toSlug(text: string): string {
@@ -279,6 +297,12 @@ export function CarListingCard({ car, citySlug, isFavorited, onToggleFavorite, i
                 <MapPin className="w-3.5 h-3.5 text-primary" />
                 <span data-testid={`text-city-${car.id}`}>{car.city}</span>
               </div>
+              {car.listingDate && (
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground col-span-2">
+                  <CalendarDays className="w-3.5 h-3.5 text-primary" />
+                  <span data-testid={`text-listing-date-${car.id}`}>Listed {formatListingDate(car.listingDate)}</span>
+                </div>
+              )}
             </div>
             <button
               onClick={handleSellerClick}
