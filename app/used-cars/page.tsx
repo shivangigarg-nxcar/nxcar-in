@@ -153,8 +153,14 @@ export default function UsedCarsPage() {
     router.push(`/used-cars/${toSlug(cityName)}`);
   };
 
+  const [showAllCities, setShowAllCities] = useState(false);
   const totalCarsCount = cities.reduce((sum, c) => sum + parseInt(c.v_cnt || "0", 10), 0);
-  const topCities = cities.filter((c) => getCityImage(c.city_name)).slice(0, 16);
+  const popularCities = cities
+    .filter((c) => parseInt(c.v_cnt || "0", 10) >= 100)
+    .sort((a, b) => parseInt(b.v_cnt || "0", 10) - parseInt(a.v_cnt || "0", 10));
+  const remainingCities = cities
+    .filter((c) => parseInt(c.v_cnt || "0", 10) < 100 && parseInt(c.v_cnt || "0", 10) > 0)
+    .sort((a, b) => parseInt(b.v_cnt || "0", 10) - parseInt(a.v_cnt || "0", 10));
 
   const howItWorks = [
     { img: "/images/buy/step-search-opt.webp", title: "Search Cars", desc: "Browse thousands of verified used cars across 50+ cities in India." },
@@ -236,11 +242,11 @@ export default function UsedCarsPage() {
             </div>
           </div>
 
-          {topCities.length > 0 && (
+          {popularCities.length > 0 && (
             <div>
               <h2 className="text-xl font-bold mb-4" data-testid="text-popular-cities-title">Popular Cities</h2>
               <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-1.5">
-                {topCities.map((city) => {
+                {popularCities.map((city) => {
                   const cityImg = getCityImage(city.city_name);
                   return (
                     <button
@@ -271,6 +277,58 @@ export default function UsedCarsPage() {
                   );
                 })}
               </div>
+
+              {remainingCities.length > 0 && (
+                <>
+                  {showAllCities && (
+                    <div className="mt-4">
+                      <h3 className="text-sm font-semibold text-muted-foreground mb-3">More Cities</h3>
+                      <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-1.5">
+                        {remainingCities.map((city) => {
+                          const cityImg = getCityImage(city.city_name);
+                          return (
+                            <button
+                              key={city.city_id}
+                              onClick={() => handleCitySelect(city.city_name)}
+                              className="rounded-lg border bg-card hover:border-primary/50 transition-all overflow-hidden group hover-elevate"
+                              data-testid={`button-city-card-${city.city_id}`}
+                            >
+                              {cityImg ? (
+                                <div className="aspect-square overflow-hidden">
+                                  <img
+                                    src={cityImg}
+                                    alt={city.city_name}
+                                    loading="eager"
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="aspect-square bg-muted flex items-center justify-center">
+                                  <MapPin className="h-6 w-6 text-primary" />
+                                </div>
+                              )}
+                              <div className="p-1.5 text-center">
+                                <div className="font-medium text-[11px] leading-tight truncate">{city.city_name}</div>
+                                <div className="text-[9px] text-muted-foreground">{city.v_cnt} cars</div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  <div className="mt-4 text-center">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowAllCities(!showAllCities)}
+                      className="rounded-xl px-6"
+                      data-testid="button-toggle-more-cities"
+                    >
+                      {showAllCities ? "Show Less" : `More Cities (${remainingCities.length})`}
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 

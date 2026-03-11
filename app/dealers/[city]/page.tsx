@@ -24,6 +24,7 @@ interface Dealer {
   city_name: string;
   dealership_logo: string | null;
   vehicle_count: string;
+  rating?: string;
 }
 
 interface ApiResponse {
@@ -244,7 +245,7 @@ export default function CityDealers() {
                                   <Car className="h-4 w-4" />
                                   {dealer.vehicle_count} Cars
                                 </div>
-                                {dealer.rating && dealer.rating !== "0.00" && dealer.rating !== "0" && (
+                                {dealer.rating && parseFloat(dealer.rating) >= 3 && (
                                   <div className="flex items-center gap-1 text-sm text-amber-500">
                                     <Star className="h-4 w-4 fill-current" />
                                     {parseFloat(dealer.rating).toFixed(1)}
