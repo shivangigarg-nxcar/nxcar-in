@@ -7,6 +7,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import Image from "next/image";
+
+function getCityImagePath(cityName: string): string {
+  return `/images/buy/cities/${cityName.toLowerCase().replace(/\s+/g, "")}.webp`;
+}
 
 interface DealerCityData {
   id: number;
@@ -115,30 +120,39 @@ export function CityGrid() {
                     href={`/dealers/${city.name.toLowerCase().replace(/ /g, '-')}`}
                     data-testid={`link-dealer-city-${city.name.toLowerCase().replace(/ /g, '-')}`}
                   >
-                    <Card className="group cursor-pointer bg-white dark:bg-card border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.15)] relative overflow-hidden h-full">
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 dark:bg-primary/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/10 dark:group-hover:bg-primary/20"></div>
+                    <Card className="group cursor-pointer bg-white dark:bg-card border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.15)] overflow-hidden h-full">
+                      <div className="relative h-32 w-full overflow-hidden">
+                        <Image
+                          src={getCityImagePath(city.name)}
+                          alt={`Used cars in ${city.name}`}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.style.display = "none";
+                            if (target.parentElement) {
+                              target.parentElement.classList.add("bg-gradient-to-br", "from-primary/20", "to-primary/5");
+                              target.parentElement.innerHTML = `<span class="absolute inset-0 flex items-center justify-center text-primary font-bold text-3xl">${city.name.charAt(0)}</span>`;
+                            }
+                          }}
+                        />
+                        <span className="absolute top-2 right-2 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded backdrop-blur-sm">
+                          {city.region}
+                        </span>
+                      </div>
                       
-                      <div className="p-3 sm:p-6">
-                        <div className="flex items-center justify-between mb-4 relative z-10">
-                          <div className="h-10 w-10 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                            <Building2 className="h-5 w-5" />
-                          </div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 px-2 py-1 rounded border border-slate-200 dark:border-white/5">
-                            {city.region}
-                          </span>
-                        </div>
-                        
-                        <h3 className="font-heading text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                      <div className="p-3 sm:p-4">
+                        <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">
                           {city.name}
                         </h3>
                         
-                        <div className="flex items-center text-sm text-slate-500 dark:text-slate-400 mb-4">
-                          <Trophy className="h-3 w-3 mr-1.5 text-primary" />
-                          Premium Dealers
-                        </div>
-                        
-                        <div className="pt-4 border-t border-slate-200 dark:border-white/5 flex items-center justify-end">
-                          <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center text-xs text-slate-500 dark:text-slate-400">
+                            <Trophy className="h-3 w-3 mr-1 text-primary" />
+                            Premium Dealers
+                          </div>
+                          <ArrowRight className="h-3.5 w-3.5 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                         </div>
                       </div>
                     </Card>
@@ -178,9 +192,23 @@ export function CityGrid() {
                     data-testid={`link-dealer-city-${city.name.toLowerCase().replace(/ /g, '-')}`}
                   >
                     <Card className="group cursor-pointer bg-white dark:bg-card border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-200 overflow-hidden">
-                      <div className="flex items-center gap-3.5 p-3.5">
-                        <div className="h-10 w-10 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-                          <Building2 className="h-5 w-5" />
+                      <div className="flex items-center gap-3 p-3">
+                        <div className="relative h-12 w-12 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={getCityImagePath(city.name)}
+                            alt={city.name}
+                            fill
+                            sizes="48px"
+                            className="object-cover"
+                            onError={(e) => {
+                              const target = e.currentTarget as HTMLImageElement;
+                              target.style.display = "none";
+                              if (target.parentElement) {
+                                target.parentElement.classList.add("bg-gradient-to-br", "from-primary/20", "to-primary/5");
+                                target.parentElement.innerHTML = `<span class="absolute inset-0 flex items-center justify-center text-primary font-bold text-lg">${city.name.charAt(0)}</span>`;
+                              }
+                            }}
+                          />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="font-heading text-base font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
