@@ -27,7 +27,6 @@ import { useAuth } from "@hooks/use-auth";
 import dynamic from "next/dynamic";
 const EMICalculator = dynamic(() => import("@components/car-detail/emi-calculator").then(m => ({ default: m.EMICalculator })), { ssr: false, loading: () => <div className="h-64 animate-pulse bg-muted rounded-lg" /> });
 import { CarSummary } from "@components/car-detail/car-summary";
-import { PriceMap } from "@components/car-detail/price-map";
 import { ImageGallery } from "@components/car-detail/image-gallery";
 import { MakeOfferModal } from "@components/car-detail/make-offer-modal";
 import { CarSpecsGrid } from "@components/car-detail/car-specs-grid";
@@ -314,17 +313,6 @@ export default function BuyCarDetail() {
               <CarSummary detailedSpecs={car.detailedSpecs} />
             )}
 
-            {car.priceMap && (car.priceMap.buyerLower > 0 || car.priceMap.buyerUpper > 0) && (
-              <PriceMap
-                priceMap={car.priceMap}
-                askingPrice={car.price}
-                year={car.year}
-                make={car.make}
-                model={car.model}
-                variant={car.variant}
-                city={car.city}
-              />
-            )}
 
             <CarSpecsGrid
               specsEntries={specsEntries}

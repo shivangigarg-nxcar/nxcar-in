@@ -15,20 +15,22 @@ function assignRegion(cityName: string): string {
   return "north";
 }
 
-async function fetchDealerCount(cityId: number): Promise<number> {
-  try {
-    const response = await fetchWithTimeout(
-      `${BASE_URL}/partners/web-urls?${encodeURIComponent('fltr[]')}${encodeURIComponent('[city_id]')}=${cityId}`,
-      {},
-      5000
-    );
-    if (!response.ok) return 0;
-    const data = await response.json();
-    const partners = data?.allpartners;
-    return Array.isArray(partners) ? partners.length : 0;
-  } catch {
-    return 0;
+async function fetchDealerCount(cityId: number, retries = 2): Promise<number> {
+  const url = `${BASE_URL}/partners/web-urls?fltr%5B%5D%5Bcity_id%5D=${cityId}`;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetchWithTimeout(url, {}, 10000);
+      if (!response.ok) return 0;
+      const data = await response.json();
+      const partners = data?.allpartners;
+      if (typeof partners === 'string') return 0;
+      return Array.isArray(partners) ? partners.length : 0;
+    } catch {
+      if (attempt === retries) return 0;
+      await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+    }
   }
+  return 0;
 }
 
 export async function GET() {
@@ -39,22 +41,29 @@ export async function GET() {
       const citiesData = await response.json();
       const rawCities = citiesData?.data || [];
 
-      const citiesWithCounts = await Promise.all(
-        rawCities.map(async (city: any) => {
-          const cityId = city.city_id;
-          const name = city.city_name || city.name || "";
-          const dealerCount = await fetchDealerCount(cityId);
-          return {
-            id: cityId,
-            name,
-            region: assignRegion(name),
-            dealerCount,
-            imageUrl: city.city_image || null,
-          };
-        })
-      );
+      const batchSize = 5;
+      const results: any[] = [];
 
-      return citiesWithCounts
+      for (let i = 0; i < rawCities.length; i += batchSize) {
+        const batch = rawCities.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+          batch.map(async (city: any) => {
+            const cityId = city.city_id;
+            const name = city.city_name || city.name || "";
+            const dealerCount = await fetchDealerCount(Number(cityId));
+            return {
+              id: cityId,
+              name,
+              region: assignRegion(name),
+              dealerCount,
+              imageUrl: city.city_image || null,
+            };
+          })
+        );
+        results.push(...batchResults);
+      }
+
+      return results
         .filter((c: any) => c.name)
         .sort((a: any, b: any) => b.dealerCount - a.dealerCount);
     });

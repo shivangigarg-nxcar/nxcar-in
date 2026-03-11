@@ -9,6 +9,7 @@ import { TooltipProvider } from '@components/ui/tooltip';
 import { Toaster } from '@components/ui/toaster';
 import { Toaster as SonnerToaster } from 'sonner';
 import { ComparisonBar } from '@components/comparison-bar';
+import { ScrollRestoration } from '@components/scroll-restoration';
 import HeadTags from '../utils/HeadTags';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -28,6 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <FavoritesProvider>
             <TooltipProvider>
               <HeadTags />
+              <ScrollRestoration />
               {children}
               <ComparisonBar />
             </TooltipProvider>
