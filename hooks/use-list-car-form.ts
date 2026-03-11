@@ -140,15 +140,22 @@ export function useListCarForm() {
       const registrationYear = data.year || data.all?.vehicleManufacturingMonthYear?.split("/")[1] || "";
       const mfgYear = data.all?.vehicleManufacturingMonthYear?.split("/")[1] || data.year || "";
 
-      const locationFromAddress = data.all?.presentAddress?.split(",")[0]?.trim() || "";
+      const addressParts = (data.all?.presentAddress || data.all?.permanentAddress || "").split(",").map((s: string) => s.trim()).filter(Boolean);
+      let locationFromAddress = "";
       let matchedCityId = "";
-      if (locationFromAddress && nxcarCities.length > 0) {
-        const normalizedLoc = locationFromAddress.toLowerCase();
-        const matchedCity = nxcarCities.find(c =>
-          normalizedLoc.includes(c.city_name.toLowerCase()) ||
-          c.city_name.toLowerCase().includes(normalizedLoc)
-        );
-        if (matchedCity) matchedCityId = matchedCity.city_id;
+      if (addressParts.length > 0 && nxcarCities.length > 0) {
+        for (const part of addressParts) {
+          const normalizedPart = part.toLowerCase();
+          const matchedCity = nxcarCities.find(c => {
+            const cityName = c.city_name.toLowerCase();
+            return normalizedPart.includes(cityName) || cityName.includes(normalizedPart);
+          });
+          if (matchedCity) {
+            matchedCityId = matchedCity.city_id;
+            locationFromAddress = matchedCity.city_name;
+            break;
+          }
+        }
       }
 
       const newFormData: ListCarFormData = {
