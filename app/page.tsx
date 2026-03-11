@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
-      <main>
+      <main className="pt-20">
         <Hero />
         <QuickServices />
         <SellCarProcess />

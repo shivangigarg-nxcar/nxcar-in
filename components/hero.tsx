@@ -101,7 +101,7 @@ export function Hero() {
       <div className="relative z-10 h-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-[85vh] items-center">
           <div
-            className="hero-animate w-full max-w-xl space-y-6 pt-24 pb-12"
+            className="hero-animate w-full max-w-xl space-y-6 pt-4 pb-12"
           >
             <div 
               className="hero-animate-delay-1 inline-flex items-center gap-2 rounded-full bg-primary/10 dark:bg-primary/20 px-4 py-1.5 backdrop-blur-sm border border-primary/30"
