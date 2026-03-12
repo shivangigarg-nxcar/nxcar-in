@@ -12,6 +12,8 @@ const servicesData = [
   { title: "Car Inspection", desc: "Every car undergoes a thorough expert inspection." },
   { title: "RSA(Road Side Assistance)", desc: "24/7 roadside assistance ensuring help is always a call away." },
   { title: "Service History", desc: "Complete transparency with detailed service history." },
+  { title: "PDI", desc: "Pre-delivery inspection to ensure the car meets quality standards before handover." },
+  { title: "Docs", desc: "Complete documentation assistance for a seamless ownership transfer." },
 ];
 
 interface DealerServiceGridProps {
