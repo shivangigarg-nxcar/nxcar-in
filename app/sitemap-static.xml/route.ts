@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const SITEMAP_SITE_URL = "https://www.nxcar.in";
+const SITEMAP_SITE_URL = "https://nxcar.in";
 
 const STATIC_PATHS = [
   "/",

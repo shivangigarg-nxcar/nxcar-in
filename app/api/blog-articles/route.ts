@@ -33,7 +33,7 @@ function fixBlogImageUrl(imageUrl: string): string {
 }
 
 function fixBlogExternalUrl(externalUrl: string, category: string): string {
-  if (!externalUrl) return "https://www.nxcar.in/blog";
+  if (!externalUrl) return "https://nxcar.in/blog";
   return externalUrl;
 }
 

@@ -45,8 +45,9 @@ All legal pages match exact content from dev.nxcar.in:
 -   `/p1rtn5rs-*` → `/partners-account` (handles `@` character which conflicts with Next.js parallel routes)
 -   `/nxcar-t3rms-*` → `/terms-of-use` (handles `$` characters in URL)
 
-### Legacy URL Redirects (middleware.ts)
+### Legacy URL Redirects & Host Normalization (middleware.ts)
 
+-   `www.nxcar.in` → `nxcar.in` (301 redirect for canonical host normalization)
 -   `/used-car-in/{city}/{make}/{model}/{variant}/{id}` → `/used-cars/{city}/{make}-{model}-{variant}-{id}` (individual car page)
 -   `/used-car-in/{city}/{slug}` → `/used-cars/{city}` (city listing fallback when no numeric ID)
 -   Same pattern for `/used-cars-in/` prefix
@@ -54,9 +55,11 @@ All legal pages match exact content from dev.nxcar.in:
 
 ## SEO & Canonical Tags
 
--   Dynamic canonical tags via `components/canonical-tag.tsx` using `usePathname()` from next/navigation
--   Each page gets `<link rel="canonical" href="https://nxcar.in{pathname}">` automatically
--   Component is rendered in `app/providers.tsx`
+-   Server-side canonical tags via Next.js metadata API (`alternates.canonical: './'` in `app/layout.tsx`)
+-   `metadataBase: new URL('https://nxcar.in')` ensures all canonical URLs use `nxcar.in` domain
+-   Each page automatically gets `<link rel="canonical" href="https://nxcar.in{pathname}">`
+-   All sitemaps and `robots.txt` consistently use `https://nxcar.in` (without www)
+-   Middleware performs 301 redirect from `www.nxcar.in` → `nxcar.in` for host normalization
 
 ## Navbar & Footer City Links
 

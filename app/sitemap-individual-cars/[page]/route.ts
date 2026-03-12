@@ -1,7 +1,7 @@
 import { BASE_URL } from "@lib/constants";
 import { NextResponse } from "next/server";
 
-const SITEMAP_SITE_URL = "https://www.nxcar.in";
+const SITEMAP_SITE_URL = "https://nxcar.in";
 
 function slugify(text: string): string {
   return text

@@ -176,7 +176,7 @@ export default function PartnersPrivacyPolicy() {
                   {"For questions, concerns, or requests related to this Privacy Policy or Nxfin's handling of personal information, individuals may contact Nxfin's Privacy Officer at "}
                   <a href="mailto:contact@nxcar.in" data-testid="link-contact-email" className="text-[#0EA9B2] hover:underline">contact@nxcar.in</a>
                 </p>
-                <p>Contact us by post at the address given at <a href="https://www.nxcar.in/contact-us" className="text-[#0EA9B2] hover:underline">https://www.nxcar.in/contact-us</a>, or by filling in a online form by following these steps-</p>
+                <p>Contact us by post at the address given at <a href="https://nxcar.in/contact-us" className="text-[#0EA9B2] hover:underline">https://nxcar.in/contact-us</a>, or by filling in a online form by following these steps-</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>Enter your Name</li>
                   <li>Enter the mobile number registered with us for existing users and the Mobile number used while signing up for new users</li>
@@ -190,7 +190,7 @@ export default function PartnersPrivacyPolicy() {
             <section className="mb-10 bg-slate-900/50 rounded-xl p-6 border border-slate-800">
               <h2 className="text-2xl font-bold text-[#0EA9B2] mb-4" data-testid="heading-data-review">Review, Update, Or Delete The Data We Collect</h2>
               <div className="text-slate-300 leading-relaxed space-y-4">
-                <p>To request to review, update, or delete your personal information/account, please fill out and submit a request at <a href="https://www.nxcar.in/p1rtn5rs-@ccou5t" className="text-[#0EA9B2] hover:underline">https://www.nxcar.in/p1rtn5rs-@ccou5t</a>. Follow these steps-</p>
+                <p>To request to review, update, or delete your personal information/account, please fill out and submit a request at <a href="https://nxcar.in/p1rtn5rs-@ccou5t" className="text-[#0EA9B2] hover:underline">https://nxcar.in/p1rtn5rs-@ccou5t</a>. Follow these steps-</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>Enter your Name</li>
                   <li>Enter the mobile number registered with us for existing users and the Mobile number used while signing up for new users</li>

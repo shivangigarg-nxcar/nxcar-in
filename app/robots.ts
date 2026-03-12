@@ -48,6 +48,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://www.nxcar.in/sitemap.xml',
+    sitemap: 'https://nxcar.in/sitemap.xml',
   };
 }

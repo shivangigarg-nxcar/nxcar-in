@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'Nxcar - Buy & Sell Used Cars' },
   robots: { index: true, follow: true },
   metadataBase: new URL('https://nxcar.in'),
+  alternates: {
+    canonical: './',
+  },
 };
 
 export const viewport = {

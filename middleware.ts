@@ -11,6 +11,13 @@ function slugify(str: string): string {
 }
 
 export function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || '';
+  if (host.startsWith('www.')) {
+    const url = request.nextUrl.clone();
+    url.host = host.replace(/^www\./, '');
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = request.nextUrl;
 
   const oldMatch = pathname.match(/^\/used-cars?-in\/(.+)/);
@@ -40,5 +47,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/used-car-in/:path*', '/used-cars-in/:path*'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|images/).*)',
+  ],
 };
