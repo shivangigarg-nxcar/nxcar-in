@@ -6,6 +6,7 @@ import { Navbar } from "@components/navbar";
 import { Footer } from "@components/footer";
 import { Input } from "@components/ui/input";
 import { ChevronDown, Search, Phone } from "lucide-react";
+import { FAQJsonLd } from "@components/seo/structured-data";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -109,6 +110,7 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0E14] overflow-x-hidden">
+      <FAQJsonLd items={faqs.map(f => ({ question: f.question, answer: f.answer }))} />
       <Navbar />
       <main className="pt-14">
         <section className="relative py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">

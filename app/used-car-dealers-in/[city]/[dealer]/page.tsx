@@ -24,6 +24,8 @@ import { DealerReviewCard } from "@components/dealer-detail/dealer-review-card";
 import type { DealerReview } from "@components/dealer-detail/dealer-review-card";
 import { DealerContactForm } from "@components/dealer-detail/dealer-contact-form";
 import { DealerServiceGrid } from "@components/dealer-detail/dealer-service-grid";
+import { DealerJsonLd, BreadcrumbJsonLd } from "@components/seo/structured-data";
+import { Breadcrumbs } from "@components/seo/breadcrumbs";
 
 interface DealerInfo {
   showroom_name: string;
@@ -209,6 +211,12 @@ export default function DealerDetail() {
   const dealerTeams = dealerData?.teams || [];
   const dealerReviews = dealerData?.reviews || [];
 
+  useEffect(() => {
+    if (dealerInfo) {
+      document.title = `${dealerInfo.showroom_name} - Used Car Dealer in ${cityName} | Nxcar`;
+    }
+  }, [dealerInfo, cityName]);
+
   const dealerImages: string[] = dealerInfo?.images
     ? (Array.isArray(dealerInfo.images)
       ? dealerInfo.images
@@ -276,6 +284,21 @@ export default function DealerDetail() {
 
         {!isLoading && !error && dealerData && dealerInfo && (
           <>
+            <DealerJsonLd
+              name={dealerInfo.showroom_name}
+              address={dealerInfo.showroom_address}
+              rating={dealerInfo.rating}
+              reviewCount={dealerReviews.length}
+              phone={dealerInfo.mobile_number_1 || dealerBasic?.phone_number}
+              image={dealerInfo.dealership_logo || undefined}
+              url={`/used-car-dealers-in/${citySlug}/${dealerSlug}`}
+            />
+            <BreadcrumbJsonLd items={[
+              { name: "Home", url: "/" },
+              { name: "Dealers", url: "/dealers" },
+              { name: `Dealers in ${cityName}`, url: `/dealers/${citySlug}` },
+              { name: dealerInfo.showroom_name, url: `/used-car-dealers-in/${citySlug}/${dealerSlug}` },
+            ]} />
             <DealerHero
               dealerInfo={dealerInfo}
               dealerBasic={dealerBasic}

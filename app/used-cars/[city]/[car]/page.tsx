@@ -40,6 +40,8 @@ import { ListingPriceChart } from "@components/car-detail/listing-price-chart";
 import { useCarActions } from "@hooks/use-car-actions";
 import type { CarDetail } from "@components/car-detail/car-detail-types";
 import { formatPriceNoSymbol, formatKilometers, formatEmi } from "@components/car-detail/car-detail-types";
+import { CarJsonLd, BreadcrumbJsonLd } from "@components/seo/structured-data";
+import { Breadcrumbs } from "@components/seo/breadcrumbs";
 
 async function fetchCarDetail(vehicleId: string): Promise<CarDetail> {
   const res = await fetch(`/api/buy/car/${vehicleId}`);
@@ -116,6 +118,8 @@ export default function BuyCarDetail() {
     hasHistory.current = window.history.length > 1;
   }, []);
 
+  const cityName = citySlug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
   const goBack = useCallback(() => {
     if (hasHistory.current) {
       router.back();
@@ -165,6 +169,12 @@ export default function BuyCarDetail() {
   useEffect(() => {
     setCurrentImage(0);
   }, [vehicleId]);
+
+  useEffect(() => {
+    if (car) {
+      document.title = `${car.year} ${car.make} ${car.model}${car.variant ? ` ${car.variant}` : ""} in ${cityName} | Nxcar`;
+    }
+  }, [car, cityName]);
 
   const specsEntries = useMemo(() => {
     if (!car?.specs) return [];
@@ -277,9 +287,33 @@ export default function BuyCarDetail() {
 
   return (
     <div className="min-h-screen bg-background">
+      <CarJsonLd
+        make={car.make}
+        model={car.model}
+        year={car.year}
+        price={car.price}
+        kilometersDriven={car.kilometersDriven}
+        fuelType={car.fuelType}
+        transmission={car.transmission}
+        city={cityName}
+        image={allImages[0]}
+        vehicleId={vehicleId}
+        variant={car.variant}
+        color={car.specs?.color}
+      />
+      <BreadcrumbJsonLd items={[
+        { name: "Home", url: "/" },
+        { name: `Used Cars in ${cityName}`, url: `/used-cars/${citySlug}` },
+        { name: `${car.year} ${car.make} ${car.model}`, url: `/used-cars/${citySlug}/${carSlug}` },
+      ]} />
       <Navbar />
 
       <main className="max-w-screen-xl mx-auto px-3 sm:px-4 pt-16 pb-4 sm:pb-6 overflow-hidden">
+        <Breadcrumbs items={[
+          { label: "Used Cars", href: "/used-cars" },
+          { label: cityName, href: `/used-cars/${citySlug}` },
+          { label: `${car.year} ${car.make} ${car.model}` },
+        ]} />
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
             <ImageGallery

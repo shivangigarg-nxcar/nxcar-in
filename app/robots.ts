@@ -6,22 +6,20 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-      },
-      {
-        userAgent: 'Bingbot',
-        allow: '/',
-      },
-      {
-        userAgent: 'Slurp',
-        allow: '/',
-      },
-      {
-        userAgent: 'DuckDuckBot',
-        allow: '/',
+        disallow: [
+          '/api/',
+          '/login',
+          '/otp',
+          '/otp-submitted',
+          '/dealer-login',
+          '/profile-edit',
+          '/upload-documents',
+          '/sell-form-submitted',
+          '/sell-car-edit/',
+          '/my-transactions',
+          '/partners-account',
+          '/city-filter',
+        ],
       },
       {
         userAgent: 'GPTBot',
@@ -41,10 +39,6 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'PerplexityBot',
-        allow: '/',
-      },
-      {
-        userAgent: 'YouBot',
         allow: '/',
       },
     ],

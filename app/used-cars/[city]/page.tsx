@@ -19,6 +19,8 @@ import {
 import { type CarListing, LoadingSkeleton } from "@components/buy-cars/car-listing-card";
 import { CityHero } from "@components/city-listings/city-hero";
 import { CityCarGrid } from "@components/city-listings/city-car-grid";
+import { BreadcrumbJsonLd } from "@components/seo/structured-data";
+import { Breadcrumbs } from "@components/seo/breadcrumbs";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -407,10 +409,21 @@ export default function UsedCarsCityPage() {
     );
   }
 
+  const displayCityName = matchedCity?.city_name || citySlug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
   return (
     <div className="min-h-screen bg-background">
+      <BreadcrumbJsonLd items={[
+        { name: "Home", url: "/" },
+        { name: "Used Cars", url: "/used-cars" },
+        { name: `Used Cars in ${displayCityName}`, url: `/used-cars/${citySlug}` },
+      ]} />
       <Navbar />
       <main className="w-full max-w-7xl mx-auto px-4 py-6 pt-16">
+        <Breadcrumbs items={[
+          { label: "Used Cars", href: "/used-cars" },
+          { label: displayCityName },
+        ]} />
         <CityHero
           cityName={matchedCity?.city_name || citySlug}
           citySlug={citySlug}
