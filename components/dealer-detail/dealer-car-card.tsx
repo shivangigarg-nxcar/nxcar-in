@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
 import { Fuel, Gauge, Settings2 } from "lucide-react";
+import { getCarDetailUrl } from "@lib/utils";
 
 export interface DealerCar {
   vehicle_id: string;
@@ -24,10 +25,6 @@ export interface DealerCar {
   is_active: string;
 }
 
-function slugify(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-}
-
 function formatPrice(price: number): string {
   if (price >= 10000000) return `${(price / 10000000).toFixed(2)} Cr`;
   if (price >= 100000) return `${(price / 100000).toFixed(2)} L`;
@@ -36,15 +33,6 @@ function formatPrice(price: number): string {
 
 function formatEmi(emi: number): string {
   return Math.floor(emi).toLocaleString("en-IN");
-}
-
-function getCarDetailUrl(car: DealerCar, citySlug: string): string {
-  const make = slugify(car.make || "");
-  const model = slugify(car.model || "");
-  const variant = slugify(car.variant || "");
-  const combined = [make, model, variant].filter(Boolean).join("-");
-  const carSlug = combined ? `${combined}-${car.vehicle_id}` : `car-${car.vehicle_id}`;
-  return `/used-cars/${citySlug}/${carSlug}`;
 }
 
 function resolveCarImages(images: string): string[] {
@@ -64,7 +52,7 @@ export function DealerCarCard({ car, citySlug }: { car: DealerCar; citySlug: str
   const emi = typeof car.emi === "number" ? car.emi : parseFloat(String(car.emi)) || 0;
 
   return (
-    <Link href={getCarDetailUrl(car, citySlug)} data-testid={`card-dealer-car-${car.vehicle_id}`}>
+    <Link href={getCarDetailUrl({ vehicle_id: car.vehicle_id, make: car.make, model: car.model, city_name: car.city_name || citySlug })} data-testid={`card-dealer-car-${car.vehicle_id}`}>
       <Card className="overflow-hidden border-border hover:border-primary/40 hover:shadow-md transition-all group h-full">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img

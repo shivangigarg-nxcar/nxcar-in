@@ -5,6 +5,7 @@ import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Fuel, Gauge, Settings2, MapPin, Heart, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
+import { getCarDetailUrl } from "@lib/utils";
 
 const PAGE_SIZE = 8;
 
@@ -61,13 +62,16 @@ export function SkeletonGrid() {
 }
 
 export function buildSellDetailUrl(car: any) {
-  const carName = resolveCarName(car);
-  const vehicleId = car.vehicle_id || car.id;
-  const year = car.year || car.manufacturing_year || "";
-  const location = car.city_name || car.city || car.location || "";
-  const citySlug = (location || "india").toLowerCase().replace(/\s+/g, "-");
-  const nameSlug = carName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-  return `/used-cars/${citySlug}/${nameSlug}${year ? year : ""}-${vehicleId}`;
+  const name = resolveCarName(car);
+  return getCarDetailUrl({
+    vehicle_id: car.vehicle_id || car.id,
+    name,
+    city_name: car.city_name,
+    city: car.city,
+    location: car.location,
+    make: car.make || car.brand,
+    model: car.model,
+  });
 }
 
 export function resolveCarImage(car: any): { url: string; isBrandLogo: boolean } {
