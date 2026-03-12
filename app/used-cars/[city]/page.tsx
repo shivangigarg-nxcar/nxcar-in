@@ -85,6 +85,21 @@ export default function UsedCarsCityPage() {
 
   const debouncedSearch = useDebounce(searchQuery, 400);
 
+  useEffect(() => {
+    const city = matchedCity?.city_name || citySlug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    const makes = filters.makes || [];
+    const models = filters.models || [];
+    const count = totalListings > 0 ? totalListings.toLocaleString("en-IN") : "";
+    let titleMiddle = "Used Cars";
+    if (makes.length === 1 && models.length === 1) {
+      titleMiddle = `${makes[0]} ${models[0]}`;
+    } else if (makes.length === 1) {
+      titleMiddle = `Used ${makes[0]} Cars`;
+    }
+    const parts = [count, titleMiddle, `in ${city}`].filter(Boolean).join(" ");
+    document.title = `${parts} | Nxcar`;
+  }, [filters.makes, filters.models, totalListings, matchedCity, citySlug]);
+
   const effectiveFilterOptions = filterOptions || defaultFilterOptions;
 
   const urlInitialized = useRef(false);
