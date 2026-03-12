@@ -293,7 +293,7 @@ export function AdCarCard({ car }: { car: any }) {
   const fuelType = car.fule_type || car.fuel_type || car.fuelType || "";
   const transmission = car.transmission || "";
   const mileage = car.mileage || car.kilometers || 0;
-  const price = car.expected_selling_price || car.price || car.expectedPrice || 0;
+  const price = car.price || car.expected_selling_price || car.expectedPrice || 0;
 
   const detailUrl = buildSellDetailUrl(car);
 

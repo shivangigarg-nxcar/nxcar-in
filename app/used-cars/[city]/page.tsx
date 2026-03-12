@@ -400,6 +400,8 @@ export default function UsedCarsCityPage() {
           cityName={matchedCity?.city_name || citySlug}
           citySlug={citySlug}
           totalListings={totalListings}
+          selectedMakes={filters.makes}
+          selectedModels={filters.models}
         />
 
         <div className="flex flex-col lg:flex-row gap-6">
