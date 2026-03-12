@@ -21,6 +21,7 @@ export function Navbar() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileSellOpen, setMobileSellOpen] = useState(false);
   const [mobileBuyOpen, setMobileBuyOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { user, isLoading, isAuthenticated, logout: logoutFn } = useAuth();
 
   useEffect(() => { setMounted(true); }, []);
@@ -50,44 +51,48 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex md:items-center md:space-x-1">
-          <div className="relative group" data-testid="nav-sell-dropdown">
-            <button className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
+          <div className="relative" data-testid="nav-sell-dropdown" onMouseEnter={() => setActiveDropdown('sell')} onMouseLeave={() => setActiveDropdown(null)}>
+            <button className="relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
               <span className="relative z-10">Sell Car</span>
-              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-              <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${activeDropdown === 'sell' ? 'rotate-180' : ''}`} />
+              <span className={`absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 transition-all duration-300 ${activeDropdown === 'sell' ? 'opacity-100' : 'opacity-0'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${activeDropdown === 'sell' ? 'w-full' : 'w-0'}`}></span>
             </button>
-            <div className="absolute top-full left-0 mt-1 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-              <Link href="/sell-used-car" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-online">Sell Car Online</Link>
-              <Link href="/sell-used-car/delhi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-delhi">Sell Car in Delhi</Link>
-              <Link href="/sell-used-car/gurgaon" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-gurgaon">Sell Car in Gurgaon</Link>
+            <div className={`absolute top-full left-0 mt-0 pt-1 w-52 transition-all duration-200 z-50 ${activeDropdown === 'sell' ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-xl dark:shadow-black/40 overflow-hidden">
+                <Link href="/sell-used-car" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-online">Sell Car Online</Link>
+                <Link href="/sell-used-car/delhi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-delhi">Sell Car in Delhi</Link>
+                <Link href="/sell-used-car/gurgaon" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-sell-gurgaon">Sell Car in Gurgaon</Link>
+              </div>
             </div>
           </div>
-          <div className="relative group" data-testid="nav-buy-dropdown">
-            <button className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
+          <div className="relative" data-testid="nav-buy-dropdown" onMouseEnter={() => setActiveDropdown('buy')} onMouseLeave={() => setActiveDropdown(null)}>
+            <button className="relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
               <span className="relative z-10">Buy Car</span>
-              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-              <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${activeDropdown === 'buy' ? 'rotate-180' : ''}`} />
+              <span className={`absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 transition-all duration-300 ${activeDropdown === 'buy' ? 'opacity-100' : 'opacity-0'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${activeDropdown === 'buy' ? 'w-full' : 'w-0'}`}></span>
             </button>
-            <div className="absolute top-full left-0 mt-1 w-[340px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden p-2">
-              <Link href="/used-cars" className="block px-3 py-2.5 text-sm font-semibold text-primary hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg transition-colors mb-1 border-b border-slate-100 dark:border-white/5" data-testid="link-dropdown-buy-online">Buy Car Online</Link>
-              <div className="flex gap-1">
-                <div className="flex-1">
-                  <Link href="/used-cars/delhi" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-delhi">Delhi</Link>
-                  <Link href="/used-cars/mumbai" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-mumbai">Mumbai</Link>
-                  <Link href="/used-cars/bangalore" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-bangalore">Bangalore</Link>
-                  <Link href="/used-cars/hyderabad" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-hyderabad">Hyderabad</Link>
-                  <Link href="/used-cars/gurgaon" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-gurgaon">Gurgaon</Link>
-                  <Link href="/used-cars/pune" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-pune">Pune</Link>
-                </div>
-                <div className="flex-1">
-                  <Link href="/used-cars/kolkata" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-kolkata">Kolkata</Link>
-                  <Link href="/used-cars/chennai" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-chennai">Chennai</Link>
-                  <Link href="/used-cars/jaipur" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-jaipur">Jaipur</Link>
-                  <Link href="/used-cars/lucknow" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-lucknow">Lucknow</Link>
-                  <Link href="/used-cars/noida" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-noida">Noida</Link>
-                  <Link href="/used-cars/faridabad" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-faridabad">Faridabad</Link>
+            <div className={`absolute top-full left-0 mt-0 pt-1 w-[340px] transition-all duration-200 z-50 ${activeDropdown === 'buy' ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-xl dark:shadow-black/40 overflow-hidden p-2">
+                <Link href="/used-cars" className="block px-3 py-2.5 text-sm font-semibold text-primary hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors mb-1 border-b border-slate-100 dark:border-white/5" data-testid="link-dropdown-buy-online">Buy Car Online</Link>
+                <div className="flex gap-1">
+                  <div className="flex-1">
+                    <Link href="/used-cars/delhi" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-delhi">Delhi</Link>
+                    <Link href="/used-cars/mumbai" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-mumbai">Mumbai</Link>
+                    <Link href="/used-cars/bangalore" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-bangalore">Bangalore</Link>
+                    <Link href="/used-cars/hyderabad" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-hyderabad">Hyderabad</Link>
+                    <Link href="/used-cars/gurgaon" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-gurgaon">Gurgaon</Link>
+                    <Link href="/used-cars/pune" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-pune">Pune</Link>
+                  </div>
+                  <div className="flex-1">
+                    <Link href="/used-cars/kolkata" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-kolkata">Kolkata</Link>
+                    <Link href="/used-cars/chennai" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-chennai">Chennai</Link>
+                    <Link href="/used-cars/jaipur" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-jaipur">Jaipur</Link>
+                    <Link href="/used-cars/lucknow" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-lucknow">Lucknow</Link>
+                    <Link href="/used-cars/noida" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-noida">Noida</Link>
+                    <Link href="/used-cars/faridabad" className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors rounded-lg" data-testid="link-dropdown-buy-faridabad">Faridabad</Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,19 +117,21 @@ export function Navbar() {
             <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
             <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </a>
-          <div className="relative group" data-testid="nav-services-dropdown">
-            <button className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
+          <div className="relative" data-testid="nav-services-dropdown" onMouseEnter={() => setActiveDropdown('services')} onMouseLeave={() => setActiveDropdown(null)}>
+            <button className="relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white flex items-center gap-1">
               <span className="relative z-10">Services</span>
-              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-              <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
+              <span className={`absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 transition-all duration-300 ${activeDropdown === 'services' ? 'opacity-100' : 'opacity-0'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${activeDropdown === 'services' ? 'w-full' : 'w-0'}`}></span>
             </button>
-            <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-              <Link href="/car-services" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-car-services">Car Services</Link>
-              <a href="https://nxcar.in/pdi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-pdi-services">PDI Services</a>
-              <Link href="/insurance-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-insurance-check">Buy Insurance</Link>
-              <Link href="/challan-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-challan-check">Challan Check</Link>
-              <Link href="/rc-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-rc-check">RC Check</Link>
+            <div className={`absolute top-full left-0 mt-0 pt-1 w-48 transition-all duration-200 z-50 ${activeDropdown === 'services' ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-xl dark:shadow-black/40 overflow-hidden">
+                <Link href="/car-services" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-car-services">Car Services</Link>
+                <a href="https://nxcar.in/pdi" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-pdi-services">PDI Services</a>
+                <Link href="/insurance-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-insurance-check">Buy Insurance</Link>
+                <Link href="/challan-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-challan-check">Challan Check</Link>
+                <Link href="/rc-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-rc-check">RC Check</Link>
+              </div>
             </div>
           </div>
         </div>
