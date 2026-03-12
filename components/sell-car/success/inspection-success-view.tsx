@@ -30,29 +30,6 @@ interface InspectionSuccessViewProps {
   resetForm: () => void;
 }
 
-const processSteps = [
-  {
-    number: 1,
-    title: "Car Details",
-    description: "Fill your car details in 2 mins",
-  },
-  {
-    number: 2,
-    title: "Price Recommendation",
-    description: "Nxcar AI recommended price",
-  },
-  {
-    number: 3,
-    title: "Inspection",
-    description: "200+ points of detailed inspection report",
-  },
-  {
-    number: 4,
-    title: "Car Auction",
-    description: "We'll held the auction for car, & provide best offer",
-  },
-];
-
 const expectNextItems = [
   "Nxcar team will call or message you to confirm the inspection appointment.",
   "Our engineers will perform a 200+ points inspection at your doorstep at the scheduled time.",
@@ -225,25 +202,13 @@ export function InspectionSuccessView(props: InspectionSuccessViewProps) {
           })}
         </div>
 
-        <div className="bg-white dark:bg-card rounded-2xl border border-slate-200 dark:border-border/50 p-6 sm:p-8" data-testid="process-steps-section">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4">
-            {processSteps.map((step) => (
-              <div key={step.number} className="flex flex-col items-center text-center">
-                <div className="relative mb-3">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center shadow-inner">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-primary/20 to-teal-400/20 flex items-center justify-center">
-                      <span className="text-lg sm:text-xl font-bold text-primary">{step.number}</span>
-                    </div>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shadow-md">
-                    {step.number}
-                  </div>
-                </div>
-                <h3 className="text-sm sm:text-base font-bold text-foreground mb-1">{step.title}</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground leading-snug">{step.description}</p>
-              </div>
-            ))}
-          </div>
+        <div className="rounded-2xl overflow-hidden" data-testid="process-steps-section">
+          <img
+            src="/images/process-steps.png"
+            alt="Process: 1. Car Details - Fill your car details in 2 mins, 2. Price Recommendation - Nxcar AI recommended price, 3. Inspection - 200+ points of detailed inspection report, 4. Car Auction - We'll hold the auction for car & provide best offer"
+            className="w-full h-auto"
+            data-testid="img-process-steps"
+          />
         </div>
 
         <div className="bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 p-6 sm:p-8" data-testid="what-to-expect-section">
