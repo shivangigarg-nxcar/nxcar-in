@@ -14,7 +14,7 @@ export function slugify(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function getCarDetailUrl(car: { id?: number | string; vehicle_id?: number | string; name?: string; make?: string; model?: string; variant?: string; year?: number | string; manufacturing_year?: number | string; location?: string; city_name?: string; city?: string }): string {
+export function getCarDetailUrl(car: { id?: number | string | null; vehicle_id?: number | string | null; name?: string | null; make?: string | null; model?: string | null; variant?: string | null; year?: number | string | null; manufacturing_year?: number | string | null; location?: string | null; city_name?: string | null; city?: string | null }): string {
   const vehicleId = car.vehicle_id || car.id || "";
   const cityRaw = car.city_name || car.city || car.location || "all";
   const city = slugify(cityRaw) || "all";
