@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Service Partners | Nxcar",
+  title: "Banking & Financial Service Partners",
   description: "Our trusted financial services partners - banks and NBFCs that help you access car financing.",
 };
 

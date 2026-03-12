@@ -5,8 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | Nxcar",
-  description: "Read Nxcar's terms and conditions for using our used car marketplace platform.",
+  title: "Terms & Conditions",
+  description: "Read Nxcar's terms and conditions for buying and selling used cars on our platform.",
 };
 
 export default function Terms() {

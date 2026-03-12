@@ -5,8 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Nxcar",
-  description: "Read Nxcar's privacy policy. Learn how we collect, use, and protect your personal information.",
+  title: "Partner Privacy Policy",
+  description: "Privacy policy for Nxcar dealer and business partners. Learn how we handle partner data.",
 };
 
 export default function PartnersPrivacyPolicy() {

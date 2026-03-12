@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Grievance Redressal Policy | Nxcar",
+  title: "Grievance Redressal Policy",
   description: "Nxcar's grievance redressal policy. Learn how to raise and resolve complaints on our platform.",
 };
 
