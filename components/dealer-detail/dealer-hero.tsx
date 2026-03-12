@@ -123,10 +123,10 @@ export function DealerHero({
                   {carsLoading ? "..." : carsCount} Listed Cars
                 </span>
               </div>
-              {dealerInfo.rating && dealerInfo.rating !== "0.00" && (
+              {dealerInfo.rating && parseFloat(dealerInfo.rating) >= 3 && (
                 <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-1.5">
                   <Star className="h-4 w-4 text-amber-400 fill-current" />
-                  <span className="text-sm font-medium">{dealerInfo.rating} Rating</span>
+                  <span className="text-sm font-medium">{parseFloat(dealerInfo.rating).toFixed(1)} Rating</span>
                 </div>
               )}
             </div>

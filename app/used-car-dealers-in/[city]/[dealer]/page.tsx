@@ -291,7 +291,7 @@ export default function DealerDetail() {
               onShare={handleShare}
             />
 
-            <DealerTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            <DealerTabs activeTab={activeTab} onTabChange={setActiveTab} showReviews={dealerReviews.length > 0 && !!dealerInfo.rating && parseFloat(dealerInfo.rating) >= 3} />
 
             <div className="container max-w-7xl mx-auto px-4">
               <section id="listing" className="py-8">
@@ -371,7 +371,7 @@ export default function DealerDetail() {
                 onWhatsApp={handleWhatsApp}
               />
 
-              {dealerReviews.length > 0 && (
+              {dealerReviews.length > 0 && dealerInfo.rating && parseFloat(dealerInfo.rating) >= 3 && (
                 <section id="reviews" className="py-8 border-t border-border">
                   <h2 className="text-xl font-bold text-foreground mb-4">Reviews</h2>
                   <div className="relative">

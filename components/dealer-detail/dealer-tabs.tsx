@@ -11,13 +11,15 @@ const stickyTabs = [
 interface DealerTabsProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  showReviews?: boolean;
 }
 
-export function DealerTabs({ activeTab, onTabChange }: DealerTabsProps) {
+export function DealerTabs({ activeTab, onTabChange, showReviews = true }: DealerTabsProps) {
+  const visibleTabs = showReviews ? stickyTabs : stickyTabs.filter(t => t.name !== "Reviews");
   return (
     <div className="sticky top-16 z-30 bg-background border-b border-border shadow-sm">
       <div className="container max-w-7xl mx-auto px-4 flex gap-1 overflow-x-auto">
-        {stickyTabs.map(tab => (
+        {visibleTabs.map(tab => (
           <a
             key={tab.name}
             href={tab.link}
