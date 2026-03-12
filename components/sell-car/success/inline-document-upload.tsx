@@ -91,7 +91,7 @@ export function InlineDocumentUpload({ vehicleId, onBack, onDone }: InlineDocume
 
       setSubmitted(true);
       toast({ title: "Documents Uploaded", description: "Your documents have been submitted successfully." });
-      setTimeout(() => onDone(), 2000);
+      setTimeout(() => onDone(), 1500);
     } catch (error: any) {
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {

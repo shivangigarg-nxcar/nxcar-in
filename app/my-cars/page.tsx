@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@components/navbar";
 import { Footer } from "@components/footer";
 import { Car, Shield, Megaphone } from "lucide-react";
@@ -9,6 +10,7 @@ import { getMyCarsSell, getMyCarsSellAds, getMyCarsBuy } from "@lib/api";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@hooks/use-auth";
 import { useFavorites } from "@hooks/use-favorites";
+import { useToast } from "@hooks/use-toast";
 import LoginModal from "@components/login-modal";
 import { MyCarsTabs, type ActiveTab } from "@components/my-cars/my-cars-tabs";
 import { BuyFavoritesGrid } from "@components/my-cars/buy-favorites-grid";
@@ -41,12 +43,39 @@ function useLazyList<T>(items: T[]) {
 }
 
 export default function MyCars() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+      <MyCarsContent />
+    </Suspense>
+  );
+}
+
+function MyCarsContent() {
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const thankYouShown = useRef(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("favorites");
   const [listingSubTab, setListingSubTab] = useState<"sell" | "ads">("sell");
   const { isAuthenticated } = useAuth();
   const { isFavorite, toggleFavorite, syncExternalIds } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [inspectionCar, setInspectionCar] = useState<any>(null);
+
+  useEffect(() => {
+    const thankYouVehicle = searchParams.get("thank_you");
+    if (thankYouVehicle && !thankYouShown.current) {
+      thankYouShown.current = true;
+      setActiveTab("listings");
+      setListingSubTab("sell");
+      setTimeout(() => {
+        toast({
+          title: "Thank You!",
+          description: "Your documents have been uploaded successfully. Your listing is under review and our team will get back to you shortly.",
+        });
+      }, 500);
+      window.history.replaceState({}, "", "/my-cars");
+    }
+  }, [searchParams, toast]);
 
   useEffect(() => {
     if (!isAuthenticated) {

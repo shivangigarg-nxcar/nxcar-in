@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Check, 
   MapPin, 
@@ -11,6 +12,9 @@ import {
   Upload, 
   FileText,
   ChevronUp,
+  CheckCircle2,
+  X,
+  PartyPopper,
 } from "lucide-react";
 import { Button } from "@components/ui/button";
 import type { InspectionSlot, InspectionFranchise } from "@lib/api";
@@ -67,6 +71,84 @@ function formatDateForDisplay(dateStr: string): string {
   });
 }
 
+function ThankYouModal({ onClose, vehicleId }: { onClose: () => void; vehicleId: string }) {
+  const router = useRouter();
+
+  const handleGoToMyCars = () => {
+    onClose();
+    router.push(`/my-cars?thank_you=${vehicleId}`);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+      data-testid="thank-you-modal-overlay"
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", duration: 0.4 }}
+        className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-2xl relative"
+        onClick={(e) => e.stopPropagation()}
+        data-testid="thank-you-modal"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 p-1 rounded-full hover:bg-muted transition-colors"
+          data-testid="button-close-thank-you"
+        >
+          <X className="w-5 h-5 text-muted-foreground" />
+        </button>
+
+        <div className="text-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", delay: 0.1 }}
+            className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-primary/20 to-teal-400/20 flex items-center justify-center"
+          >
+            <PartyPopper className="w-10 h-10 text-primary" />
+          </motion.div>
+
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2" data-testid="text-thank-you-title">
+            Thank You!
+          </h2>
+          <p className="text-sm text-muted-foreground mb-2">
+            Your car listing is now under review.
+          </p>
+          <p className="text-xs text-muted-foreground mb-6 leading-relaxed">
+            Our team will review your listing and get back to you shortly. You can upload
+            documents anytime from the My Cars section.
+          </p>
+
+          <div className="space-y-2">
+            <Button
+              onClick={handleGoToMyCars}
+              className="w-full h-11 bg-primary hover:bg-primary/90 text-white rounded-xl text-sm font-semibold"
+              data-testid="button-go-to-my-cars"
+            >
+              Go to My Cars
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              className="w-full h-10 text-sm text-muted-foreground hover:text-foreground"
+              data-testid="button-stay-on-page"
+            >
+              Stay on this page
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function InspectionSuccessView(props: InspectionSuccessViewProps) {
   const {
     inspectionMode,
@@ -78,8 +160,10 @@ export function InspectionSuccessView(props: InspectionSuccessViewProps) {
     resetForm,
   } = props;
 
+  const router = useRouter();
   const [showDocUpload, setShowDocUpload] = useState(false);
   const [docUploadDismissed, setDocUploadDismissed] = useState(false);
+  const [showThankYouModal, setShowThankYouModal] = useState(false);
 
   const address =
     inspectionMode === "franchise" && selectedFranchise
@@ -93,15 +177,23 @@ export function InspectionSuccessView(props: InspectionSuccessViewProps) {
 
   const mapQuery = encodeURIComponent(address);
 
+  const handleUploadLater = () => {
+    setDocUploadDismissed(true);
+    setShowThankYouModal(true);
+  };
+
+  const handleDocUploadDone = () => {
+    setShowDocUpload(false);
+    setDocUploadDismissed(true);
+    router.push(`/my-cars?thank_you=${submittedVehicleId}`);
+  };
+
   if (showDocUpload) {
     return (
       <InlineDocumentUpload
         vehicleId={submittedVehicleId}
         onBack={() => setShowDocUpload(false)}
-        onDone={() => {
-          setShowDocUpload(false);
-          setDocUploadDismissed(true);
-        }}
+        onDone={handleDocUploadDone}
       />
     );
   }
@@ -226,7 +318,7 @@ export function InspectionSuccessView(props: InspectionSuccessViewProps) {
               <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto">
                 <Button
                   variant="outline"
-                  onClick={() => setDocUploadDismissed(true)}
+                  onClick={handleUploadLater}
                   className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg border-primary text-primary hover:bg-primary/5"
                   data-testid="button-upload-later"
                 >
@@ -244,6 +336,15 @@ export function InspectionSuccessView(props: InspectionSuccessViewProps) {
           </div>
         </motion.div>
       )}
+
+      <AnimatePresence>
+        {showThankYouModal && (
+          <ThankYouModal
+            onClose={() => setShowThankYouModal(false)}
+            vehicleId={submittedVehicleId}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
