@@ -342,11 +342,18 @@ export function AdCarCard({ car }: { car: any }) {
             </div>
           )}
           <CarSpecBadges mileage={mileage} fuelType={fuelType} transmission={transmission} />
-          {Number(price) > 0 && (
-            <span className="text-lg font-black text-primary italic" data-testid={`text-ad-price-${vehicleId}`}>
-              {formatPrice(Number(price))}
-            </span>
-          )}
+          <div className="flex items-end justify-between">
+            {Number(price) > 0 ? (
+              <span className="text-lg font-black text-primary italic" data-testid={`text-ad-price-${vehicleId}`}>
+                {formatPrice(Number(price))}
+              </span>
+            ) : <span />}
+            {car.is_active === "1" ? (
+              <span className="text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-ad-active-status-${vehicleId}`}>Active Listing</span>
+            ) : car.is_active === "0" ? (
+              <span className="text-[10px] font-bold uppercase tracking-wider text-red-500" data-testid={`text-ad-active-status-${vehicleId}`}>Inactive Listing</span>
+            ) : null}
+          </div>
         </CardContent>
       </Card>
     </Link>
