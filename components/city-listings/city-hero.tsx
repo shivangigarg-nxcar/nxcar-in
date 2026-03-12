@@ -15,7 +15,7 @@ export function CityHero({ cityName, citySlug, totalListings, selectedMakes = []
   let titleMiddle = "Used Cars";
   if (selectedMakes.length === 1 && selectedModels.length === 1) {
     titleMiddle = `Used ${selectedMakes[0]} ${selectedModels[0]} Cars`;
-  } else if (selectedMakes.length === 1 && selectedModels.length === 0) {
+  } else if (selectedMakes.length === 1) {
     titleMiddle = `Used ${selectedMakes[0]} Cars`;
   }
 
