@@ -28,12 +28,12 @@ function UploadDocumentsContent() {
   const { toast } = useToast();
   const vehicleId = searchParams.get("vehicle_id") || "";
 
-  const [rcFront, setRcFront] = useState<UploadBox>({ id: "rc_front", file: null, preview: null });
-  const [rcBack, setRcBack] = useState<UploadBox>({ id: "rc_back", file: null, preview: null });
-  const [insurance, setInsurance] = useState<UploadBox>({ id: "insurance", file: null, preview: null });
+  const [rcFront, setRcFront] = useState<UploadBox>({ id: "rc_copy", file: null, preview: null });
+  const [rcBack, setRcBack] = useState<UploadBox>({ id: "rc_copy_back", file: null, preview: null });
+  const [insurance, setInsurance] = useState<UploadBox>({ id: "insurance_policy_copy", file: null, preview: null });
   const [panCard, setPanCard] = useState<UploadBox>({ id: "pan_card", file: null, preview: null });
-  const [bankDetails, setBankDetails] = useState<UploadBox>({ id: "bank_details", file: null, preview: null });
-  const [cancelledCheque, setCancelledCheque] = useState<UploadBox>({ id: "cancelled_cheque", file: null, preview: null });
+  const [bankDetails, setBankDetails] = useState<UploadBox>({ id: "cheque_or_bank_details", file: null, preview: null });
+  const [cancelledCheque, setCancelledCheque] = useState<UploadBox>({ id: "cheque_or_bank_details", file: null, preview: null });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -75,11 +75,11 @@ function UploadDocumentsContent() {
 
       for (const box of filesWithData) {
         if (box.file) {
-          formData.append("file", box.file, `${box.id}_${box.file.name}`);
+          formData.append(box.id, box.file, box.file.name);
         }
       }
 
-      const res = await fetch("/api/nxcar/image-upload", {
+      const res = await fetch("/api/nxcar/sellform-documents-upload", {
         method: "POST",
         body: formData,
       });
@@ -158,22 +158,22 @@ function UploadDocumentsContent() {
           <h3 className="text-sm font-semibold text-foreground mb-3">RC Copy</h3>
           <div className="grid grid-cols-2 gap-3">
             <UploadArea
-              id="rc_front"
+              id="rc_copy"
               label="Front of RC Copy"
               box={rcFront}
               fileInputRefs={fileInputRefs}
-              onFileChange={(f) => handleFileChange("rc_front", f, setRcFront)}
-              onRemove={() => handleRemove("rc_front", setRcFront)}
-              onTrigger={() => triggerUpload("rc_front")}
+              onFileChange={(f) => handleFileChange("rc_copy", f, setRcFront)}
+              onRemove={() => handleRemove("rc_copy", setRcFront)}
+              onTrigger={() => triggerUpload("rc_copy")}
             />
             <UploadArea
-              id="rc_back"
+              id="rc_copy_back"
               label="Back of RC Copy"
               box={rcBack}
               fileInputRefs={fileInputRefs}
-              onFileChange={(f) => handleFileChange("rc_back", f, setRcBack)}
-              onRemove={() => handleRemove("rc_back", setRcBack)}
-              onTrigger={() => triggerUpload("rc_back")}
+              onFileChange={(f) => handleFileChange("rc_copy_back", f, setRcBack)}
+              onRemove={() => handleRemove("rc_copy_back", setRcBack)}
+              onTrigger={() => triggerUpload("rc_copy_back")}
             />
           </div>
         </div>
@@ -181,13 +181,13 @@ function UploadDocumentsContent() {
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3">Insurance Policy Copy</h3>
           <UploadArea
-            id="insurance"
+            id="insurance_policy_copy"
             label=""
             box={insurance}
             fileInputRefs={fileInputRefs}
-            onFileChange={(f) => handleFileChange("insurance", f, setInsurance)}
-            onRemove={() => handleRemove("insurance", setInsurance)}
-            onTrigger={() => triggerUpload("insurance")}
+            onFileChange={(f) => handleFileChange("insurance_policy_copy", f, setInsurance)}
+            onRemove={() => handleRemove("insurance_policy_copy", setInsurance)}
+            onTrigger={() => triggerUpload("insurance_policy_copy")}
           />
         </div>
 
@@ -215,8 +215,8 @@ function UploadDocumentsContent() {
                 label=""
                 box={bankDetails}
                 fileInputRefs={fileInputRefs}
-                onFileChange={(f) => handleFileChange("bank_details", f, setBankDetails)}
-                onRemove={() => handleRemove("bank_details", setBankDetails)}
+                onFileChange={(f) => handleFileChange("cheque_or_bank_details", f, setBankDetails)}
+                onRemove={() => handleRemove("cheque_or_bank_details", setBankDetails)}
                 onTrigger={() => triggerUpload("bank_details")}
               />
             </div>
@@ -232,8 +232,8 @@ function UploadDocumentsContent() {
                 label=""
                 box={cancelledCheque}
                 fileInputRefs={fileInputRefs}
-                onFileChange={(f) => handleFileChange("cancelled_cheque", f, setCancelledCheque)}
-                onRemove={() => handleRemove("cancelled_cheque", setCancelledCheque)}
+                onFileChange={(f) => handleFileChange("cheque_or_bank_details", f, setCancelledCheque)}
+                onRemove={() => handleRemove("cheque_or_bank_details", setCancelledCheque)}
                 onTrigger={() => triggerUpload("cancelled_cheque")}
               />
             </div>
