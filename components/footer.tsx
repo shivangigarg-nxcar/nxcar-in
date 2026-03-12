@@ -213,7 +213,7 @@ export const Footer = memo(function Footer() {
         </div>
         
         <div className="border-t border-slate-200 dark:border-slate-800 pt-4 sm:pt-6 flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm text-slate-500 gap-3">
-          <p data-testid="text-copyright">&copy; 2026 Nxfin Technologies Private Limited.</p>
+          <p data-testid="text-copyright">&copy; 2026 Nxfin. All rights reserved.</p>
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center">
             <button 
               onClick={() => setShowFeedback(true)}
