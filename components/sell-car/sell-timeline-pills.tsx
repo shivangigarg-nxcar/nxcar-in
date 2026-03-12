@@ -44,7 +44,7 @@ export function SellTimelinePills({
     { id: "year", label: () => "Make Year", filledLabel: () => String(formData.year), hasValue: () => formData.year > 0 },
     { id: "ownership", label: () => "Ownership", filledLabel: () => OWNER_OPTIONS[formData.ownerCount - 1] || "Ownership", hasValue: () => formData.ownerCount > 0 },
     { id: "color", label: () => "Color", filledLabel: () => formData.color, hasValue: () => !!formData.color },
-    { id: "fuel-variant", label: () => "Fuel", filledLabel: () => formData.fuelType || "Fuel", hasValue: () => !!formData.fuelType },
+    { id: "fuel-variant", label: () => "Fuel & Variant", filledLabel: () => [formData.fuelType, formData.variant].filter(Boolean).join(" · ") || "Fuel & Variant", hasValue: () => !!formData.fuelType },
     { id: "transmission", label: () => "Transmission", filledLabel: () => formData.transmission, hasValue: () => !!formData.transmission },
     { id: "kilometers", label: () => "Mileage", filledLabel: () => `${formData.kilometers.toLocaleString()} km`, hasValue: () => formData.kilometers > 0 },
     { id: "vehicle-location", label: () => "Parked At", filledLabel: () => formData.location, hasValue: () => !!formData.location },
@@ -78,7 +78,7 @@ export function SellTimelinePills({
               type="button"
               onClick={() => isPast ? goToStep(pill.id) : undefined}
               disabled={!isPast}
-              className={`px-2.5 py-1 rounded-full transition-all truncate max-w-[120px] sm:max-w-[150px] ${
+              className={`px-2.5 py-1 rounded-full transition-all truncate ${pill.id === "fuel-variant" ? "max-w-[200px] sm:max-w-[260px]" : "max-w-[120px] sm:max-w-[150px]"} ${
                 isCurrent
                   ? "bg-background text-foreground border-2 border-foreground/70 font-medium shadow-sm"
                   : isCompleted
@@ -93,11 +93,6 @@ export function SellTimelinePills({
             </button>
           );
         })}
-        {formData.variant && (
-          <button type="button" onClick={() => goToStep("fuel-variant")} className={`px-2.5 py-1 rounded-full truncate max-w-[120px] sm:max-w-[150px] transition-all ${currentStep === "fuel-variant" ? "bg-background text-foreground border-2 border-foreground/70 font-medium shadow-sm" : "bg-primary/10 text-primary border border-primary/30 font-medium cursor-pointer hover:bg-primary/20"}`} data-testid="pill-variant">
-            {formData.variant}
-          </button>
-        )}
       </div>
     </motion.div>
   );
