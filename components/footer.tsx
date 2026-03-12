@@ -124,7 +124,7 @@ export const Footer = memo(function Footer() {
               <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Partners</h3>
               <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
                 {isDealer && (
-                  <li><a href="/list-car" data-testid="link-partner-list-car" className="hover:text-[#0EA9B2] transition-colors font-medium text-[#0EA9B2]">List Your Car</a></li>
+                  <li><a href="/list-car" data-testid="link-partner-list-car" className="hover:text-[#0EA9B2] transition-colors">List Your Car</a></li>
                 )}
                 <li><a href="/partner" data-testid="link-partner-dealer-login" className="hover:text-[#0EA9B2] transition-colors">Dealer Registration</a></li>
                 <li><a href="/service-partner" data-testid="link-partner-become" className="hover:text-[#0EA9B2] transition-colors">Become a Partner</a></li>
