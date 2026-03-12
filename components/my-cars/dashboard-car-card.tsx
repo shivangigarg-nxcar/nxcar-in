@@ -265,12 +265,7 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
             </span>
           ) : null}
         </CardContent>
-        <CardFooter className="p-4 pt-0 gap-2 relative">
-          {car.is_active === "1" ? (
-            <span className="absolute bottom-4 right-4 text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-active-status-${vehicleId}`}>Active Listing</span>
-          ) : car.is_active === "0" ? (
-            <span className="absolute bottom-4 right-4 text-[10px] font-bold uppercase tracking-wider text-red-500" data-testid={`text-active-status-${vehicleId}`}>Inactive Listing</span>
-          ) : null}
+        <CardFooter className="p-4 pt-0 flex flex-col gap-2">
           <Button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookInspection(car); }}
             variant="outline"
@@ -279,6 +274,11 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
           >
             <ClipboardCheck className="h-4 w-4" /> Book Inspection
           </Button>
+          {car.is_active === "1" ? (
+            <span className="self-end text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-active-status-${vehicleId}`}>Active Listing</span>
+          ) : car.is_active === "0" ? (
+            <span className="self-end text-[10px] font-bold uppercase tracking-wider text-red-500" data-testid={`text-active-status-${vehicleId}`}>Inactive Listing</span>
+          ) : null}
         </CardFooter>
       </Card>
     </Link>
