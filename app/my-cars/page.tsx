@@ -56,7 +56,7 @@ function MyCarsContent() {
   const thankYouShown = useRef(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("favorites");
   const [listingSubTab, setListingSubTab] = useState<"sell" | "ads">("sell");
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { isFavorite, toggleFavorite, syncExternalIds } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [inspectionCar, setInspectionCar] = useState<any>(null);
@@ -78,10 +78,10 @@ function MyCarsContent() {
   }, [searchParams, toast]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!authLoading && !isAuthenticated) {
       setShowLoginModal(true);
     }
-  }, [isAuthenticated]);
+  }, [authLoading, isAuthenticated]);
   const queryClient = useQueryClient();
 
   const { data: buyListings = [], isLoading: buyLoading } = useQuery({

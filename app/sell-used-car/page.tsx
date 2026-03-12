@@ -53,7 +53,7 @@ export default function SellCarPage({ cityTagline }: { cityTagline?: string | nu
 function SellCar({ cityTagline }: { cityTagline?: string | null }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const pendingSubmitAfterLogin = useRef(false);
   const [submittedVehicleId, setSubmittedVehicleId] = useState("");
@@ -190,7 +190,7 @@ function SellCar({ cityTagline }: { cityTagline?: string | null }) {
       toast({ title: "Please fill all fields", variant: "destructive" });
       return;
     }
-    if (!isAuthenticated) {
+    if (!authLoading && !isAuthenticated) {
       pendingSubmitAfterLogin.current = true;
       setShowLoginModal(true);
       return;
@@ -294,7 +294,7 @@ function SellCar({ cityTagline }: { cityTagline?: string | null }) {
                   buildSellData={form.buildSellData}
                   getCityId={form.getCityId}
                   cityNumericId={form.formData.cityNumericId}
-                  isAuthenticated={isAuthenticated}
+                  isAuthenticated={authLoading || isAuthenticated}
                   onLoginRequired={() => {
                     pendingSubmitAfterLogin.current = false;
                     setShowLoginModal(true);
