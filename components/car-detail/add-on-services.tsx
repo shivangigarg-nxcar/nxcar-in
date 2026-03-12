@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
-const services = [
+const services: { href: string; testId: string; img: string; title: string; desc: string; cta: string; external?: boolean }[] = [
   {
     href: "/rc-check",
     testId: "link-addon-rc-check",
@@ -37,6 +37,15 @@ const services = [
     desc: "Get a comprehensive pre-delivery inspection to ensure your car is in perfect condition.",
     cta: "Learn More",
   },
+  {
+    href: "https://docs.nxcar.in",
+    testId: "link-addon-docs",
+    img: "/images/icon-3d-documents.png",
+    title: "Docs",
+    desc: "Access guides, documentation, and resources for buying and selling used cars.",
+    cta: "View Docs",
+    external: true,
+  },
 ];
 
 export function AddOnServices() {
@@ -44,9 +53,9 @@ export function AddOnServices() {
     <section data-testid="section-addon-services">
       <h2 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2" data-testid="text-addon-services-title">Services</h2>
       <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6">Complete your car purchase with these essential services</p>
-      <div className="grid grid-cols-4 gap-2 sm:gap-4">
-        {services.map((svc) => (
-          <Link key={svc.testId} href={svc.href} data-testid={svc.testId}>
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-4">
+        {services.map((svc) => {
+          const card = (
             <div className="rounded-lg sm:rounded-xl border bg-card overflow-hidden hover-elevate cursor-pointer h-full group">
               <div className="w-full aspect-square sm:aspect-[16/10] bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center p-3 sm:p-6">
                 <Image
@@ -65,8 +74,17 @@ export function AddOnServices() {
                 </span>
               </div>
             </div>
-          </Link>
-        ))}
+          );
+          return svc.external ? (
+            <a key={svc.testId} href={svc.href} target="_blank" rel="noopener noreferrer" data-testid={svc.testId}>
+              {card}
+            </a>
+          ) : (
+            <Link key={svc.testId} href={svc.href} data-testid={svc.testId}>
+              {card}
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
