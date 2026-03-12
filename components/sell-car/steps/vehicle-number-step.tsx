@@ -20,7 +20,7 @@ export function VehicleNumberStep({ formData, updateField }: Props) {
             updateField("vehicleNumber", val.replace(/  +/g, " "));
           }}
           placeholder="MH 02 AB 1234"
-          className="h-16 pl-14 text-2xl font-mono tracking-widest uppercase text-center bg-background/50 border-2 border-border focus:border-primary rounded-2xl text-foreground placeholder:text-muted-foreground"
+          className="h-16 pl-14 text-lg font-mono tracking-widest uppercase text-center bg-background/50 border-2 border-border focus:border-primary rounded-2xl text-foreground placeholder:text-muted-foreground"
         />
       </div>
       <p className="text-center text-muted-foreground text-sm">
