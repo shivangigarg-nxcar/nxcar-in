@@ -1,12 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useRef, useCallback, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useRef, useCallback } from "react";
 import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
 import {
-  Plus, X, FileText, ArrowLeft, Loader2, CheckCircle2,
+  Upload,
+  Plus,
+  X,
+  FileText,
+  ArrowLeft,
+  Loader2,
+  CheckCircle2,
 } from "lucide-react";
 import { useToast } from "@hooks/use-toast";
+
+interface InlineDocumentUploadProps {
+  vehicleId: string;
+  onBack: () => void;
+  onDone: () => void;
+}
 
 interface UploadBox {
   id: string;
@@ -14,20 +26,8 @@ interface UploadBox {
   preview: string | null;
 }
 
-export default function UploadDocumentsPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
-      <UploadDocumentsContent />
-    </Suspense>
-  );
-}
-
-function UploadDocumentsContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+export function InlineDocumentUpload({ vehicleId, onBack, onDone }: InlineDocumentUploadProps) {
   const { toast } = useToast();
-  const vehicleId = searchParams.get("vehicle_id") || "";
-
   const [rcFront, setRcFront] = useState<UploadBox>({ id: "rc_front", file: null, preview: null });
   const [rcBack, setRcBack] = useState<UploadBox>({ id: "rc_back", file: null, preview: null });
   const [insurance, setInsurance] = useState<UploadBox>({ id: "insurance", file: null, preview: null });
@@ -91,6 +91,7 @@ function UploadDocumentsContent() {
 
       setSubmitted(true);
       toast({ title: "Documents Uploaded", description: "Your documents have been submitted successfully." });
+      setTimeout(() => onDone(), 2000);
     } catch (error: any) {
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {
@@ -98,59 +99,35 @@ function UploadDocumentsContent() {
     }
   };
 
-  if (!vehicleId) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-center">
-          <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-          <h2 className="text-lg font-bold text-foreground mb-1" data-testid="text-no-vehicle">No Vehicle Selected</h2>
-          <p className="text-sm text-muted-foreground mb-4">Please book an inspection first to upload documents.</p>
-          <Button onClick={() => router.push("/my-cars")} data-testid="button-go-my-cars">Go to My Cars</Button>
-        </div>
-      </div>
-    );
-  }
-
   if (submitted) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
-            <CheckCircle2 className="w-8 h-8 text-green-500" />
-          </div>
-          <h2 className="text-xl font-bold text-foreground mb-2" data-testid="text-upload-success">Documents Uploaded!</h2>
-          <p className="text-sm text-muted-foreground mb-6">
-            Your documents have been submitted successfully. We'll review them and get back to you shortly.
-          </p>
-          <Button onClick={() => router.push("/my-cars")} className="w-full rounded-xl h-12" data-testid="button-back-my-cars">
-            Go to My Cars
-          </Button>
+      <div className="w-full max-w-4xl mx-auto py-12 text-center">
+        <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
+          <CheckCircle2 className="w-8 h-8 text-green-500" />
         </div>
+        <h2 className="text-xl font-bold text-foreground mb-2" data-testid="text-inline-upload-success">Documents Uploaded!</h2>
+        <p className="text-sm text-muted-foreground">Your documents have been submitted successfully.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-3">
-          <button onClick={() => router.back()} className="p-1.5 rounded-lg hover:bg-muted" data-testid="button-back">
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-base font-bold text-foreground" data-testid="text-page-title">Upload Documents</h1>
-          </div>
-        </div>
+    <div className="w-full max-w-3xl mx-auto" data-testid="inline-document-upload">
+      <div className="mb-6">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4"
+          data-testid="button-doc-upload-back"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back
+        </button>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground" data-testid="text-upload-title">Upload your document</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Please provide your bank details for verification. We'll use this account to securely transfer your payment.
+        </p>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-foreground" data-testid="text-upload-heading">Upload your document</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Please provide your bank details for verification. We'll use this account to securely transfer your payment.
-          </p>
-        </div>
-
+      <div className="space-y-6">
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3">RC Copy</h3>
           <div className="grid grid-cols-2 gap-3">
@@ -242,7 +219,7 @@ function UploadDocumentsContent() {
             onClick={handleSubmit}
             disabled={submitting}
             className="px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-semibold"
-            data-testid="button-submit-documents"
+            data-testid="button-submit-inline-docs"
           >
             {submitting ? (
               <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Uploading...</>

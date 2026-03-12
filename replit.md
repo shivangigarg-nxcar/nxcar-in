@@ -72,6 +72,17 @@ All legal pages match exact content from dev.nxcar.in:
 -   Format: today, yesterday, X days ago, 1 month ago
 -   Logic in `components/buy-cars/car-listing-card.tsx` and `components/car-detail/quick-specs.tsx`
 
+## Post-Inspection Success UI
+
+After inspection is booked, the sell flow shows a redesigned success view:
+-   **4-step stepper bar**: Car Details ✓ → Nxcar Price ✓ → Inspection Booked ✓ → Best Offers (active)
+-   **Process diagram**: Visual 4-step cards (Car Details, Price Recommendation, Inspection, Car Auction)
+-   **"What to Expect Next" section**: 5 bullet points about the process + Google Maps embed of inspection location
+-   **Fixed footer bar**: Document upload CTA with "Upload Later" and "Upload Documents" buttons
+-   **Inline document upload**: When user clicks "Upload Documents", an inline form appears on the same page with RC Copy (front/back side-by-side), Insurance Policy, PAN Card, Payment Details (Bank Account Details OR Cancelled Cheque Copy)
+-   Components: `components/sell-car/success/inspection-success-view.tsx`, `components/sell-car/success/inline-document-upload.tsx`
+-   Standalone upload documents page (`/upload-documents?vehicle_id=...`) redesigned to match same layout
+
 ## Price Prediction (Sell Flow)
 
 -   Price step calls `POST https://dev-ai.nxcar.in/price-prediction` with car details

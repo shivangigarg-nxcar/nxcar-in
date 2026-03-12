@@ -90,7 +90,7 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
       transition={{ duration: 0.3 }}
       className="w-full max-w-4xl mx-auto"
     >
-      {selectedCityInspectionAvailable && (
+      {selectedCityInspectionAvailable && !inspectionBooked && (
         <InspectionAvailableHeader formData={formData} />
       )}
 
@@ -167,7 +167,7 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
         </div>
       )}
 
-      {selectedCityInspectionAvailable ? (
+      {selectedCityInspectionAvailable && !inspectionBooked ? (
         <div className="flex items-center justify-between mt-6 gap-4">
           {props.onGoBack ? (
             <button type="button" onClick={props.onGoBack} data-testid="button-back-to-form" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
@@ -180,7 +180,7 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
             Sell Another Car
           </Button>
         </div>
-      ) : (
+      ) : !inspectionBooked ? (
         <div className="flex items-center justify-between mt-6 gap-4">
           {activeSuccessStep > 0 ? (
             <button type="button" onClick={() => setActiveSuccessStep(activeSuccessStep - 1)} data-testid="button-prev-step" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
@@ -212,7 +212,7 @@ export function SellSuccessSection(props: SellSuccessSectionProps) {
             );
           })()}
         </div>
-      )}
+      ) : null}
     </motion.div>
   );
 }

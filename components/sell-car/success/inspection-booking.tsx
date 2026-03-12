@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { OWNER_OPTIONS } from "../sell-constants";
 import { FranchiseList } from "./franchise-list";
+import { InspectionSuccessView } from "./inspection-success-view";
 
 function toLocalDateString(d: Date): string {
   const y = d.getFullYear();
@@ -208,59 +209,15 @@ export function InspectionBooking(props: InspectionBookingProps) {
 
   if (inspectionBooked) {
     return (
-      <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-border/50 shadow-lg">
-        <div className="text-center py-8">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
-            <CheckCircle2 className="w-10 h-10 text-white" />
-          </motion.div>
-          <h2 className="text-2xl font-bold text-foreground mb-2">Inspection Booked!</h2>
-          <p className="text-muted-foreground mb-4">{inspectionMode === "franchise" && selectedFranchise ? "Visit us at:" : "Our expert will visit at:"}</p>
-          <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-muted max-w-md">
-            <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-            <span className="text-foreground text-sm text-left">{inspectionMode === "franchise" && selectedFranchise ? selectedFranchise.franchise_name : inspectionLocation}</span>
-          </div>
-          {selectedDate && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 mt-3">
-              <Calendar className="w-4 h-4 text-primary" />
-              <span className="text-foreground text-sm">{selectedDate}</span>
-            </div>
-          )}
-          {selectedSlot && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 mt-3">
-              <Clock className="w-4 h-4 text-primary" />
-              <span className="text-foreground text-sm">{selectedSlot.slot_name}: {selectedSlot.slot_time}</span>
-            </div>
-          )}
-          <p className="text-sm text-muted-foreground mt-4">We'll contact you within 24 hours to confirm</p>
-
-          <div className="w-full max-w-sm mx-auto mt-6 bg-muted/50 rounded-2xl p-4 border border-border/50 text-left">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">2</div>
-              <span className="text-sm font-semibold text-foreground">Next Step</span>
-              <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
-              <span className="text-sm font-medium text-primary">Upload Documents</span>
-            </div>
-            <p className="text-xs text-muted-foreground mb-4">Upload your RC copy, insurance, PAN card and payment details to speed up the selling process.</p>
-            <div className="flex gap-3">
-              <a
-                href={submittedVehicleId
-                  ? `/upload-documents?vehicle_id=${submittedVehicleId}`
-                  : "/my-cars"}
-                className="flex-1"
-                data-testid="button-upload-docs"
-              >
-                <Button type="button" className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-11 text-sm font-semibold gap-2">
-                  <Upload className="w-4 h-4" />Upload Now
-                </Button>
-              </a>
-              <Button type="button" variant="outline" onClick={resetForm} className="flex-1 rounded-xl h-11 text-sm font-semibold border-border hover:bg-muted" data-testid="button-upload-later">
-                I'll Do It Later
-              </Button>
-            </div>
-          </div>
-          <p className="text-[11px] text-muted-foreground mt-3">You can always upload documents from the My Cars page</p>
-        </div>
-      </div>
+      <InspectionSuccessView
+        inspectionMode={inspectionMode}
+        selectedFranchise={selectedFranchise}
+        inspectionLocation={inspectionLocation}
+        selectedDate={selectedDate}
+        selectedSlot={selectedSlot}
+        submittedVehicleId={submittedVehicleId}
+        resetForm={resetForm}
+      />
     );
   }
 
