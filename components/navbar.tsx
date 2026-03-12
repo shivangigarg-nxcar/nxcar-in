@@ -131,6 +131,7 @@ export function Navbar() {
                 <Link href="/insurance-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-insurance-check">Buy Insurance</Link>
                 <Link href="/challan-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-challan-check">Challan Check</Link>
                 <Link href="/rc-check" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-rc-check">RC Check</Link>
+                <a href="https://docs.nxcar.in" target="_blank" rel="noopener noreferrer" className="block px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-primary transition-colors" data-testid="link-dropdown-docs">Docs</a>
               </div>
             </div>
           </div>
@@ -356,6 +357,9 @@ export function Navbar() {
                 <Link href="/rc-check" onClick={() => setIsOpen(false)} data-testid="link-mobile-rc-check" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                   RC Check
                 </Link>
+                <a href="https://docs.nxcar.in" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} data-testid="link-mobile-docs" className="block text-sm text-muted-foreground hover:text-primary py-2.5 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                  Docs
+                </a>
               </div>
             )}
 
