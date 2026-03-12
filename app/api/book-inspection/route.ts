@@ -119,7 +119,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(data);
+    const responseData = typeof data === 'object' && data !== null ? { ...data } : { data };
+    if (vehicleId && !responseData.vehicle_id) {
+      responseData.vehicle_id = vehicleId;
+    }
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error("Error calling book-inspection API:", error);
     return NextResponse.json(

@@ -131,6 +131,10 @@ function SellCar({ cityTagline }: { cityTagline?: string | null }) {
   const bookInspectionMutation = useMutation({
     mutationFn: bookInspection,
     onSuccess: (data) => {
+      const vid = data?.vehicle_id || data?.vehicleId || data?.data?.vehicle_id || data?.id || "";
+      if (vid && !submittedVehicleId) {
+        setSubmittedVehicleId(String(vid));
+      }
       form.setInspectionBooked(true);
       createCarListing({
         vehicleNumber: form.formData.vehicleNumber, brand: form.formData.brand, model: form.formData.model, variant: form.formData.variant,
