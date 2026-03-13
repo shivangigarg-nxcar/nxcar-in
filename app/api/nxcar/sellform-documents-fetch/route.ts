@@ -33,16 +33,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const rawText = await response.text();
-    console.log('Documents fetch RAW response:', rawText);
-    
-    let data;
-    try {
-      data = JSON.parse(rawText);
-    } catch {
-      console.error('Documents fetch: non-JSON response');
-      return NextResponse.json({ error: 'Invalid response from documents API' }, { status: 500 });
-    }
+    const data = await response.json();
 
     if (!response.ok) {
       console.error('Documents fetch API error:', response.status, data);

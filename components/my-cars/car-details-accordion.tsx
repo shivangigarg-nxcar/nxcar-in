@@ -577,43 +577,17 @@ function UploadDocumentsSection({ car }: { car: any }) {
       const res = await fetch(`/api/nxcar/sellform-documents-fetch?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
-        console.log("Documents fetch response:", JSON.stringify(data));
-        
+        const docKeys = ['rc_copy', 'rc_copy_back', 'insurance_policy_copy', 'pan_card', 'cheque_or_bank_details'];
         let docs: any = null;
-        if (data?.data && typeof data.data === 'object') {
-          if (Array.isArray(data.data) && data.data.length > 0) {
-            docs = data.data[0];
-          } else if (!Array.isArray(data.data)) {
-            docs = data.data;
-          }
-        } else if (data?.documents && typeof data.documents === 'object') {
-          if (Array.isArray(data.documents) && data.documents.length > 0) {
-            docs = data.documents[0];
-          } else if (!Array.isArray(data.documents)) {
-            docs = data.documents;
-          }
-        } else if (data?.result && typeof data.result === 'object') {
-          if (Array.isArray(data.result) && data.result.length > 0) {
-            docs = data.result[0];
-          } else if (!Array.isArray(data.result)) {
-            docs = data.result;
-          }
-        } else if (Array.isArray(data) && data.length > 0) {
-          docs = data[0];
-        } else if (data && typeof data === 'object' && !Array.isArray(data)) {
-          const docKeys = ['rc_copy', 'rc_copy_back', 'insurance_policy_copy', 'pan_card', 'cheque_or_bank_details'];
-          const hasDocKey = docKeys.some(k => k in data);
-          if (hasDocKey) {
-            docs = data;
-          } else {
-            const values = Object.values(data);
-            if (values.length > 0 && typeof values[0] === 'object' && values[0] !== null) {
-              const nested = values[0] as any;
-              if (docKeys.some(k => k in nested)) {
-                docs = nested;
-              }
-            }
-          }
+        
+        if (data?.data?.urls && typeof data.data.urls === 'object') {
+          docs = data.data.urls;
+        } else if (data?.data && typeof data.data === 'object' && docKeys.some(k => k in data.data)) {
+          docs = data.data;
+        } else if (data?.urls && typeof data.urls === 'object') {
+          docs = data.urls;
+        } else if (data && typeof data === 'object' && docKeys.some(k => k in data)) {
+          docs = data;
         }
 
         if (docs && typeof docs === 'object') {
