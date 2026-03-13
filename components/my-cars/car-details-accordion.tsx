@@ -43,6 +43,11 @@ interface EditableField {
   options?: string[];
 }
 
+interface DropdownOption {
+  id: string | number;
+  name: string;
+}
+
 function EditCarDetailsSection({ car }: { car: any }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -53,19 +58,30 @@ function EditCarDetailsSection({ car }: { car: any }) {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+  const [existingImages, setExistingImages] = useState<{ image_id: string; image_url: string; is_primary: string }[]>([]);
+  const [loadingImages, setLoadingImages] = useState(false);
+
+  const [makes, setMakes] = useState<DropdownOption[]>([]);
+  const [models, setModels] = useState<DropdownOption[]>([]);
+  const [variants, setVariants] = useState<DropdownOption[]>([]);
+  const [cities, setCities] = useState<DropdownOption[]>([]);
+  const [loadingMakes, setLoadingMakes] = useState(false);
+  const [loadingModels, setLoadingModels] = useState(false);
+  const [loadingVariants, setLoadingVariants] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
+
   const fields: EditableField[] = [
-    { key: "vehicle_no", label: "Registration Number", value: car.vehicle_no || "" },
-    { key: "make", label: "Brand", value: car.make || car.brandName || "" },
-    { key: "model", label: "Model", value: car.model || car.modelName || "" },
-    { key: "variant", label: "Variant", value: car.variant || "" },
+    { key: "make", label: "Brand", value: car.make || car.brandName || "", type: "select" },
+    { key: "model", label: "Model", value: car.model || car.modelName || "", type: "select" },
+    { key: "variant", label: "Variant", value: car.variant || "", type: "select" },
     { key: "year", label: "Year", value: car.year || "" },
     { key: "color", label: "Color", value: car.color || "" },
-    { key: "fuel_type", label: "Fuel Type", value: car.fuel_type || car.fule_type || car.fuelType || "" },
-    { key: "transmission", label: "Transmission", value: car.transmission || "" },
+    { key: "fuel_type", label: "Fuel Type", value: car.fuel_type || car.fule_type || car.fuelType || "", type: "select", options: ["Petrol", "Diesel", "CNG", "Electric", "Hybrid"] },
+    { key: "transmission", label: "Transmission", value: car.transmission || "", type: "select", options: ["Manual", "Automatic"] },
     { key: "mileage", label: "KMs Driven", value: car.mileage || car.kilometers || "", type: "number" },
-    { key: "ownership", label: "Ownership", value: car.ownership || "" },
+    { key: "ownership", label: "Ownership", value: car.ownership || "", type: "select", options: ["1", "2", "3", "4", "5"] },
     { key: "expected_selling_price", label: "Expected Price", value: car.expected_selling_price || car.price || "", type: "number" },
-    { key: "location_name", label: "Location", value: car.location_name || car.city_name || "" },
+    { key: "location_name", label: "Location", value: car.location_name || car.city_name || "", type: "select" },
     { key: "rto_code", label: "RTO Code", value: car.rto_code || (car.state_code && car.rto_number ? `${car.state_code}${car.rto_number}` : "") },
     { key: "rto_location", label: "RTO Location", value: car.rto_location || "" },
     { key: "seats", label: "Seats", value: car.seats || "" },
@@ -74,11 +90,136 @@ function EditCarDetailsSection({ car }: { car: any }) {
   const [formData, setFormData] = useState<Record<string, string>>(() => {
     const data: Record<string, string> = {};
     fields.forEach(f => { data[f.key] = f.value; });
+    data["make_id"] = car.make_id || "";
+    data["model_id"] = car.model_id || "";
+    data["variant_id"] = car.variant_id || "";
+    data["location"] = car.location || "";
     return data;
   });
 
+  const fetchMakes = useCallback(async () => {
+    setLoadingMakes(true);
+    try {
+      const res = await fetch("/api/nxcar/makes");
+      if (res.ok) {
+        const data = await res.json();
+        setMakes(data.map((m: any) => ({ id: m.id, name: m.make_name })));
+      }
+    } catch (e) {} finally { setLoadingMakes(false); }
+  }, []);
+
+  const fetchModels = useCallback(async (makeId: string) => {
+    if (!makeId) { setModels([]); return; }
+    setLoadingModels(true);
+    try {
+      const res = await fetch(`/api/nxcar/models?make_id=${makeId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setModels(data.map((m: any) => ({ id: m.id, name: m.model_name })));
+      }
+    } catch (e) {} finally { setLoadingModels(false); }
+  }, []);
+
+  const fetchVariants = useCallback(async (modelId: string, fuelType: string) => {
+    if (!modelId || !fuelType) { setVariants([]); return; }
+    setLoadingVariants(true);
+    try {
+      const res = await fetch(`/api/nxcar/variants?model_id=${modelId}&fuel_type=${fuelType}`);
+      if (res.ok) {
+        const data = await res.json();
+        setVariants(data.map((v: any) => ({ id: v.id, name: v.variant_name })));
+      }
+    } catch (e) {} finally { setLoadingVariants(false); }
+  }, []);
+
+  const fetchCities = useCallback(async () => {
+    setLoadingCities(true);
+    try {
+      const res = await fetch("/api/nxcar/cities");
+      if (res.ok) {
+        const data = await res.json();
+        setCities(data.map((c: any) => ({ id: c.city_id, name: c.city_name })));
+      }
+    } catch (e) {} finally { setLoadingCities(false); }
+  }, []);
+
+  const fetchExistingImages = useCallback(async () => {
+    setLoadingImages(true);
+    try {
+      const res = await fetch(`/api/nxcar/get-images?vehicle_id=${vehicleId}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.images && Array.isArray(data.images)) {
+          setExistingImages(data.images);
+        }
+      }
+    } catch (e) {} finally { setLoadingImages(false); }
+  }, [vehicleId]);
+
+  const startEditing = useCallback(() => {
+    setEditing(true);
+    fetchMakes();
+    fetchModels(formData.make_id);
+    fetchVariants(formData.model_id, formData.fuel_type);
+    fetchCities();
+    fetchExistingImages();
+  }, [fetchMakes, fetchModels, fetchVariants, fetchCities, fetchExistingImages, formData.make_id, formData.model_id, formData.fuel_type]);
+
   const handleChange = (key: string, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleMakeChange = (makeName: string) => {
+    const selected = makes.find(m => m.name === makeName);
+    setFormData(prev => ({
+      ...prev,
+      make: makeName,
+      make_id: selected ? String(selected.id) : prev.make_id,
+      model: "",
+      model_id: "",
+      variant: "",
+      variant_id: "",
+    }));
+    setModels([]);
+    setVariants([]);
+    if (selected) fetchModels(String(selected.id));
+  };
+
+  const handleModelChange = (modelName: string) => {
+    const selected = models.find(m => m.name === modelName);
+    setFormData(prev => ({
+      ...prev,
+      model: modelName,
+      model_id: selected ? String(selected.id) : prev.model_id,
+      variant: "",
+      variant_id: "",
+    }));
+    setVariants([]);
+    if (selected) fetchVariants(String(selected.id), formData.fuel_type);
+  };
+
+  const handleVariantChange = (variantName: string) => {
+    const selected = variants.find(v => v.name === variantName);
+    setFormData(prev => ({
+      ...prev,
+      variant: variantName,
+      variant_id: selected ? String(selected.id) : prev.variant_id,
+    }));
+  };
+
+  const handleFuelTypeChange = (fuelType: string) => {
+    setFormData(prev => ({ ...prev, fuel_type: fuelType, variant: "", variant_id: "" }));
+    setVariants([]);
+    if (formData.model_id) fetchVariants(formData.model_id, fuelType);
+  };
+
+  const handleLocationChange = (cityName: string) => {
+    const selected = cities.find(c => c.name === cityName);
+    setFormData(prev => ({
+      ...prev,
+      location_name: cityName,
+      location: selected ? String(selected.id) : prev.location,
+    }));
   };
 
   const handleImageAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,13 +299,119 @@ function EditCarDetailsSection({ car }: { car: any }) {
     }
   };
 
+  const renderField = (f: EditableField) => {
+    if (f.key === "make") {
+      return (
+        <select
+          value={formData.make}
+          onChange={e => handleMakeChange(e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-make-${vehicleId}`}
+        >
+          <option value={formData.make}>{formData.make || "Select Brand"}</option>
+          {makes.filter(m => m.name !== formData.make).map(m => (
+            <option key={m.id} value={m.name}>{m.name}</option>
+          ))}
+          {loadingMakes && <option disabled>Loading...</option>}
+        </select>
+      );
+    }
+    if (f.key === "model") {
+      return (
+        <select
+          value={formData.model}
+          onChange={e => handleModelChange(e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-model-${vehicleId}`}
+        >
+          <option value={formData.model}>{formData.model || "Select Model"}</option>
+          {models.filter(m => m.name !== formData.model).map(m => (
+            <option key={m.id} value={m.name}>{m.name}</option>
+          ))}
+          {loadingModels && <option disabled>Loading...</option>}
+        </select>
+      );
+    }
+    if (f.key === "variant") {
+      return (
+        <select
+          value={formData.variant}
+          onChange={e => handleVariantChange(e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-variant-${vehicleId}`}
+        >
+          <option value={formData.variant}>{formData.variant || "Select Variant"}</option>
+          {variants.filter(v => v.name !== formData.variant).map(v => (
+            <option key={v.id} value={v.name}>{v.name}</option>
+          ))}
+          {loadingVariants && <option disabled>Loading...</option>}
+        </select>
+      );
+    }
+    if (f.key === "location_name") {
+      return (
+        <select
+          value={formData.location_name}
+          onChange={e => handleLocationChange(e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-location-${vehicleId}`}
+        >
+          <option value={formData.location_name}>{formData.location_name || "Select Location"}</option>
+          {cities.filter(c => c.name !== formData.location_name).map(c => (
+            <option key={c.id} value={c.name}>{c.name}</option>
+          ))}
+          {loadingCities && <option disabled>Loading...</option>}
+        </select>
+      );
+    }
+    if (f.key === "fuel_type") {
+      return (
+        <select
+          value={formData.fuel_type}
+          onChange={e => handleFuelTypeChange(e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-fuel_type-${vehicleId}`}
+        >
+          <option value="">Select Fuel Type</option>
+          {(f.options || []).map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      );
+    }
+    if (f.options) {
+      return (
+        <select
+          value={formData[f.key]}
+          onChange={e => handleChange(f.key, e.target.value)}
+          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
+          data-testid={`select-edit-${f.key}-${vehicleId}`}
+        >
+          <option value="">Select {f.label}</option>
+          {f.options.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      );
+    }
+    return (
+      <Input
+        type={f.type || "text"}
+        value={formData[f.key]}
+        onChange={e => handleChange(f.key, e.target.value)}
+        className="h-8 text-sm"
+        data-testid={`input-edit-${f.key}-${vehicleId}`}
+      />
+    );
+  };
+
   return (
     <div className="space-y-3">
       {!editing ? (
         <>
           <div className="flex justify-end -mt-1 mb-1">
             <Button
-              onClick={() => setEditing(true)}
+              onClick={startEditing}
               variant="outline"
               size="sm"
               className="text-xs font-semibold gap-1.5"
@@ -188,19 +435,13 @@ function EditCarDetailsSection({ car }: { car: any }) {
             {fields.map(f => (
               <div key={f.key}>
                 <label className="text-[10px] text-muted-foreground uppercase tracking-wider block mb-1">{f.label}</label>
-                <Input
-                  type={f.type || "text"}
-                  value={formData[f.key]}
-                  onChange={e => handleChange(f.key, e.target.value)}
-                  className="h-8 text-sm"
-                  data-testid={`input-edit-${f.key}-${vehicleId}`}
-                />
+                {renderField(f)}
               </div>
             ))}
           </div>
 
           <div className="mt-3">
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Add Photos</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Photos</p>
             <input
               ref={imageInputRef}
               type="file"
@@ -211,8 +452,22 @@ function EditCarDetailsSection({ car }: { car: any }) {
               data-testid={`input-car-images-${vehicleId}`}
             />
             <div className="flex flex-wrap gap-2">
+              {loadingImages && (
+                <div className="flex items-center gap-1.5">
+                  <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">Loading...</span>
+                </div>
+              )}
+              {existingImages.map((img) => (
+                <div key={img.image_id} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border" data-testid={`existing-img-${img.image_id}`}>
+                  <img src={img.image_url} alt="Car" className="w-full h-full object-cover" />
+                  {img.is_primary === "1" && (
+                    <span className="absolute bottom-0 left-0 right-0 bg-primary/80 text-[7px] text-white text-center py-0.5">Primary</span>
+                  )}
+                </div>
+              ))}
               {imagePreviews.map((preview, i) => (
-                <div key={i} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border">
+                <div key={`new-${i}`} className="relative w-16 h-16 rounded-lg overflow-hidden border-2 border-green-500/50">
                   <img src={preview} alt={`Upload ${i + 1}`} className="w-full h-full object-cover" />
                   <button
                     onClick={() => handleImageRemove(i)}
@@ -250,6 +505,10 @@ function EditCarDetailsSection({ car }: { car: any }) {
                 setImagePreviews([]);
                 const resetData: Record<string, string> = {};
                 fields.forEach(f => { resetData[f.key] = f.value; });
+                resetData["make_id"] = car.make_id || "";
+                resetData["model_id"] = car.model_id || "";
+                resetData["variant_id"] = car.variant_id || "";
+                resetData["location"] = car.location || "";
                 setFormData(resetData);
               }}
               variant="ghost"
