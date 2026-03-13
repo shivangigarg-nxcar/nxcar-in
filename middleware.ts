@@ -13,9 +13,9 @@ function slugify(str: string): string {
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host') || '';
   if (host.startsWith('www.')) {
-    const url = request.nextUrl.clone();
-    url.host = host.replace(/^www\./, '');
-    return NextResponse.redirect(url, 301);
+    const nonWwwHost = host.replace(/^www\./, '').replace(/:\d+$/, '');
+    const redirectUrl = `https://${nonWwwHost}${request.nextUrl.pathname}${request.nextUrl.search}`;
+    return NextResponse.redirect(redirectUrl, 301);
   }
 
   const { pathname } = request.nextUrl;
