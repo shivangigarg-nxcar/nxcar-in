@@ -120,14 +120,7 @@ function EditCarDetailsSection({ car }: { car: any }) {
         }
       }
 
-      const payload: Record<string, string> = {
-        vehicle_id: vehicleId,
-      };
-      if (car.make_id) payload.make_id = car.make_id;
-      if (car.model_id) payload.model_id = car.model_id;
-      if (car.variant_id) payload.variant_id = car.variant_id;
-      if (car.created_by) payload.created_by = car.created_by;
-      if (car.location) payload.location = car.location;
+      const payload: Record<string, any> = { ...car };
 
       Object.entries(formData).forEach(([key, val]) => {
         payload[key] = val;

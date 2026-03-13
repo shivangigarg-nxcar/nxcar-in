@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     const urlEncoded = new URLSearchParams();
     Object.entries(body).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
+      if (value !== undefined && value !== null && typeof value !== 'object') {
         urlEncoded.append(key, String(value));
       }
     });
