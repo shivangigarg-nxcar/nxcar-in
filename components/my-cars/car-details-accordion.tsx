@@ -553,7 +553,7 @@ export function CarDetailsAccordion({ car }: { car: any }) {
   return (
     <div
       className="space-y-2 mt-1"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onClick={(e) => { e.stopPropagation(); }}
       data-testid={`all-details-${vehicleId}`}
     >
       <p className="text-xs font-bold text-foreground uppercase tracking-wider px-1">All Details</p>
