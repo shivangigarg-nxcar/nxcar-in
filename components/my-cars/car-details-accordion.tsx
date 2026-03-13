@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronDown, Loader2, Pencil, CheckCircle2, FileText, Plus, X, Eye, Upload, ImagePlus } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
 import { useToast } from "@hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -302,96 +303,102 @@ function EditCarDetailsSection({ car }: { car: any }) {
   const renderField = (f: EditableField) => {
     if (f.key === "make") {
       return (
-        <select
-          value={formData.make}
-          onChange={e => handleMakeChange(e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-make-${vehicleId}`}
-        >
-          <option value={formData.make}>{formData.make || "Select Brand"}</option>
-          {makes.filter(m => m.name !== formData.make).map(m => (
-            <option key={m.id} value={m.name}>{m.name}</option>
-          ))}
-          {loadingMakes && <option disabled>Loading...</option>}
-        </select>
+        <Select value={formData.make} onValueChange={handleMakeChange} data-testid={`select-edit-make-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder="Select Brand" />
+          </SelectTrigger>
+          <SelectContent>
+            {loadingMakes ? (
+              <div className="flex items-center justify-center py-2"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+            ) : makes.length > 0 ? makes.map(m => (
+              <SelectItem key={m.id} value={m.name}>{m.name}</SelectItem>
+            )) : (
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">No brands found</div>
+            )}
+          </SelectContent>
+        </Select>
       );
     }
     if (f.key === "model") {
       return (
-        <select
-          value={formData.model}
-          onChange={e => handleModelChange(e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-model-${vehicleId}`}
-        >
-          <option value={formData.model}>{formData.model || "Select Model"}</option>
-          {models.filter(m => m.name !== formData.model).map(m => (
-            <option key={m.id} value={m.name}>{m.name}</option>
-          ))}
-          {loadingModels && <option disabled>Loading...</option>}
-        </select>
+        <Select value={formData.model} onValueChange={handleModelChange} data-testid={`select-edit-model-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder="Select Model" />
+          </SelectTrigger>
+          <SelectContent>
+            {loadingModels ? (
+              <div className="flex items-center justify-center py-2"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+            ) : models.length > 0 ? models.map(m => (
+              <SelectItem key={m.id} value={m.name}>{m.name}</SelectItem>
+            )) : (
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">Select a brand first</div>
+            )}
+          </SelectContent>
+        </Select>
       );
     }
     if (f.key === "variant") {
       return (
-        <select
-          value={formData.variant}
-          onChange={e => handleVariantChange(e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-variant-${vehicleId}`}
-        >
-          <option value={formData.variant}>{formData.variant || "Select Variant"}</option>
-          {variants.filter(v => v.name !== formData.variant).map(v => (
-            <option key={v.id} value={v.name}>{v.name}</option>
-          ))}
-          {loadingVariants && <option disabled>Loading...</option>}
-        </select>
+        <Select value={formData.variant} onValueChange={handleVariantChange} data-testid={`select-edit-variant-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder="Select Variant" />
+          </SelectTrigger>
+          <SelectContent>
+            {loadingVariants ? (
+              <div className="flex items-center justify-center py-2"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+            ) : variants.length > 0 ? variants.map(v => (
+              <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>
+            )) : (
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">Select a model first</div>
+            )}
+          </SelectContent>
+        </Select>
       );
     }
     if (f.key === "location_name") {
       return (
-        <select
-          value={formData.location_name}
-          onChange={e => handleLocationChange(e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-location-${vehicleId}`}
-        >
-          <option value={formData.location_name}>{formData.location_name || "Select Location"}</option>
-          {cities.filter(c => c.name !== formData.location_name).map(c => (
-            <option key={c.id} value={c.name}>{c.name}</option>
-          ))}
-          {loadingCities && <option disabled>Loading...</option>}
-        </select>
+        <Select value={formData.location_name} onValueChange={handleLocationChange} data-testid={`select-edit-location-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder="Select Location" />
+          </SelectTrigger>
+          <SelectContent>
+            {loadingCities ? (
+              <div className="flex items-center justify-center py-2"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+            ) : cities.length > 0 ? cities.map(c => (
+              <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
+            )) : (
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">No cities found</div>
+            )}
+          </SelectContent>
+        </Select>
       );
     }
     if (f.key === "fuel_type") {
       return (
-        <select
-          value={formData.fuel_type}
-          onChange={e => handleFuelTypeChange(e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-fuel_type-${vehicleId}`}
-        >
-          <option value="">Select Fuel Type</option>
-          {(f.options || []).map(opt => (
-            <option key={opt} value={opt}>{opt}</option>
-          ))}
-        </select>
+        <Select value={formData.fuel_type} onValueChange={handleFuelTypeChange} data-testid={`select-edit-fuel_type-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder="Select Fuel Type" />
+          </SelectTrigger>
+          <SelectContent>
+            {(f.options || []).map(opt => (
+              <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       );
     }
     if (f.options) {
       return (
-        <select
-          value={formData[f.key]}
-          onChange={e => handleChange(f.key, e.target.value)}
-          className="w-full h-8 text-sm rounded-md border border-input bg-background px-3"
-          data-testid={`select-edit-${f.key}-${vehicleId}`}
-        >
-          <option value="">Select {f.label}</option>
-          {f.options.map(opt => (
-            <option key={opt} value={opt}>{opt}</option>
-          ))}
-        </select>
+        <Select value={formData[f.key]} onValueChange={(val) => handleChange(f.key, val)} data-testid={`select-edit-${f.key}-${vehicleId}`}>
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder={`Select ${f.label}`} />
+          </SelectTrigger>
+          <SelectContent>
+            {f.options.map(opt => (
+              <SelectItem key={opt} value={opt}>{f.key === "ownership" ? `${opt}${opt === "1" ? "st" : opt === "2" ? "nd" : opt === "3" ? "rd" : "th"} Owner` : opt}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       );
     }
     return (
