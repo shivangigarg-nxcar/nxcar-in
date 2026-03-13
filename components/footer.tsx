@@ -88,19 +88,6 @@ export const Footer = memo(function Footer() {
             </div>
             
             <div>
-              <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Buy Used Cars</h3>
-              <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
-                <li><a href="/used-cars" data-testid="link-buy-cars" className="hover:text-[#0EA9B2] transition-colors">Buy Cars</a></li>
-                <li><a href="/used-cars/delhi" data-testid="link-buy-city-delhi" className="hover:text-[#0EA9B2] transition-colors">Delhi</a></li>
-                <li><a href="/used-cars/mumbai" data-testid="link-buy-city-mumbai" className="hover:text-[#0EA9B2] transition-colors">Mumbai</a></li>
-                <li><a href="/used-cars/bangalore" data-testid="link-buy-city-bangalore" className="hover:text-[#0EA9B2] transition-colors">Bangalore</a></li>
-                <li><a href="/used-cars/hyderabad" data-testid="link-buy-city-hyderabad" className="hover:text-[#0EA9B2] transition-colors">Hyderabad</a></li>
-                <li><a href="/used-cars/gurgaon" data-testid="link-buy-city-gurgaon" className="hover:text-[#0EA9B2] transition-colors">Gurgaon</a></li>
-                <li><a href="/used-cars/pune" data-testid="link-buy-city-pune" className="hover:text-[#0EA9B2] transition-colors">Pune</a></li>
-              </ul>
-            </div>
-            
-            <div>
               <h3 className="text-slate-900 dark:text-white font-bold mb-2 sm:mb-4 text-sm">Sell Used Cars</h3>
               <ul className="space-y-1.5 sm:space-y-3 text-xs sm:text-sm">
                 <li><a href="/sell-used-car/delhi" data-testid="link-sell-city-delhi" className="hover:text-[#0EA9B2] transition-colors">Sell Car in Delhi</a></li>
