@@ -207,6 +207,7 @@ export async function GET(
           mileage: car.mileage || "",
           ownership: car.ownership || "",
           expected_selling_price: car.expected_selling_price || car.price || "",
+          location: car.location || "",
           location_name: car.location_name || car.city_name || "",
           rto_code: car.rto_code || (car.state_code && car.rto_number ? `${car.state_code}${car.rto_number}` : ""),
           rto_location: car.rto_location || "",

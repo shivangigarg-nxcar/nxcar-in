@@ -127,6 +127,7 @@ function EditCarDetailsSection({ car }: { car: any }) {
       if (car.model_id) payload.model_id = car.model_id;
       if (car.variant_id) payload.variant_id = car.variant_id;
       if (car.created_by) payload.created_by = car.created_by;
+      if (car.location) payload.location = car.location;
 
       Object.entries(formData).forEach(([key, val]) => {
         payload[key] = val;
