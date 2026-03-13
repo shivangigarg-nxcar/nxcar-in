@@ -52,6 +52,29 @@ export interface CarDetail {
     insuranceQuotes: any | null;
     warrantyPrices: Record<string, string>;
   } | null;
+  rawData?: {
+    vehicle_id: string;
+    vehicle_no: string;
+    make: string;
+    model: string;
+    variant: string;
+    make_id: string;
+    model_id: string;
+    variant_id: string;
+    year: string;
+    color: string;
+    fuel_type: string;
+    transmission: string;
+    mileage: string;
+    ownership: string;
+    expected_selling_price: string;
+    location_name: string;
+    rto_code: string;
+    seats: string;
+    is_active: string;
+    vehicle_status: string;
+    created_by: string;
+  };
 }
 
 export function formatPriceNoSymbol(price: number): string {

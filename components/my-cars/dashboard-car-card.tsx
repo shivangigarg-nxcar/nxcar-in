@@ -6,7 +6,6 @@ import { Button } from "@components/ui/button";
 import { Fuel, Gauge, Settings2, MapPin, Heart, ClipboardCheck, Clock, CheckCircle2, FileText, Upload } from "lucide-react";
 import Link from "next/link";
 import { getCarDetailUrl } from "@lib/utils";
-import { CarDetailsAccordion } from "./car-details-accordion";
 
 const PAGE_SIZE = 8;
 
@@ -220,97 +219,103 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
   const sellerLower = parseFloat(car.seller_lower_price) || 0;
   const sellerUpper = parseFloat(car.seller_upper_price) || 0;
 
-  return (
-    <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)]" data-testid={`card-sell-${vehicleId}`} role="article">
-      <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
-        <img
-          src={imageUrl}
-          alt={carName}
-          className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
-          loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            const brandLogo = car.car_make_url || car.make_image;
-            if (brandLogo && target.src !== brandLogo) {
-              target.src = brandLogo;
-              target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
-            } else {
-              target.src = "/images/car-sedan.png";
-            }
-          }}
-        />
-        {year && (
-          <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-            {year}
-          </Badge>
-        )}
-        <Badge className={`absolute top-3 right-3 border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${getStatusColor(status)}`} data-testid={`badge-sell-status-${vehicleId}`}>
-          {status}
-        </Badge>
-      </div>
-      <CardContent className="p-4 relative">
-        <h3 className="font-heading text-base font-bold text-foreground mb-2 truncate group-hover:text-primary transition-colors" data-testid={`text-sell-name-${vehicleId}`}>
-          {carName}
-        </h3>
-        {variant && <p className="text-xs text-muted-foreground mb-2 truncate">{variant}</p>}
-        {location && (
-          <div className="flex items-center text-xs text-muted-foreground mb-3 font-medium">
-            <MapPin className="h-3 w-3 mr-1 text-primary" /> {location}
-          </div>
-        )}
-        <CarSpecBadges mileage={mileage} fuelType={fuelType} transmission={transmission} />
-        {sellerLower > 0 && sellerUpper > 0 ? (
-          <div data-testid={`text-sell-price-${vehicleId}`}>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mb-0.5">Estimated Price</p>
-            <span className="text-lg font-black text-primary italic">
-              ₹ {formatPriceShortLabel(sellerLower)} - {formatPriceShortLabel(sellerUpper)}
-            </span>
-          </div>
-        ) : Number(price) > 0 ? (
-          <span className="text-lg font-black text-primary italic" data-testid={`text-sell-price-${vehicleId}`}>
-            {formatPrice(Number(price))}
-          </span>
-        ) : null}
-      </CardContent>
-      <CardFooter className="p-4 pt-0 flex flex-col gap-2">
-        {(() => {
-          const vehicleStatus = (car.vehicle_status || "").trim();
-          const statusLower = vehicleStatus.toLowerCase();
-          const isBookable = !vehicleStatus || statusLower === "book inspection";
-          const statusIcon = statusLower.includes("pending") ? Clock
-            : statusLower.includes("completed") || statusLower.includes("done") ? CheckCircle2
-            : statusLower.includes("document") || statusLower.includes("upload") ? Upload
-            : statusLower.includes("report") ? FileText
-            : ClipboardCheck;
-          const StatusIcon = statusIcon;
-          const statusStyle = isBookable
-            ? "border-primary/30 text-primary hover:bg-primary hover:text-white"
-            : statusLower.includes("pending")
-            ? "border-yellow-500/30 text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 cursor-default"
-            : statusLower.includes("completed") || statusLower.includes("done")
-            ? "border-green-500/30 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 cursor-default"
-            : "border-muted-foreground/30 text-muted-foreground bg-muted/50 cursor-default";
+  const detailUrl = `${buildSellDetailUrl(car)}?from=sell`;
 
-          return (
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (isBookable) onBookInspection(car);
-              }}
-              variant="outline"
-              className={`w-full h-9 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${statusStyle}`}
-              data-testid={`button-book-inspection-${vehicleId}`}
-            >
-              <StatusIcon className="h-4 w-4" /> {vehicleStatus || "Book Inspection"}
-            </Button>
-          );
-        })()}
-      </CardFooter>
-      <div className="px-4 pb-4">
-        <CarDetailsAccordion car={car} />
-      </div>
-    </Card>
+  return (
+    <Link href={detailUrl}>
+      <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)] cursor-pointer" data-testid={`card-sell-${vehicleId}`} role="article">
+        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
+          <img
+            src={imageUrl}
+            alt={carName}
+            className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              const brandLogo = car.car_make_url || car.make_image;
+              if (brandLogo && target.src !== brandLogo) {
+                target.src = brandLogo;
+                target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
+              } else {
+                target.src = "/images/car-sedan.png";
+              }
+            }}
+          />
+          {year && (
+            <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+              {year}
+            </Badge>
+          )}
+          <Badge className={`absolute top-3 right-3 border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${getStatusColor(status)}`} data-testid={`badge-sell-status-${vehicleId}`}>
+            {status}
+          </Badge>
+        </div>
+        <CardContent className="p-4 relative">
+          <h3 className="font-heading text-base font-bold text-foreground mb-2 truncate group-hover:text-primary transition-colors" data-testid={`text-sell-name-${vehicleId}`}>
+            {carName}
+          </h3>
+          {variant && <p className="text-xs text-muted-foreground mb-2 truncate">{variant}</p>}
+          {location && (
+            <div className="flex items-center text-xs text-muted-foreground mb-3 font-medium">
+              <MapPin className="h-3 w-3 mr-1 text-primary" /> {location}
+            </div>
+          )}
+          <CarSpecBadges mileage={mileage} fuelType={fuelType} transmission={transmission} />
+          {sellerLower > 0 && sellerUpper > 0 ? (
+            <div data-testid={`text-sell-price-${vehicleId}`}>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mb-0.5">Estimated Price</p>
+              <span className="text-lg font-black text-primary italic">
+                ₹ {formatPriceShortLabel(sellerLower)} - {formatPriceShortLabel(sellerUpper)}
+              </span>
+            </div>
+          ) : Number(price) > 0 ? (
+            <span className="text-lg font-black text-primary italic" data-testid={`text-sell-price-${vehicleId}`}>
+              {formatPrice(Number(price))}
+            </span>
+          ) : null}
+        </CardContent>
+        <CardFooter className="p-4 pt-0 flex flex-col gap-2">
+          {(() => {
+            const vehicleStatus = (car.vehicle_status || "").trim();
+            const statusLower = vehicleStatus.toLowerCase();
+            const isBookable = !vehicleStatus || statusLower === "book inspection";
+            const statusIcon = statusLower.includes("pending") ? Clock
+              : statusLower.includes("completed") || statusLower.includes("done") ? CheckCircle2
+              : statusLower.includes("document") || statusLower.includes("upload") ? Upload
+              : statusLower.includes("report") ? FileText
+              : ClipboardCheck;
+            const StatusIcon = statusIcon;
+            const statusStyle = isBookable
+              ? "border-primary/30 text-primary hover:bg-primary hover:text-white"
+              : statusLower.includes("pending")
+              ? "border-yellow-500/30 text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 cursor-default"
+              : statusLower.includes("completed") || statusLower.includes("done")
+              ? "border-green-500/30 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 cursor-default"
+              : "border-muted-foreground/30 text-muted-foreground bg-muted/50 cursor-default";
+
+            return (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isBookable) onBookInspection(car);
+                }}
+                variant="outline"
+                className={`w-full h-9 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${statusStyle}`}
+                data-testid={`button-book-inspection-${vehicleId}`}
+              >
+                <StatusIcon className="h-4 w-4" /> {vehicleStatus || "Book Inspection"}
+              </Button>
+            );
+          })()}
+          {car.is_active === "1" ? (
+            <span className="self-end text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-active-status-${vehicleId}`}>Active Listing</span>
+          ) : car.is_active === "0" ? (
+            <span className="self-end text-[10px] font-bold uppercase tracking-wider text-red-500" data-testid={`text-active-status-${vehicleId}`}>Inactive Listing</span>
+          ) : null}
+        </CardFooter>
+      </Card>
+    </Link>
   );
 }
 
@@ -329,54 +334,62 @@ export function AdCarCard({ car }: { car: any }) {
   const mileage = car.mileage || car.kilometers || 0;
   const price = car.price || car.expected_selling_price || car.expectedPrice || 0;
 
+  const detailUrl = `${buildSellDetailUrl(car)}?from=sell`;
+
   return (
-    <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)]" data-testid={`card-ad-${vehicleId}`} role="article">
-      <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
-        <img
-          src={imageUrl}
-          alt={carName}
-          className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
-          loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            const brandLogo = car.car_make_url || car.make_image;
-            if (brandLogo && target.src !== brandLogo) {
-              target.src = brandLogo;
-              target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
-            } else {
-              target.src = "/images/car-sedan.png";
-            }
-          }}
-        />
-        {year && (
-          <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-            {year}
+    <Link href={detailUrl}>
+      <Card className="group overflow-hidden bg-card border-border rounded-xl hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.1)] cursor-pointer" data-testid={`card-ad-${vehicleId}`} role="article">
+        <div className="aspect-[7/5] w-full overflow-hidden bg-muted relative flex items-center justify-center">
+          <img
+            src={imageUrl}
+            alt={carName}
+            className={`transition-transform duration-500 group-hover:scale-105 ${isBrandLogo ? "w-24 h-24 object-contain" : "h-full w-full object-contain"}`}
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              const brandLogo = car.car_make_url || car.make_image;
+              if (brandLogo && target.src !== brandLogo) {
+                target.src = brandLogo;
+                target.className = "w-24 h-24 object-contain transition-transform duration-500 group-hover:scale-105";
+              } else {
+                target.src = "/images/car-sedan.png";
+              }
+            }}
+          />
+          {year && (
+            <Badge className="absolute top-3 left-3 bg-black/80 text-white backdrop-blur border border-border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+              {year}
+            </Badge>
+          )}
+          <Badge className={`absolute top-3 right-3 border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${getStatusColor(status)}`} data-testid={`badge-ad-status-${vehicleId}`}>
+            {status}
           </Badge>
-        )}
-        <Badge className={`absolute top-3 right-3 border text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${getStatusColor(status)}`} data-testid={`badge-ad-status-${vehicleId}`}>
-          {status}
-        </Badge>
-      </div>
-      <CardContent className="p-4 relative">
-        <h3 className="font-heading text-base font-bold text-foreground mb-2 truncate group-hover:text-primary transition-colors" data-testid={`text-ad-name-${vehicleId}`}>
-          {carName}
-        </h3>
-        {variant && <p className="text-xs text-muted-foreground mb-2 truncate">{variant}</p>}
-        {location && (
-          <div className="flex items-center text-xs text-muted-foreground mb-3 font-medium">
-            <MapPin className="h-3 w-3 mr-1 text-primary" /> {location}
+        </div>
+        <CardContent className="p-4 relative">
+          <h3 className="font-heading text-base font-bold text-foreground mb-2 truncate group-hover:text-primary transition-colors" data-testid={`text-ad-name-${vehicleId}`}>
+            {carName}
+          </h3>
+          {variant && <p className="text-xs text-muted-foreground mb-2 truncate">{variant}</p>}
+          {location && (
+            <div className="flex items-center text-xs text-muted-foreground mb-3 font-medium">
+              <MapPin className="h-3 w-3 mr-1 text-primary" /> {location}
+            </div>
+          )}
+          <CarSpecBadges mileage={mileage} fuelType={fuelType} transmission={transmission} />
+          <div className="flex items-end justify-between">
+            {Number(price) > 0 ? (
+              <span className="text-lg font-black text-primary italic" data-testid={`text-ad-price-${vehicleId}`}>
+                {formatPrice(Number(price))}
+              </span>
+            ) : <span />}
+            {car.is_active === "1" ? (
+              <span className="text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-ad-active-status-${vehicleId}`}>Active Listing</span>
+            ) : car.is_active === "0" ? (
+              <span className="text-[10px] font-bold uppercase tracking-wider text-red-500" data-testid={`text-ad-active-status-${vehicleId}`}>Inactive Listing</span>
+            ) : null}
           </div>
-        )}
-        <CarSpecBadges mileage={mileage} fuelType={fuelType} transmission={transmission} />
-        {Number(price) > 0 ? (
-          <span className="text-lg font-black text-primary italic" data-testid={`text-ad-price-${vehicleId}`}>
-            {formatPrice(Number(price))}
-          </span>
-        ) : null}
-      </CardContent>
-      <div className="px-4 pb-4">
-        <CarDetailsAccordion car={car} />
-      </div>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
