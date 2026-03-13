@@ -334,7 +334,7 @@ export default function EMICalculator() {
                 >
                   Apply Now
                 </motion.button>
-                <a href="tel:+919355924132" data-testid="link-cta-call">
+                <a href="tel:+919355924133" data-testid="link-cta-call">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -342,7 +342,7 @@ export default function EMICalculator() {
                     data-testid="button-cta-call"
                   >
                     <Phone className="w-4 h-4" />
-                    +91 93559 24132
+                    +91 93559 24133
                   </motion.button>
                 </a>
               </div>

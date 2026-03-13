@@ -422,7 +422,7 @@ export const CarCard = memo(function CarCard({ car, isFavorite, onToggleFavorite
                     <a
                       href={sellerData.seller_details?.phone_number
                         ? `https://wa.me/91${sellerData.seller_details.phone_number}?text=Hi, I'm interested in the ${sellerData.car_data?.year || car.year} ${sellerData.car_data?.make || car.brand} ${sellerData.car_data?.model || car.model} listed on NxCar.`
-                        : `https://wa.me/919355924132?text=Hi, I'm interested in the ${car.year} ${car.brand} ${car.model} listed on NxCar.`}
+                        : `https://wa.me/919355924133?text=Hi, I'm interested in the ${car.year} ${car.brand} ${car.model} listed on NxCar.`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -430,7 +430,7 @@ export const CarCard = memo(function CarCard({ car, isFavorite, onToggleFavorite
                         <MessageCircle className="mr-1.5 h-4 w-4" /> Chat
                       </Button>
                     </a>
-                    <a href={`tel:${sellerData.seller_details?.phone_number || '+919355924132'}`}>
+                    <a href={`tel:${sellerData.seller_details?.phone_number || '+919355924133'}`}>
                       <Button size="sm" className="w-full text-xs h-10" data-testid={`button-call-${suffix}`}>
                         <Phone className="mr-1.5 h-4 w-4" /> Call
                       </Button>

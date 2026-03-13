@@ -63,7 +63,7 @@ export const Footer = memo(function Footer() {
               <a href="https://www.linkedin.com/company/nxfin/mycompany/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" data-testid="link-social-linkedin" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
                 <Linkedin className="h-5 w-5 text-[#0A66C2] dark:text-[#5EA6E8]" />
               </a>
-              <a href="https://api.whatsapp.com/send/?phone=%2B919355924132&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" data-testid="link-social-whatsapp" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
+              <a href="https://api.whatsapp.com/send/?phone=%2B919355924133&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" data-testid="link-social-whatsapp" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
                 <MessageCircle className="h-5 w-5 text-[#25D366] dark:text-[#5EE89A]" />
               </a>
               <a href="https://www.youtube.com/@Nxcar-sr3ce" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" data-testid="link-social-youtube" className="h-9 w-9 rounded-lg bg-white dark:bg-slate-800/60 flex items-center justify-center hover:bg-primary/20 hover:scale-110 transition-all border border-slate-200 dark:border-white/5">
@@ -128,7 +128,7 @@ export const Footer = memo(function Footer() {
                 </li>
                 <li className="text-slate-500 dark:text-slate-400">
                   <span className="block text-slate-900 dark:text-white font-medium">Phone</span>
-                  <a href="tel:+919355924132" data-testid="link-contact-phone" className="hover:text-[#0EA9B2] transition-colors">+91 93559 24132</a>
+                  <a href="tel:+919355924133" data-testid="link-contact-phone" className="hover:text-[#0EA9B2] transition-colors">+91 93559 24133</a>
                 </li>
               </ul>
             </div>

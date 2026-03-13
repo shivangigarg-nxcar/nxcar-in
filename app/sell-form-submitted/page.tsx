@@ -109,8 +109,8 @@ export default function SellFormSubmitted() {
           >
             <Phone className="h-4 w-4" />
             <span>Need help? Call </span>
-            <a href="tel:+919355924132" className="text-[#0EA9B2] hover:underline" data-testid="link-phone">
-              +91 93559 24132
+            <a href="tel:+919355924133" className="text-[#0EA9B2] hover:underline" data-testid="link-phone">
+              +91 93559 24133
             </a>
           </motion.div>
         </div>
