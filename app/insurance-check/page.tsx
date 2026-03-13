@@ -9,7 +9,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useToast } from "@hooks/use-toast";
 import {
-  Shield, FileText, Clock, CheckCircle, Phone, Zap,
+  Shield, FileText, CheckCircle, Phone, Zap, Loader2,
   HeadphonesIcon, RefreshCw, ArrowRight, ClipboardCheck,
   AlertTriangle, IndianRupee, Umbrella, ShieldCheck, Star
 } from "lucide-react";
@@ -68,9 +68,13 @@ export default function InsuranceCheck() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!vehicleNumber.trim()) {
       toast({ title: "Please enter your vehicle number", variant: "destructive" });
       return;
@@ -79,15 +83,77 @@ export default function InsuranceCheck() {
       toast({ title: "Please enter a valid phone number", variant: "destructive" });
       return;
     }
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/nxcar/dealer-login/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile: phoneNumber.trim() }),
+      });
+      const data = await res.json();
+      if (data.status === true || data.success) {
+        setOtpSent(true);
+        toast({ title: "OTP sent to +91 " + phoneNumber.trim() });
+      } else {
+        toast({ title: "Error", description: data.message || "Failed to send OTP", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Error", description: "Failed to send OTP", variant: "destructive" });
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp || otp.length < 4) {
+      toast({ title: "Please enter a valid OTP", variant: "destructive" });
+      return;
+    }
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/nxcar/dealer-login/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile: phoneNumber.trim(), otp }),
+      });
+      const data = await res.json();
+      const token = data.access_token || data.data?.access_token || data.token;
+      if (token) {
+        setVerified(true);
+        setOtpSent(false);
+        setOtp("");
+        toast({ title: "Verified! Submitting insurance query..." });
+        await submitInsuranceQuery(token);
+      } else {
+        toast({ title: "Error", description: data.message || "Invalid OTP", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Error", description: "Failed to verify OTP", variant: "destructive" });
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const submitInsuranceQuery = async (authToken: string) => {
     setLoading(true);
     setResult(null);
     try {
       const res = await fetch("/api/nxcar/insurance-query", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vehicle_number: vehicleNumber.replace(/\s/g, "").trim(), phone_number: phoneNumber.trim() }),
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": authToken,
+        },
+        body: JSON.stringify({
+          vehicle_number: vehicleNumber.replace(/\s/g, "").trim(),
+          phone_number: phoneNumber.trim(),
+        }),
       });
-      await res.json();
+      if (!res.ok) {
+        const errData = await res.json();
+        toast({ title: "Error", description: errData.message || "Failed to submit insurance query", variant: "destructive" });
+        return;
+      }
       setResult({ type: "submitted", vehicleNumber: vehicleNumber.replace(/\s/g, "").trim(), phoneNumber: phoneNumber.trim() });
       toast({ title: "Query received!", description: "Our team will contact you shortly." });
     } catch {
@@ -146,7 +212,7 @@ export default function InsuranceCheck() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-insurance">
+                <form onSubmit={(e) => { e.preventDefault(); if (!otpSent && !verified) handleSendOtp(e); else if (otpSent) handleVerifyOtp(); }} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-insurance">
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Get a Free Quote</h3>
                   <div className="space-y-4">
                     <div>
@@ -158,6 +224,7 @@ export default function InsuranceCheck() {
                           const val = e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, "");
                           setVehicleNumber(val.replace(/  +/g, " "));
                         }}
+                        disabled={otpSent || verified}
                         className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 text-lg uppercase"
                         data-testid="input-vehicle-number"
                       />
@@ -172,19 +239,63 @@ export default function InsuranceCheck() {
                           placeholder="Enter phone number"
                           value={phoneNumber}
                           onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                          disabled={otpSent || verified}
                           className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 rounded-l-none"
                           data-testid="input-phone-number"
                         />
                       </div>
                     </div>
-                    <Button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full h-12 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-semibold text-lg rounded-xl disabled:opacity-70"
-                      data-testid="button-get-quote"
-                    >
-                      {loading ? "Checking..." : "Get a Quote"}
-                    </Button>
+
+                    {!otpSent && !verified && (
+                      <Button
+                        type="submit"
+                        disabled={otpLoading}
+                        className="w-full h-12 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-semibold text-lg rounded-xl disabled:opacity-70"
+                        data-testid="button-send-otp"
+                      >
+                        {otpLoading ? (
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        ) : null}
+                        {otpLoading ? "Sending OTP..." : "Get a Quote"}
+                      </Button>
+                    )}
+
+                    {otpSent && !verified && (
+                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/30 rounded-xl" data-testid="insurance-otp-section">
+                        <p className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-3">
+                          OTP sent to +91 {phoneNumber}
+                        </p>
+                        <div className="space-y-3">
+                          <Input
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                            className="bg-white dark:bg-slate-900/50 border-blue-200 dark:border-blue-700/30 h-10 text-center tracking-[0.3em]"
+                            maxLength={6}
+                            autoFocus
+                            data-testid="input-insurance-otp"
+                          />
+                          <Button
+                            type="submit"
+                            disabled={otpLoading || otp.length < 4 || loading}
+                            className="w-full h-10 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg"
+                            data-testid="button-verify-insurance-otp"
+                          >
+                            {otpLoading || loading ? (
+                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            ) : null}
+                            {otpLoading ? "Verifying..." : loading ? "Submitting..." : "Verify & Get Quote"}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {verified && (
+                      <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm" data-testid="otp-verified-badge">
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Phone verified</span>
+                      </div>
+                    )}
                   </div>
                 </form>
               </motion.div>

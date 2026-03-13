@@ -11,13 +11,22 @@ interface RcSearchFormProps {
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
   loading: boolean;
-  onSubmit: (e: React.FormEvent) => void;
+  otpSent: boolean;
+  otp: string;
+  setOtp: (v: string) => void;
+  otpLoading: boolean;
+  verified: boolean;
+  onSendOtp: (e?: React.FormEvent) => void;
+  onVerifyOtp: () => void;
 }
 
 export function RcSearchForm({
   vehicleNumber, setVehicleNumber,
   phoneNumber, setPhoneNumber,
-  loading, onSubmit,
+  loading,
+  otpSent, otp, setOtp, otpLoading,
+  verified,
+  onSendOtp, onVerifyOtp,
 }: RcSearchFormProps) {
   return (
     <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
@@ -65,7 +74,7 @@ export function RcSearchForm({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <form onSubmit={onSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-rc-check">
+            <form onSubmit={(e) => { e.preventDefault(); if (!otpSent && !verified) onSendOtp(e); else if (otpSent) onVerifyOtp(); }} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-rc-check">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Check RC Details</h3>
               <div className="space-y-4">
                 <div>
@@ -77,6 +86,7 @@ export function RcSearchForm({
                       const val = e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, "");
                       setVehicleNumber(val.replace(/  +/g, " "));
                     }}
+                    disabled={otpSent || verified}
                     className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 text-lg uppercase"
                     data-testid="input-vehicle-number"
                   />
@@ -91,24 +101,65 @@ export function RcSearchForm({
                       placeholder="Enter phone number"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                      disabled={otpSent || verified}
                       className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 rounded-l-none"
                       data-testid="input-phone-number"
                     />
                   </div>
                 </div>
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold text-lg rounded-xl"
-                  data-testid="button-check-rc"
-                >
-                  {loading ? (
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  ) : (
-                    <Search className="w-5 h-5 mr-2" />
-                  )}
-                  {loading ? "Checking..." : "Check RC"}
-                </Button>
+
+                {!otpSent && !verified && (
+                  <Button
+                    type="submit"
+                    disabled={otpLoading}
+                    className="w-full h-12 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold text-lg rounded-xl"
+                    data-testid="button-send-otp"
+                  >
+                    {otpLoading ? (
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    ) : (
+                      <Search className="w-5 h-5 mr-2" />
+                    )}
+                    {otpLoading ? "Sending OTP..." : "Check RC"}
+                  </Button>
+                )}
+
+                {otpSent && !verified && (
+                  <div className="p-4 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/30 rounded-xl" data-testid="rc-otp-section">
+                    <p className="text-sm font-medium text-teal-800 dark:text-teal-300 mb-3">
+                      OTP sent to +91 {phoneNumber}
+                    </p>
+                    <div className="space-y-3">
+                      <Input
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        className="bg-white dark:bg-slate-900/50 border-teal-200 dark:border-teal-700/30 h-10 text-center tracking-[0.3em]"
+                        maxLength={6}
+                        autoFocus
+                        data-testid="input-rc-otp"
+                      />
+                      <Button
+                        type="submit"
+                        disabled={otpLoading || otp.length < 4 || loading}
+                        className="w-full h-10 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-lg"
+                        data-testid="button-verify-rc-otp"
+                      >
+                        {otpLoading || loading ? (
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : null}
+                        {otpLoading ? "Verifying..." : loading ? "Checking RC..." : "Verify & Check RC"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {verified && (
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm" data-testid="otp-verified-badge">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Phone verified</span>
+                  </div>
+                )}
               </div>
             </form>
           </motion.div>

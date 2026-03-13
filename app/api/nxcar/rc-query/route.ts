@@ -4,7 +4,7 @@ import { BASE_URL } from '@lib/constants';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { phone_number, vehicle_number, user_id } = body;
+    const { phone_number, vehicle_number } = body;
     if (!vehicle_number) {
       return NextResponse.json({ error: "vehicle_number is required" }, { status: 400 });
     }
@@ -24,23 +24,20 @@ export async function POST(request: NextRequest) {
       headers["Authorization"] = authToken;
     }
 
-    const payload: Record<string, string> = {
-      phone_number: phone_number || "",
-      vehicle_number,
-    };
-    if (user_id) {
-      payload.user_id = String(user_id);
-    }
-
-    const response = await fetch(`${BASE_URL}/user-service-challans-check`, {
+    const response = await fetch(`${BASE_URL}/contact`, {
       method: "POST",
       headers,
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        name: "RC Check",
+        mobile: phone_number || "",
+        subject: "RC Check Request",
+        message: `RC Check request for vehicle: ${vehicle_number}`,
+      }),
     });
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error checking challan:", error);
-    return NextResponse.json({ error: "Failed to check challan" }, { status: 500 });
+    console.error("Error submitting RC query:", error);
+    return NextResponse.json({ error: "Failed to submit RC query" }, { status: 500 });
   }
 }

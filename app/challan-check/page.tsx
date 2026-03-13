@@ -15,13 +15,17 @@ export default function ChallanCheck() {
   const [loading, setLoading] = useState(false);
   const [challans, setChallans] = useState<any[]>([]);
   const [searched, setSearched] = useState(false);
-  const [needsLogin, setNeedsLogin] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpLoading, setOtpLoading] = useState(false);
-  const [inlineToken, setInlineToken] = useState("");
+  const [verified, setVerified] = useState(false);
 
-  const handleSendOtp = async () => {
+  const handleSendOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!vehicleNumber.trim()) {
+      toast({ title: "Please enter your vehicle number", variant: "destructive" });
+      return;
+    }
     if (!phoneNumber.trim() || phoneNumber.trim().length < 10) {
       toast({ title: "Please enter a valid phone number", variant: "destructive" });
       return;
@@ -66,12 +70,11 @@ export default function ChallanCheck() {
         if (userId) {
           localStorage.setItem("nxcar_user_id", String(userId));
         }
-        setInlineToken(token);
-        setNeedsLogin(false);
+        setVerified(true);
         setOtpSent(false);
         setOtp("");
-        toast({ title: "Logged in! Now checking challans..." });
-        setTimeout(() => submitChallanCheck(token, userId ? String(userId) : undefined), 500);
+        toast({ title: "Verified! Checking challans..." });
+        await submitChallanCheck(token, userId ? String(userId) : undefined);
       } else {
         toast({ title: "Error", description: data.message || "Invalid OTP", variant: "destructive" });
       }
@@ -82,13 +85,12 @@ export default function ChallanCheck() {
     }
   };
 
-  const submitChallanCheck = async (tokenOverride?: string, userIdOverride?: string) => {
+  const submitChallanCheck = async (authToken: string, userIdOverride?: string) => {
     setLoading(true);
     setSearched(false);
     setChallans([]);
     try {
       const userId = userIdOverride || (typeof window !== "undefined" ? localStorage.getItem("nxcar_user_id") || "" : "");
-      const authToken = tokenOverride || inlineToken;
       const headers: Record<string, string> = { "Content-Type": "application/json" };
       if (authToken) {
         headers["x-auth-token"] = authToken;
@@ -103,35 +105,17 @@ export default function ChallanCheck() {
         }),
       });
       const data = await res.json();
-      if (data.message === "Authentication failed" || data.message === "Token not valid") {
-        setNeedsLogin(true);
-        toast({ title: "Login Required", description: "Please verify your phone number to check challans", variant: "destructive" });
-        return;
-      }
-      if (!res.ok || (data.success === false && data.status === false)) {
+      if (!res.ok || data.message === "Authentication failed") {
         toast({ title: "Error", description: data.message || "Failed to fetch challan data", variant: "destructive" });
         return;
       }
       setChallans(Array.isArray(data.data) ? data.data : (Array.isArray(data.challans) ? data.challans : []));
       setSearched(true);
-    } catch (err: any) {
+    } catch {
       toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!vehicleNumber.trim()) {
-      toast({ title: "Please enter your vehicle number", variant: "destructive" });
-      return;
-    }
-    if (!phoneNumber.trim() || phoneNumber.trim().length < 10) {
-      toast({ title: "Please enter a valid phone number", variant: "destructive" });
-      return;
-    }
-    await submitChallanCheck();
   };
 
   return (
@@ -144,12 +128,11 @@ export default function ChallanCheck() {
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
           loading={loading}
-          needsLogin={needsLogin}
           otpSent={otpSent}
           otp={otp}
           setOtp={setOtp}
           otpLoading={otpLoading}
-          onSubmit={handleSubmit}
+          verified={verified}
           onSendOtp={handleSendOtp}
           onVerifyOtp={handleVerifyOtp}
         />

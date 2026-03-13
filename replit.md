@@ -27,7 +27,8 @@ Features include a car comparison modal, a book inspection modal with dynamic sl
 -   **Inspection Services**: `https://api.nxcar.in/inspection-slots`, `https://api.nxcar.in/v2/inspection-franchise`, and `https://api.nxcar.in/userprofile-book-inspection`.
 -   **Authentication APIs**: NxCar backend APIs (defined by `AUTH_BASE_URL` as `https://api.nxcar.in`) for mobile OTP, verification, resend OTP, and logout.
 -   **AI Integrations**: Requires `AI_INTEGRATIONS_OPENAI_API_KEY` and `AI_INTEGRATIONS_OPENAI_BASE_URL` for AI recommendations.
--   **Service Pages APIs**: Integrated with NxCar backend APIs for challan checks, loan eligibility, dealer login, insurance queries, and partner registration.
+-   **Service Pages APIs**: Integrated with NxCar backend APIs for challan checks, loan eligibility, dealer login, insurance queries, RC queries, and partner registration.
+-   **Service Pages OTP Flow**: All service pages (challan-check, rc-check, insurance-check) require OTP verification before submitting data to CRM. Flow: enter vehicle + phone → send OTP via `/api/nxcar/dealer-login/send-otp` → verify OTP via `/api/nxcar/dealer-login/verify-otp` → submit to CRM with auth token. CRM endpoints: challan → `user-service-challans-check`, insurance → `user-service-insurance`, RC → `contact` (Contact Us API).
 
 ## Legal & Policy Pages
 

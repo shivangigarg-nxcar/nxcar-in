@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, CheckCircle } from "lucide-react";
 
 interface ChallanSearchFormProps {
   vehicleNumber: string;
@@ -11,22 +11,22 @@ interface ChallanSearchFormProps {
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
   loading: boolean;
-  needsLogin: boolean;
   otpSent: boolean;
   otp: string;
   setOtp: (v: string) => void;
   otpLoading: boolean;
-  onSubmit: (e: React.FormEvent) => void;
-  onSendOtp: () => void;
+  verified: boolean;
+  onSendOtp: (e?: React.FormEvent) => void;
   onVerifyOtp: () => void;
 }
 
 export function ChallanSearchForm({
   vehicleNumber, setVehicleNumber,
   phoneNumber, setPhoneNumber,
-  loading, needsLogin,
+  loading,
   otpSent, otp, setOtp, otpLoading,
-  onSubmit, onSendOtp, onVerifyOtp,
+  verified,
+  onSendOtp, onVerifyOtp,
 }: ChallanSearchFormProps) {
   return (
     <section className="relative py-12 sm:py-20 lg:py-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0D1117] dark:to-[#0A0E14] overflow-hidden">
@@ -60,7 +60,7 @@ export function ChallanSearchForm({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <form onSubmit={onSubmit} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-challan">
+            <form onSubmit={(e) => { e.preventDefault(); if (!otpSent && !verified) onSendOtp(e); else if (otpSent) onVerifyOtp(); }} className="bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-xl" data-testid="form-challan">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Check Vehicle Challan</h3>
               <div className="space-y-4">
                 <div>
@@ -72,6 +72,7 @@ export function ChallanSearchForm({
                       const val = e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, "");
                       setVehicleNumber(val.replace(/  +/g, " "));
                     }}
+                    disabled={otpSent || verified}
                     className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 text-lg uppercase"
                     data-testid="input-vehicle-number"
                   />
@@ -86,61 +87,63 @@ export function ChallanSearchForm({
                       placeholder="Enter phone number"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                      disabled={otpSent || verified}
                       className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 h-12 rounded-l-none"
                       data-testid="input-phone-number"
                     />
                   </div>
                 </div>
-                <Button
-                  type="submit"
-                  disabled={loading || needsLogin}
-                  className="w-full h-12 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold text-lg rounded-xl disabled:opacity-70"
-                  data-testid="button-view-challan"
-                >
-                  {loading ? (
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  ) : (
-                    <Search className="w-5 h-5 mr-2" />
-                  )}
-                  {loading ? "Checking..." : "View Challan"}
-                </Button>
 
-                {needsLogin && (
-                  <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/30 rounded-xl" data-testid="challan-otp-section">
-                    <p className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-3">
-                      Phone verification required to check challans
-                    </p>
-                    {!otpSent ? (
-                      <Button
-                        type="button"
-                        onClick={onSendOtp}
-                        disabled={otpLoading}
-                        className="w-full h-10 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg"
-                        data-testid="button-send-challan-otp"
-                      >
-                        {otpLoading ? "Sending OTP..." : "Send OTP to +91 " + phoneNumber}
-                      </Button>
+                {!otpSent && !verified && (
+                  <Button
+                    type="submit"
+                    disabled={otpLoading}
+                    className="w-full h-12 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold text-lg rounded-xl disabled:opacity-70"
+                    data-testid="button-send-otp"
+                  >
+                    {otpLoading ? (
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                     ) : (
-                      <div className="space-y-3">
-                        <Input
-                          placeholder="Enter OTP"
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                          className="bg-white dark:bg-slate-900/50 border-amber-200 dark:border-amber-700/30 h-10 text-center tracking-[0.3em]"
-                          maxLength={6}
-                          data-testid="input-challan-otp"
-                        />
-                        <Button
-                          type="button"
-                          onClick={onVerifyOtp}
-                          disabled={otpLoading || otp.length < 4}
-                          className="w-full h-10 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg"
-                          data-testid="button-verify-challan-otp"
-                        >
-                          {otpLoading ? "Verifying..." : "Verify & Check Challans"}
-                        </Button>
-                      </div>
+                      <Search className="w-5 h-5 mr-2" />
                     )}
+                    {otpLoading ? "Sending OTP..." : "Check Challan"}
+                  </Button>
+                )}
+
+                {otpSent && !verified && (
+                  <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/30 rounded-xl" data-testid="challan-otp-section">
+                    <p className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-3">
+                      OTP sent to +91 {phoneNumber}
+                    </p>
+                    <div className="space-y-3">
+                      <Input
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        className="bg-white dark:bg-slate-900/50 border-amber-200 dark:border-amber-700/30 h-10 text-center tracking-[0.3em]"
+                        maxLength={6}
+                        autoFocus
+                        data-testid="input-challan-otp"
+                      />
+                      <Button
+                        type="submit"
+                        disabled={otpLoading || otp.length < 4 || loading}
+                        className="w-full h-10 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg"
+                        data-testid="button-verify-challan-otp"
+                      >
+                        {otpLoading || loading ? (
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : null}
+                        {otpLoading ? "Verifying..." : loading ? "Checking Challans..." : "Verify & Check Challans"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {verified && (
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm" data-testid="otp-verified-badge">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Phone verified</span>
                   </div>
                 )}
               </div>
