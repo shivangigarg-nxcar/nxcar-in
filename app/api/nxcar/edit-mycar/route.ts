@@ -17,22 +17,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'vehicle_id is required' }, { status: 400 });
     }
 
-    console.log('Edit mycar payload:', JSON.stringify(body));
-
-    const urlEncoded = new URLSearchParams();
-    Object.entries(body).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && typeof value !== 'object') {
-        urlEncoded.append(key, String(value));
-      }
-    });
-
     const response = await fetch(`${BASE_URL}/userprofile-edit-mycar`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': authToken,
-        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: urlEncoded.toString(),
+      body: JSON.stringify(body),
     });
 
     const data = await response.json();
