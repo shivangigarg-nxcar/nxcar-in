@@ -17,13 +17,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'vehicle_id is required' }, { status: 400 });
     }
 
+    console.log('Edit mycar payload:', JSON.stringify(body));
+
+    const formData = new FormData();
+    Object.entries(body).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
+
     const response = await fetch(`${BASE_URL}/userprofile-edit-mycar`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': authToken,
       },
-      body: JSON.stringify(body),
+      body: formData,
     });
 
     const data = await response.json();
