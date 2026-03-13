@@ -43,6 +43,13 @@ interface EditableField {
   options?: string[];
 }
 
+interface ExistingImage {
+  image_id: string;
+  vehicle_id: string;
+  image_url: string;
+  is_primary: string;
+}
+
 function EditCarDetailsSection({ car }: { car: any }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -52,6 +59,27 @@ function EditCarDetailsSection({ car }: { car: any }) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
+  const [loadingImages, setLoadingImages] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch(`/api/nxcar/get-images?vehicle_id=${vehicleId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.images && Array.isArray(data.images)) {
+            setExistingImages(data.images);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch existing images:", err);
+      } finally {
+        setLoadingImages(false);
+      }
+    };
+    fetchImages();
+  }, [vehicleId]);
 
   const fields: EditableField[] = [
     { key: "vehicle_no", label: "Registration Number", value: car.vehicle_no || "" },
@@ -162,6 +190,27 @@ function EditCarDetailsSection({ car }: { car: any }) {
     <div className="space-y-3">
       {!editing ? (
         <>
+          {!loadingImages && existingImages.length > 0 && (
+            <div className="mb-3">
+              <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Photos</p>
+              <div className="flex flex-wrap gap-2">
+                {existingImages.map((img) => (
+                  <div key={img.image_id} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border" data-testid={`existing-img-${img.image_id}`}>
+                    <img src={img.image_url} alt="Car" className="w-full h-full object-cover" />
+                    {img.is_primary === "1" && (
+                      <span className="absolute bottom-0 left-0 right-0 bg-primary/80 text-[8px] text-white text-center py-0.5">Primary</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {loadingImages && (
+            <div className="flex items-center gap-2 mb-3">
+              <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Loading photos...</span>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-x-4 gap-y-2">
             {fields.map(f => (
               <div key={f.key}>
@@ -198,7 +247,28 @@ function EditCarDetailsSection({ car }: { car: any }) {
           </div>
 
           <div className="mt-3">
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Add Photos</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Current Photos</p>
+            {loadingImages ? (
+              <div className="flex items-center gap-2 mb-2">
+                <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Loading...</span>
+              </div>
+            ) : existingImages.length > 0 ? (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {existingImages.map((img) => (
+                  <div key={img.image_id} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border" data-testid={`edit-existing-img-${img.image_id}`}>
+                    <img src={img.image_url} alt="Car" className="w-full h-full object-cover" />
+                    {img.is_primary === "1" && (
+                      <span className="absolute bottom-0 left-0 right-0 bg-primary/80 text-[7px] text-white text-center py-0.5">Primary</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground mb-2">No existing photos</p>
+            )}
+
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Add New Photos</p>
             <input
               ref={imageInputRef}
               type="file"
