@@ -11,7 +11,7 @@ import { useToast } from "@hooks/use-toast";
 import {
   Shield, FileText, Clock, CheckCircle, Phone, Zap,
   HeadphonesIcon, RefreshCw, ArrowRight, ClipboardCheck,
-  AlertTriangle, IndianRupee, Umbrella, ShieldCheck, Star, ExternalLink
+  AlertTriangle, IndianRupee, Umbrella, ShieldCheck, Star
 } from "lucide-react";
 
 const features = [
@@ -87,18 +87,9 @@ export default function InsuranceCheck() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vehicle_number: vehicleNumber.replace(/\s/g, "").trim(), phone_number: phoneNumber.trim() }),
       });
-      const data = await res.json();
-      if (!res.ok || (data.success === false && data.status === false)) {
-        toast({ title: "Error", description: data.message || "Failed to fetch insurance data", variant: "destructive" });
-        return;
-      }
-      if (data.url) {
-        setResult({ type: "redirect", url: data.url, vehicleNumber: vehicleNumber.replace(/\s/g, "").trim() });
-        toast({ title: "Insurance quote ready!", description: "Click the button below to view your quote." });
-      } else {
-        setResult({ type: "data", data: data.data || data });
-        toast({ title: "Insurance details retrieved!", description: "Check the results below." });
-      }
+      await res.json();
+      setResult({ type: "submitted", vehicleNumber: vehicleNumber.replace(/\s/g, "").trim(), phoneNumber: phoneNumber.trim() });
+      toast({ title: "Query received!", description: "Our team will contact you shortly." });
     } catch {
       toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
@@ -208,59 +199,26 @@ export default function InsuranceCheck() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-blue-500/30 shadow-xl"
+                className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 rounded-2xl p-4 sm:p-8 border border-green-500/30 shadow-xl"
               >
-                {result.type === "redirect" ? (
-                  <div className="text-center" data-testid="insurance-redirect-card">
-                    <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="w-8 h-8 text-green-500" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2" data-testid="text-insurance-result-title">
-                      Your Insurance Quote is Ready!
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 mb-2">
-                      Vehicle: <span className="font-semibold text-slate-900 dark:text-white">{result.vehicleNumber}</span>
-                    </p>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">
-                      We have partnered with Acko Insurance to bring you the best rates. Click below to compare plans and get an instant quote.
-                    </p>
-                    <a
-                      href={result.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg transition-all text-lg"
-                      data-testid="button-view-insurance-quote"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                      View Insurance Quote
-                    </a>
-                    <p className="text-xs text-slate-400 mt-4">Opens in a new tab on Acko Insurance</p>
+                <div className="text-center" data-testid="insurance-query-received">
+                  <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-8 h-8 text-green-500" />
                   </div>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                        <CheckCircle className="w-6 h-6 text-blue-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white" data-testid="text-insurance-result-title">Insurance Details</h3>
-                    </div>
-                    {typeof result.data === 'object' && result.data !== null ? (
-                      <div className="space-y-3" data-testid="insurance-result-details">
-                        {Object.entries(result.data as Record<string, unknown>).map(([key, value]): React.ReactNode => {
-                          if (!value) return null;
-                          return (
-                            <div key={key} className="flex justify-between items-center py-2 border-b border-slate-200 dark:border-white/10 last:border-0">
-                              <span className="text-sm text-slate-600 dark:text-slate-400 capitalize">{key.replace(/_/g, ' ')}</span>
-                              <span className="text-sm font-medium text-slate-900 dark:text-white" data-testid={`text-insurance-${key}`}>{String(value)}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-slate-600 dark:text-slate-400" data-testid="text-insurance-result-msg">{String(result.data)}</p>
-                    )}
-                  </>
-                )}
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2" data-testid="text-insurance-result-title">
+                    Query Received!
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 mb-2">
+                    Vehicle: <span className="font-semibold text-slate-900 dark:text-white">{result.vehicleNumber}</span>
+                  </p>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
+                    Thank you for your interest. Our team will review your details and contact you shortly with the best insurance options for your vehicle.
+                  </p>
+                  <div className="flex items-center justify-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                    <Phone className="w-4 h-4 text-teal-500" />
+                    <span>We'll reach you at <span className="font-medium text-slate-900 dark:text-white">+91 {result.phoneNumber}</span></span>
+                  </div>
+                </div>
               </motion.div>
             </div>
           </section>
