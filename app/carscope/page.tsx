@@ -265,7 +265,7 @@ export default function CarScope() {
                       ))}
                     </div>
                     <div className="mt-8 text-center">
-                      <a href="tel:+919355924132" data-testid="link-book-inspection">
+                      <a href="tel:+919355924133" data-testid="link-book-inspection">
                         <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold px-8 py-3 rounded-xl" data-testid="button-book-inspection">
                           <Phone className="w-4 h-4 mr-2" />
                           Book Full Inspection Now
@@ -378,7 +378,7 @@ export default function CarScope() {
                       </li>
                     ))}
                   </ul>
-                  <a href="tel:+919355924132">
+                  <a href="tel:+919355924133">
                     <Button
                       className={`w-full rounded-xl font-semibold ${
                         plan.popular
@@ -412,7 +412,7 @@ export default function CarScope() {
               <p className="text-teal-100 mb-8 max-w-xl mx-auto">
                 Don't buy a used car without knowing its real condition. Our certified experts inspect 200+ checkpoints so you can buy with confidence.
               </p>
-              <a href="tel:+919355924132" data-testid="link-cta-call">
+              <a href="tel:+919355924133" data-testid="link-cta-call">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -420,7 +420,7 @@ export default function CarScope() {
                   data-testid="button-cta-call"
                 >
                   <Phone className="w-4 h-4" />
-                  Call +91 93559 24132
+                  Call +91 93559 24133
                 </motion.button>
               </a>
             </motion.div>

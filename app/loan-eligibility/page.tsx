@@ -374,12 +374,12 @@ export default function LoanEligibility() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl font-bold text-white mb-4" data-testid="text-cta-title">
-                Need help? Call us at +91 93559 24132
+                Need help? Call us at +91 93559 24133
               </h2>
               <p className="text-teal-100 mb-8 max-w-xl mx-auto">
                 Our loan experts are ready to help you get the best deal on your used car loan.
               </p>
-              <a href="tel:+919355924132" data-testid="link-call-cta">
+              <a href="tel:+919355924133" data-testid="link-call-cta">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

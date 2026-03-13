@@ -102,7 +102,7 @@ export function Navbar() {
               <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
               <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link href="/dealers" className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white" data-testid="link-nav-dealers">
+            <Link href="/used-car-dealers-in" className="group relative px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 transition-colors hover:text-primary dark:hover:text-white" data-testid="link-nav-dealers">
               <span className="relative z-10">Dealers</span>
               <span className="absolute inset-0 z-0 skew-x-[-20deg] bg-slate-100 dark:bg-white/5 opacity-0 transition-all duration-300 group-hover:opacity-100"></span>
               <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
@@ -139,7 +139,7 @@ export function Navbar() {
 
         <div className="flex items-center space-x-2 md:space-x-4">
           <ThemeToggle />
-          <a href="tel:+919355924132" className="hidden md:inline-flex">
+          <a href="tel:+919355924133" className="hidden md:inline-flex">
             <Button variant="ghost" size="sm" className="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 uppercase tracking-wide font-bold" data-testid="button-contact">
               <Phone className="mr-2 h-4 w-4" />
               Contact
@@ -363,7 +363,7 @@ export function Navbar() {
               </div>
             )}
 
-            <Link href="/dealers" onClick={() => setIsOpen(false)} data-testid="link-mobile-dealers" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <Link href="/used-car-dealers-in" onClick={() => setIsOpen(false)} data-testid="link-mobile-dealers" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <Store className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Used Car Dealers</span>
             </Link>
@@ -373,7 +373,7 @@ export function Navbar() {
               <span className="text-sm font-medium text-foreground">About Us</span>
             </Link>
 
-            <a href="tel:+919355924132" data-testid="link-mobile-help" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <a href="tel:+919355924133" data-testid="link-mobile-help" className="flex items-center gap-4 px-3 py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
               <HelpCircle className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium text-foreground">Help & Support</span>
             </a>

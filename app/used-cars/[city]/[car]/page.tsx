@@ -42,6 +42,7 @@ import type { CarDetail } from "@components/car-detail/car-detail-types";
 import { formatPriceNoSymbol, formatKilometers, formatEmi } from "@components/car-detail/car-detail-types";
 import { CarJsonLd, BreadcrumbJsonLd } from "@components/seo/structured-data";
 import { Breadcrumbs } from "@components/seo/breadcrumbs";
+import { CarDetailsAccordion } from "@components/my-cars/car-details-accordion";
 
 async function fetchCarDetail(vehicleId: string): Promise<CarDetail> {
   const res = await fetch(`/api/buy/car/${vehicleId}`);
@@ -324,6 +325,10 @@ export default function BuyCarDetail() {
               onSelectImage={setCurrentImage}
               altText={`${car.make} ${car.model}`}
             />
+
+            {fromSell && car.rawData && (
+              <CarDetailsAccordion car={car.rawData} />
+            )}
 
             <div className="lg:hidden">
               <SellerActionSidebar

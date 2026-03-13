@@ -113,7 +113,7 @@ const sections = [
             </li>
             <li>
               <span className="text-slate-600 dark:text-slate-400">Phone:</span>{" "}
-              <a href="tel:+919355924132" className="text-[#0EA9B2] hover:underline" data-testid="link-warranty-phone">+91 93559 24132</a>
+              <a href="tel:+919355924133" className="text-[#0EA9B2] hover:underline" data-testid="link-warranty-phone">+91 93559 24133</a>
             </li>
           </ul>
         </div>

@@ -52,6 +52,7 @@ export interface CarDetail {
     insuranceQuotes: any | null;
     warrantyPrices: Record<string, string>;
   } | null;
+  rawData?: Record<string, any>;
 }
 
 export function formatPriceNoSymbol(price: number): string {

@@ -14,16 +14,14 @@ export function slugify(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function getCarDetailUrl(car: { id?: number | string | null; vehicle_id?: number | string | null; name?: string | null; make?: string | null; model?: string | null; variant?: string | null; year?: number | string | null; manufacturing_year?: number | string | null; location?: string | null; city_name?: string | null; city?: string | null }): string {
+export function getCarDetailUrl(car: { id?: number | string | null; vehicle_id?: number | string | null; name?: string | null; make?: string | null; brand?: string | null; model?: string | null; variant?: string | null; year?: number | string | null; manufacturing_year?: number | string | null; location?: string | null; city_name?: string | null; city?: string | null }): string {
   const vehicleId = car.vehicle_id || car.id || "";
   const cityRaw = car.city_name || car.city || car.location || "all";
   const city = slugify(cityRaw) || "all";
 
-  let carName = car.name || "";
-  if (!carName) {
-    const parts = [car.make, car.model].filter(Boolean);
-    carName = parts.join(" ");
-  }
+  const make = car.make || car.brand;
+  const parts = [make, car.model, car.variant].filter(Boolean);
+  const carName = parts.length > 0 ? parts.join(" ") : (car.name || "");
   const slug = slugify(carName) || "car";
   return `/used-cars/${city}/${slug}-${vehicleId}`;
 }

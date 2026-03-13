@@ -36,7 +36,7 @@ const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/nxfin", label: "Facebook" },
   { icon: Instagram, href: "https://www.instagram.com/nxcarindia/", label: "Instagram" },
   { icon: Linkedin, href: "https://www.linkedin.com/company/nxfin/", label: "LinkedIn" },
-  { icon: MessageCircle, href: "https://api.whatsapp.com/send/?phone=%2B919355924132", label: "WhatsApp" },
+  { icon: MessageCircle, href: "https://api.whatsapp.com/send/?phone=%2B919355924133", label: "WhatsApp" },
 ];
 
 export default function ContactUs() {

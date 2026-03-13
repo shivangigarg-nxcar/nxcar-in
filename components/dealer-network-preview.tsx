@@ -100,7 +100,7 @@ export function DealerNetworkPreview() {
                 {regionData.cities.map((city) => (
                   <Link 
                     key={city.id} 
-                    href={`/dealers/${city.slug}`}
+                    href={`/used-car-dealers-in/${city.slug}`}
                     data-testid={`link-dealer-city-${city.slug}`}
                   >
                     <Card className="group cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-300 bg-white dark:bg-slate-800/50 border-slate-200 dark:border-white/10 h-full overflow-hidden">
@@ -137,7 +137,7 @@ export function DealerNetworkPreview() {
                 ))}
                 
                 {regionIndex === 0 && (
-                  <Link href="/dealers" data-testid="link-view-all-dealers">
+                  <Link href="/used-car-dealers-in" data-testid="link-view-all-dealers">
                     <Card className="group cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-300 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 border-primary/20 h-full flex items-center justify-center">
                       <CardContent className="p-4 text-center">
                         <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary mx-auto mb-2">
@@ -164,7 +164,7 @@ export function DealerNetworkPreview() {
           viewport={{ once: true }}
           className="text-center mt-10"
         >
-          <Link href="/dealers">
+          <Link href="/used-car-dealers-in">
             <button 
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-colors"
               data-testid="button-explore-dealers"

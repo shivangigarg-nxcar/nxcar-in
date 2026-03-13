@@ -27,7 +27,8 @@ Features include a car comparison modal, a book inspection modal with dynamic sl
 -   **Inspection Services**: `https://api.nxcar.in/inspection-slots`, `https://api.nxcar.in/v2/inspection-franchise`, and `https://api.nxcar.in/userprofile-book-inspection`.
 -   **Authentication APIs**: NxCar backend APIs (defined by `AUTH_BASE_URL` as `https://api.nxcar.in`) for mobile OTP, verification, resend OTP, and logout.
 -   **AI Integrations**: Requires `AI_INTEGRATIONS_OPENAI_API_KEY` and `AI_INTEGRATIONS_OPENAI_BASE_URL` for AI recommendations.
--   **Service Pages APIs**: Integrated with NxCar backend APIs for challan checks, loan eligibility, dealer login, insurance queries, and partner registration.
+-   **Service Pages APIs**: Integrated with NxCar backend APIs for challan checks, loan eligibility, dealer login, insurance queries, RC queries, and partner registration.
+-   **Service Pages OTP Flow**: All service pages (challan-check, rc-check, insurance-check) require OTP verification before submitting data to CRM. Flow: enter vehicle + phone → send OTP via `/api/nxcar/dealer-login/send-otp` → verify OTP via `/api/nxcar/dealer-login/verify-otp` → submit to CRM with auth token. CRM endpoints: challan → `user-service-challans-check`, insurance → `user-service-insurance`, RC → `contact` (Contact Us API).
 
 ## Legal & Policy Pages
 
@@ -88,6 +89,13 @@ After inspection is booked, the sell flow shows a redesigned success view:
 -   Price step calls `POST https://dev-ai.nxcar.in/price-prediction` with car details
 -   Payload fields: make, model, variant, variant_id, year, fuel_type, transmission, distance (km), owner_count, rto_code, color
 -   Displays seller price range from `pricing.seller.lower` / `pricing.seller.upper`
+
+## Dealer Pages URL Structure
+
+-   Primary URL: `/used-car-dealers-in` — main dealer network page listing all cities
+-   City URL: `/used-car-dealers-in/{city}` — dealers in a specific city (e.g., `/used-car-dealers-in/bangalore`)
+-   Dealer URL: `/used-car-dealers-in/{city}/{dealer}` — individual dealer detail page
+-   Legacy redirects: `/dealers` → `/used-car-dealers-in`, `/dealers/{city}` → `/used-car-dealers-in/{city}`, `/used-car-dealers` → `/used-car-dealers-in`, `/used-car-dealer/{url}` → `/used-car-dealers-in/india/{url}`
 
 ## Buy Page Cities
 

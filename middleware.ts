@@ -12,9 +12,9 @@ function slugify(str: string): string {
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host') || '';
-  if (host.startsWith('www.')) {
-    const nonWwwHost = host.replace(/^www\./, '').replace(/:\d+$/, '');
-    const redirectUrl = `https://${nonWwwHost}${request.nextUrl.pathname}${request.nextUrl.search}`;
+  const hostWithoutPort = host.replace(/:\d+$/, '');
+  if (hostWithoutPort === 'nxcar.in') {
+    const redirectUrl = `https://www.nxcar.in${request.nextUrl.pathname}${request.nextUrl.search}`;
     return NextResponse.redirect(redirectUrl, 301);
   }
 

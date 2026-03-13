@@ -281,12 +281,12 @@ export default function RCDetails() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl font-bold text-white mb-4" data-testid="text-cta-title">
-                Need help? Call +91 93559 24132
+                Need help? Call +91 93559 24133
               </h2>
               <p className="text-teal-100 mb-8 max-w-xl mx-auto">
                 Our experts are available to assist you with RC verification and vehicle history reports.
               </p>
-              <a href="tel:+919355924132" data-testid="link-cta-call">
+              <a href="tel:+919355924133" data-testid="link-cta-call">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -294,7 +294,7 @@ export default function RCDetails() {
                   data-testid="button-cta-call"
                 >
                   <Phone className="w-4 h-4" />
-                  +91 93559 24132
+                  +91 93559 24133
                 </motion.button>
               </a>
             </motion.div>

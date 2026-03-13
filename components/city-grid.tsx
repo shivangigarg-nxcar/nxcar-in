@@ -117,7 +117,7 @@ export function CityGrid() {
                   key={city.id}
                 >
                   <Link 
-                    href={`/dealers/${city.name.toLowerCase().replace(/ /g, '-')}`}
+                    href={`/used-car-dealers-in/${city.name.toLowerCase().replace(/ /g, '-')}`}
                     data-testid={`link-dealer-city-${city.name.toLowerCase().replace(/ /g, '-')}`}
                   >
                     <Card className="group cursor-pointer bg-white dark:bg-card border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,169,178,0.15)] overflow-hidden h-full">
@@ -188,7 +188,7 @@ export function CityGrid() {
                   key={city.id}
                 >
                   <Link 
-                    href={`/dealers/${city.name.toLowerCase().replace(/ /g, '-')}`}
+                    href={`/used-car-dealers-in/${city.name.toLowerCase().replace(/ /g, '-')}`}
                     data-testid={`link-dealer-city-${city.name.toLowerCase().replace(/ /g, '-')}`}
                   >
                     <Card className="group cursor-pointer bg-white dark:bg-card border-slate-200 dark:border-white/5 hover:border-primary/50 transition-all duration-200 overflow-hidden">

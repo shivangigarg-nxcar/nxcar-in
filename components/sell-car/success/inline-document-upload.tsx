@@ -91,7 +91,6 @@ export function InlineDocumentUpload({ vehicleId, onBack, onDone }: InlineDocume
 
       setSubmitted(true);
       toast({ title: "Documents Uploaded", description: "Your documents have been submitted successfully." });
-      setTimeout(() => onDone(), 1500);
     } catch (error: any) {
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {
@@ -106,7 +105,10 @@ export function InlineDocumentUpload({ vehicleId, onBack, onDone }: InlineDocume
           <CheckCircle2 className="w-8 h-8 text-green-500" />
         </div>
         <h2 className="text-xl font-bold text-foreground mb-2" data-testid="text-inline-upload-success">Documents Uploaded!</h2>
-        <p className="text-sm text-muted-foreground">Your documents have been submitted successfully.</p>
+        <p className="text-sm text-muted-foreground mb-6">Your documents have been submitted successfully. We'll review them and get back to you shortly.</p>
+        <Button onClick={() => onDone()} className="rounded-xl h-12 px-8" data-testid="button-go-my-cars">
+          Go to My Cars
+        </Button>
       </div>
     );
   }

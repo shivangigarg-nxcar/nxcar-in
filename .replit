@@ -61,3 +61,7 @@ VITE_APP_CRYPTO_KEY = "GAdEOaHirlQhqDgIHn5qX54sulA1BJCczQnPhv6NRms="
 NEXT_PUBLIC_GTM_ID = "GTM-W8DWXFZQ"
 NEXT_PUBLIC_API_GOOGLE_MAP_KEY = "AIzaSyAbtFh2E8VQAFTZT8btP-rAbq6lA_bndWA"
 NEXT_PUBLIC_APP_CRYPTO_KEY = "GAdEOaHirlQhqDgIHn5qX54sulA1BJCczQnPhv6NRms="
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 120000

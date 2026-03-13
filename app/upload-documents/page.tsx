@@ -91,9 +91,6 @@ function UploadDocumentsContent() {
 
       setSubmitted(true);
       toast({ title: "Documents Uploaded", description: "Your documents have been submitted successfully." });
-      setTimeout(() => {
-        router.push(`/my-cars?thank_you=${vehicleId}`);
-      }, 1500);
     } catch (error: any) {
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {

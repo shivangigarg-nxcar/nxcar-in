@@ -18,8 +18,9 @@ import { useToast } from "@hooks/use-toast";
 import { DealerHero } from "@components/dealer-detail/dealer-hero";
 import { DealerGalleryScroller } from "@components/dealer-detail/dealer-image-slider";
 import { DealerTabs } from "@components/dealer-detail/dealer-tabs";
-import { DealerCarCard } from "@components/dealer-detail/dealer-car-card";
 import type { DealerCar } from "@components/dealer-detail/dealer-car-card";
+import { CarListingCard } from "@components/buy-cars/car-listing-card";
+import type { CarListing } from "@components/buy-cars/car-listing-card";
 import { DealerReviewCard } from "@components/dealer-detail/dealer-review-card";
 import type { DealerReview } from "@components/dealer-detail/dealer-review-card";
 import { DealerContactForm } from "@components/dealer-detail/dealer-contact-form";
@@ -143,6 +144,34 @@ function HeroSkeleton() {
       </div>
     </section>
   );
+}
+
+function dealerCarToListing(car: DealerCar): CarListing {
+  let firstImage: string | null = null;
+  if (car.images) {
+    try {
+      const parsed = JSON.parse(car.images);
+      if (Array.isArray(parsed) && parsed.length > 0) firstImage = parsed[0];
+    } catch {
+      if (car.images.startsWith("http")) firstImage = car.images;
+    }
+  }
+  return {
+    id: car.vehicle_id,
+    image: firstImage,
+    makeYear: parseInt(car.year) || 0,
+    make: car.make,
+    model: car.model,
+    variant: car.variant,
+    kilometersDriven: parseInt(car.mileage || "0"),
+    fuelType: car.fuel_type,
+    transmission: car.transmission,
+    price: typeof car.price === "number" ? car.price : parseFloat(String(car.price)) || 0,
+    listingDate: car.updated_date || "",
+    sellerName: car.seller_name || "",
+    city: car.city_name || "",
+    ownership: car.ownership || "",
+  };
 }
 
 function CarCardSkeleton() {
@@ -295,8 +324,8 @@ export default function DealerDetail() {
             />
             <BreadcrumbJsonLd items={[
               { name: "Home", url: "/" },
-              { name: "Dealers", url: "/dealers" },
-              { name: `Dealers in ${cityName}`, url: `/dealers/${citySlug}` },
+              { name: "Dealers", url: "/used-car-dealers-in" },
+              { name: `Dealers in ${cityName}`, url: `/used-car-dealers-in/${citySlug}` },
               { name: dealerInfo.showroom_name, url: `/used-car-dealers-in/${citySlug}/${dealerSlug}` },
             ]} />
             <DealerHero
@@ -340,7 +369,7 @@ export default function DealerDetail() {
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     {allCars.map(car => (
-                      <DealerCarCard key={car.vehicle_id} car={car} citySlug={citySlug} />
+                      <CarListingCard key={car.vehicle_id} car={dealerCarToListing(car)} citySlug={citySlug} />
                     ))}
                   </div>
                 )}

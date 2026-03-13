@@ -123,7 +123,7 @@ export default function RCTransfer() {
                     Get Started
                   </motion.button>
                 </a>
-                <a href="tel:+919355924132" data-testid="link-call-us">
+                <a href="tel:+919355924133" data-testid="link-call-us">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -131,7 +131,7 @@ export default function RCTransfer() {
                     data-testid="button-call-us"
                   >
                     <Phone className="w-4 h-4" />
-                    +91 93559 24132
+                    +91 93559 24133
                   </motion.button>
                 </a>
               </div>
