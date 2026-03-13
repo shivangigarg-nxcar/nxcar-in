@@ -90,6 +90,13 @@ After inspection is booked, the sell flow shows a redesigned success view:
 -   Payload fields: make, model, variant, variant_id, year, fuel_type, transmission, distance (km), owner_count, rto_code, color
 -   Displays seller price range from `pricing.seller.lower` / `pricing.seller.upper`
 
+## Dealer Pages URL Structure
+
+-   Primary URL: `/used-car-dealers-in` — main dealer network page listing all cities
+-   City URL: `/used-car-dealers-in/{city}` — dealers in a specific city (e.g., `/used-car-dealers-in/bangalore`)
+-   Dealer URL: `/used-car-dealers-in/{city}/{dealer}` — individual dealer detail page
+-   Legacy redirects: `/dealers` → `/used-car-dealers-in`, `/dealers/{city}` → `/used-car-dealers-in/{city}`, `/used-car-dealers` → `/used-car-dealers-in`, `/used-car-dealer/{url}` → `/used-car-dealers-in/india/{url}`
+
 ## Buy Page Cities
 
 -   `/used-cars` page shows top 50 cities sorted by car count with images/initials

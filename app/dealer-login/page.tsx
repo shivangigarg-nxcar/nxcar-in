@@ -101,7 +101,7 @@ export default function DealerLogin() {
       document.cookie = `role_id=${String(roleId)}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
       setSuccess("Login successful! Redirecting...");
       setTimeout(() => {
-        router.push("/dealers");
+        router.push("/used-car-dealers-in");
       }, 1500);
     } catch {
       setError("Something went wrong. Please try again.");

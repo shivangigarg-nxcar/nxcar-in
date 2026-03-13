@@ -295,8 +295,8 @@ export default function DealerDetail() {
             />
             <BreadcrumbJsonLd items={[
               { name: "Home", url: "/" },
-              { name: "Dealers", url: "/dealers" },
-              { name: `Dealers in ${cityName}`, url: `/dealers/${citySlug}` },
+              { name: "Dealers", url: "/used-car-dealers-in" },
+              { name: `Dealers in ${cityName}`, url: `/used-car-dealers-in/${citySlug}` },
               { name: dealerInfo.showroom_name, url: `/used-car-dealers-in/${citySlug}/${dealerSlug}` },
             ]} />
             <DealerHero

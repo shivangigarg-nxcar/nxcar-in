@@ -115,7 +115,7 @@ export const Footer = memo(function Footer() {
                 )}
                 <li><a href="/partner" data-testid="link-partner-dealer-login" className="hover:text-[#0EA9B2] transition-colors">Dealer Registration</a></li>
                 <li><a href="/service-partner" data-testid="link-partner-become" className="hover:text-[#0EA9B2] transition-colors">Become a Partner</a></li>
-                <li><a href="/dealers" data-testid="link-partner-network" className="hover:text-[#0EA9B2] transition-colors">Dealer Network</a></li>
+                <li><a href="/used-car-dealers-in" data-testid="link-partner-network" className="hover:text-[#0EA9B2] transition-colors">Dealer Network</a></li>
               </ul>
             </div>
             
