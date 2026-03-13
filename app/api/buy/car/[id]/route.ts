@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cachedFetch, fetchWithTimeout } from '@lib/cache';
+import { fetchWithTimeout } from '@lib/cache';
 import { BASE_URL } from '@lib/constants';
 
 export async function GET(
@@ -12,7 +12,7 @@ export async function GET(
       return NextResponse.json({ error: "Vehicle ID is required" }, { status: 400 });
     }
 
-    const result = await cachedFetch(`buy_car_detail_${vehicleId}`, 300, async () => {
+    const result = await (async () => {
       const detailResponse = await fetchWithTimeout(`${BASE_URL}/listcar-individual`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -193,7 +193,7 @@ export async function GET(
         priceMap,
         rawData: { ...car },
       };
-    });
+    })();
 
     if (result && (result as any).__error) {
       return NextResponse.json({ error: (result as any).__error }, { status: (result as any).__status });
