@@ -195,7 +195,7 @@ export const Footer = memo(function Footer() {
           <p className="text-[10px] sm:text-xs text-slate-500 leading-relaxed text-center max-w-4xl mx-auto">
             Nxcar is India's leading platform for <strong className="text-slate-700 dark:text-slate-400">selling used cars</strong>, <strong className="text-slate-700 dark:text-slate-400">buying verified second-hand cars</strong>, and connecting with trusted dealers across Delhi NCR, Mumbai, Bangalore, Hyderabad, Chennai, Pune, and 50+ cities. 
             Get instant car valuation, doorstep inspection, same-day payment, RC transfer assistance, and used car loans from 25+ banking partners. 
-            Whether you want to <strong className="text-slate-700 dark:text-slate-400">sell your old car</strong>, <strong className="text-slate-700 dark:text-slate-400">buy a certified pre-owned vehicle</strong>, or become a dealer partner, Nxcar makes it simple, transparent, and hassle-free.
+            Whether you want to <strong className="text-slate-700 dark:text-slate-400">sell your old car</strong>, <strong className="text-slate-700 dark:text-slate-400">buy a certified pre-owned vehicle</strong>, or become a dealer partner, Nxcar makes <strong className="text-slate-700 dark:text-slate-400">it simple, transparent, and hassle-free</strong>.
           </p>
         </div>
         
