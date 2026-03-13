@@ -66,7 +66,8 @@ function EditCarDetailsSection({ car }: { car: any }) {
     { key: "ownership", label: "Ownership", value: car.ownership || "" },
     { key: "expected_selling_price", label: "Expected Price", value: car.expected_selling_price || car.price || "", type: "number" },
     { key: "location_name", label: "Location", value: car.location_name || car.city_name || "" },
-    { key: "rto_code", label: "RTO Code", value: car.rto_code || "" },
+    { key: "rto_code", label: "RTO Code", value: car.rto_code || (car.state_code && car.rto_number ? `${car.state_code}${car.rto_number}` : "") },
+    { key: "rto_location", label: "RTO Location", value: car.rto_location || "" },
     { key: "seats", label: "Seats", value: car.seats || "" },
   ];
 
