@@ -559,7 +559,6 @@ function UploadDocumentsSection({ car }: { car: any }) {
   const [existingDocs, setExistingDocs] = useState<any>(null);
   const [hasExistingDocs, setHasExistingDocs] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const [rcFront, setRcFront] = useState<UploadBox>({ file: null, preview: null });
@@ -568,31 +567,71 @@ function UploadDocumentsSection({ car }: { car: any }) {
   const [panCard, setPanCard] = useState<UploadBox>({ file: null, preview: null });
   const [bankDetails, setBankDetails] = useState<UploadBox>({ file: null, preview: null });
 
-  useEffect(() => {
-    const fetchDocs = async () => {
-      try {
-        const params = new URLSearchParams();
-        params.append("vehicle_id", vehicleId);
-        if (createdBy) params.append("created_by", createdBy);
+  const fetchDocuments = useCallback(async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      params.append("vehicle_id", vehicleId);
+      if (createdBy) params.append("created_by", createdBy);
 
-        const res = await fetch(`/api/nxcar/sellform-documents-fetch?${params.toString()}`);
-        if (res.ok) {
-          const data = await res.json();
-          const docs = data?.data || data;
-          if (docs && typeof docs === 'object') {
-            const hasAny = !!(docs.rc_copy || docs.rc_copy_back || docs.insurance_policy_copy || docs.pan_card || docs.cheque_or_bank_details);
-            setHasExistingDocs(hasAny);
-            if (hasAny) setExistingDocs(docs);
+      const res = await fetch(`/api/nxcar/sellform-documents-fetch?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Documents fetch response:", JSON.stringify(data));
+        
+        let docs: any = null;
+        if (data?.data && typeof data.data === 'object') {
+          if (Array.isArray(data.data) && data.data.length > 0) {
+            docs = data.data[0];
+          } else if (!Array.isArray(data.data)) {
+            docs = data.data;
+          }
+        } else if (data?.documents && typeof data.documents === 'object') {
+          if (Array.isArray(data.documents) && data.documents.length > 0) {
+            docs = data.documents[0];
+          } else if (!Array.isArray(data.documents)) {
+            docs = data.documents;
+          }
+        } else if (data?.result && typeof data.result === 'object') {
+          if (Array.isArray(data.result) && data.result.length > 0) {
+            docs = data.result[0];
+          } else if (!Array.isArray(data.result)) {
+            docs = data.result;
+          }
+        } else if (Array.isArray(data) && data.length > 0) {
+          docs = data[0];
+        } else if (data && typeof data === 'object' && !Array.isArray(data)) {
+          const docKeys = ['rc_copy', 'rc_copy_back', 'insurance_policy_copy', 'pan_card', 'cheque_or_bank_details'];
+          const hasDocKey = docKeys.some(k => k in data);
+          if (hasDocKey) {
+            docs = data;
+          } else {
+            const values = Object.values(data);
+            if (values.length > 0 && typeof values[0] === 'object' && values[0] !== null) {
+              const nested = values[0] as any;
+              if (docKeys.some(k => k in nested)) {
+                docs = nested;
+              }
+            }
           }
         }
-      } catch (err) {
-        console.error("Failed to fetch documents:", err);
-      } finally {
-        setLoading(false);
+
+        if (docs && typeof docs === 'object') {
+          const hasAny = !!(docs.rc_copy || docs.rc_copy_back || docs.insurance_policy_copy || docs.pan_card || docs.cheque_or_bank_details);
+          setHasExistingDocs(hasAny);
+          if (hasAny) setExistingDocs(docs);
+        }
       }
-    };
-    fetchDocs();
+    } catch (err) {
+      console.error("Failed to fetch documents:", err);
+    } finally {
+      setLoading(false);
+    }
   }, [vehicleId, createdBy]);
+
+  useEffect(() => {
+    fetchDocuments();
+  }, [fetchDocuments]);
 
   const handleFileChange = (field: string, file: File, setter: (v: UploadBox) => void) => {
     const preview = file.type.startsWith("image/") ? URL.createObjectURL(file) : null;
@@ -634,9 +673,8 @@ function UploadDocumentsSection({ car }: { car: any }) {
         throw new Error(data.error || "Upload failed");
       }
 
-      setSubmitted(true);
-      setHasExistingDocs(true);
       toast({ title: "Documents Uploaded", description: "Your documents have been submitted successfully." });
+      await fetchDocuments();
     } catch (error: any) {
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {
@@ -648,15 +686,6 @@ function UploadDocumentsSection({ car }: { car: any }) {
     return (
       <div className="flex items-center justify-center py-6">
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
-  if (submitted) {
-    return (
-      <div className="text-center py-4">
-        <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-2" />
-        <p className="text-sm font-semibold text-foreground">Documents Uploaded Successfully</p>
       </div>
     );
   }
