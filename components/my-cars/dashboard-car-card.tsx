@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
-import { Fuel, Gauge, Settings2, MapPin, Heart, ClipboardCheck } from "lucide-react";
+import { Fuel, Gauge, Settings2, MapPin, Heart, ClipboardCheck, Clock, CheckCircle2, FileText, Upload } from "lucide-react";
 import Link from "next/link";
 import { getCarDetailUrl } from "@lib/utils";
 
@@ -275,14 +275,39 @@ export function SellCarCard({ car, onBookInspection }: { car: any; onBookInspect
           ) : null}
         </CardContent>
         <CardFooter className="p-4 pt-0 flex flex-col gap-2">
-          <Button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookInspection(car); }}
-            variant="outline"
-            className="w-full h-9 text-xs font-bold uppercase tracking-wider border-primary/30 text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2"
-            data-testid={`button-book-inspection-${vehicleId}`}
-          >
-            <ClipboardCheck className="h-4 w-4" /> Book Inspection
-          </Button>
+          {(() => {
+            const vehicleStatus = (car.vehicle_status || "").trim();
+            const statusLower = vehicleStatus.toLowerCase();
+            const isBookable = !vehicleStatus || statusLower === "book inspection";
+            const statusIcon = statusLower.includes("pending") ? Clock
+              : statusLower.includes("completed") || statusLower.includes("done") ? CheckCircle2
+              : statusLower.includes("document") || statusLower.includes("upload") ? Upload
+              : statusLower.includes("report") ? FileText
+              : ClipboardCheck;
+            const StatusIcon = statusIcon;
+            const statusStyle = isBookable
+              ? "border-primary/30 text-primary hover:bg-primary hover:text-white"
+              : statusLower.includes("pending")
+              ? "border-yellow-500/30 text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 cursor-default"
+              : statusLower.includes("completed") || statusLower.includes("done")
+              ? "border-green-500/30 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 cursor-default"
+              : "border-muted-foreground/30 text-muted-foreground bg-muted/50 cursor-default";
+
+            return (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isBookable) onBookInspection(car);
+                }}
+                variant="outline"
+                className={`w-full h-9 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${statusStyle}`}
+                data-testid={`button-book-inspection-${vehicleId}`}
+              >
+                <StatusIcon className="h-4 w-4" /> {vehicleStatus || "Book Inspection"}
+              </Button>
+            );
+          })()}
           {car.is_active === "1" ? (
             <span className="self-end text-[10px] font-bold uppercase tracking-wider text-green-600" data-testid={`text-active-status-${vehicleId}`}>Active Listing</span>
           ) : car.is_active === "0" ? (
