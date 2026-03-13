@@ -19,11 +19,8 @@ export function getCarDetailUrl(car: { id?: number | string | null; vehicle_id?:
   const cityRaw = car.city_name || car.city || car.location || "all";
   const city = slugify(cityRaw) || "all";
 
-  let carName = car.name || "";
-  if (!carName) {
-    const parts = [car.make, car.model].filter(Boolean);
-    carName = parts.join(" ");
-  }
+  const parts = [car.make, car.model, car.variant].filter(Boolean);
+  const carName = parts.length > 0 ? parts.join(" ") : (car.name || "");
   const slug = slugify(carName) || "car";
   return `/used-cars/${city}/${slug}-${vehicleId}`;
 }

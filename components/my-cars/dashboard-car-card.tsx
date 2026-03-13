@@ -65,12 +65,12 @@ export function buildSellDetailUrl(car: any) {
   const name = resolveCarName(car);
   return getCarDetailUrl({
     vehicle_id: car.vehicle_id || car.id,
-    name,
     city_name: car.city_name,
     city: car.city,
     location: car.location,
     make: car.make || car.brand,
     model: car.model,
+    variant: car.variant,
   });
 }
 
@@ -130,9 +130,15 @@ export function BuyCarCard({ car, isFavorited, onToggleFavorite }: { car: any; i
   const mileage = car.mileage || car.kilometers || 0;
   const price = car.expected_selling_price || car.price || car.expectedPrice || 0;
 
-  const citySlug = (location || "india").toLowerCase().replace(/\s+/g, "-");
-  const nameSlug = carName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-  const detailUrl = `/used-cars/${citySlug}/${nameSlug}${year ? year : ""}-${vehicleId}`;
+  const detailUrl = getCarDetailUrl({
+    vehicle_id: vehicleId,
+    city_name: car.city_name,
+    city: car.city,
+    location: car.location,
+    make: car.make || car.brand,
+    model: car.model,
+    variant: car.variant,
+  });
 
   return (
     <Link href={detailUrl}>

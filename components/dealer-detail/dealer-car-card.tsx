@@ -52,7 +52,7 @@ export function DealerCarCard({ car, citySlug }: { car: DealerCar; citySlug: str
   const emi = typeof car.emi === "number" ? car.emi : parseFloat(String(car.emi)) || 0;
 
   return (
-    <Link href={getCarDetailUrl({ vehicle_id: car.vehicle_id, make: car.make, model: car.model, city_name: car.city_name || citySlug })} data-testid={`card-dealer-car-${car.vehicle_id}`}>
+    <Link href={getCarDetailUrl({ vehicle_id: car.vehicle_id, make: car.make, model: car.model, variant: car.variant, city_name: car.city_name || citySlug })} data-testid={`card-dealer-car-${car.vehicle_id}`}>
       <Card className="overflow-hidden border-border hover:border-primary/40 hover:shadow-md transition-all group h-full">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img
