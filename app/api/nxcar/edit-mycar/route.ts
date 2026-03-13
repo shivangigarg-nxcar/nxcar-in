@@ -19,10 +19,10 @@ export async function POST(request: NextRequest) {
 
     console.log('Edit mycar payload:', JSON.stringify(body));
 
-    const formData = new FormData();
+    const urlEncoded = new URLSearchParams();
     Object.entries(body).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        formData.append(key, String(value));
+        urlEncoded.append(key, String(value));
       }
     });
 
@@ -30,8 +30,9 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Authorization': authToken,
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: formData,
+      body: urlEncoded.toString(),
     });
 
     const data = await response.json();
