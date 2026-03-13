@@ -7,7 +7,7 @@ import { Navbar } from "@components/navbar";
 import { Footer } from "@components/footer";
 import {
   Car, Shield, FileText, CheckCircle, ArrowRight, Sparkles,
-  ClipboardCheck, ShieldCheck, AlertTriangle, Phone, Wrench,
+  ClipboardCheck, ShieldCheck, AlertTriangle, Phone, MessageCircle, Wrench,
   Settings, Heart, Star, Zap, Users
 } from "lucide-react";
 
@@ -136,6 +136,17 @@ export default function CarServices() {
                   >
                     <Phone className="w-4 h-4" />
                     +91 93559 24133
+                  </motion.button>
+                </a>
+                <a href="https://wa.me/919355924133?text=Hi%2C%20I%27m%20interested%20in%20NxCar%20car%20services.%20Please%20share%20more%20details." target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-us">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-[#25D366] text-white font-semibold rounded-xl hover:bg-[#20bd5a] transition-colors flex items-center gap-2"
+                    data-testid="button-whatsapp-us"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    WhatsApp
                   </motion.button>
                 </a>
               </div>
@@ -352,6 +363,17 @@ export default function CarServices() {
                   >
                     <Phone className="w-4 h-4" />
                     Call Us Now
+                  </motion.button>
+                </a>
+                <a href="https://wa.me/919355924133?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20NxCar%20car%20services." target="_blank" rel="noopener noreferrer" data-testid="link-cta-whatsapp">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-[#25D366] text-white font-semibold rounded-xl hover:bg-[#20bd5a] transition-colors flex items-center gap-2"
+                    data-testid="button-cta-whatsapp"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    WhatsApp Us
                   </motion.button>
                 </a>
               </div>
