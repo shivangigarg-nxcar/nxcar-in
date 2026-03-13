@@ -62,7 +62,6 @@ export function SkeletonGrid() {
 }
 
 export function buildSellDetailUrl(car: any) {
-  const name = resolveCarName(car);
   return getCarDetailUrl({
     vehicle_id: car.vehicle_id || car.id,
     city_name: car.city_name,
